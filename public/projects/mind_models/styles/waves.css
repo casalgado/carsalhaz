@@ -1,0 +1,34 @@
+#mind {
+	width: 160px;
+	height:160px;
+	border-radius: 9999999px;
+	border: 10px solid black;
+	overflow: hidden;
+	position: absolute;
+	top: 210px;
+	left: 310px;
+}
+
+#mind-container {
+	width: 800px;
+	height: 600px;
+	position: relative;
+	overflow: hidden;
+	border: 1px solid black;
+	float: left;
+	margin-left: 150px;
+}
+
+#thoughts img {
+	position: absolute;
+	height: 140px;
+}
+
+#img-two {
+	left: -3593px;
+}
+
+.button {
+	float: left;
+	margin: 4px 100px 5px 100px;
+}

@@ -1,0 +1,39 @@
+
+#container {
+	position: relative;
+	width: 1000px;
+	height: 600px;
+	left: 100px;
+	border: 2px solid black;
+}
+
+#substrate {
+	width:  1000px;
+	height: 600px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#controls {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: 1px solid lightgray;
+	padding: 5px;
+	min-width: 10px;
+	min-height: 10px;
+}
+
+#controls > div {
+	display: none;
+}
+
+#controls:hover > div {
+	display: inline-block;
+}
+
+.button {
+	background-color: lightgray;
+	cursor: pointer;
+}

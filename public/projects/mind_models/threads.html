@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<link href='styles/global.css' rel='stylesheet' type='text/css'>
+	<link href='styles/threads.css' rel='stylesheet' type='text/css'>
+
+	<script src="js/jquery.js"></script>
+	<script src="libraries/snap.svg.js"></script> <!-- Loads javascript library -->
+	<script src="libraries/colour.js"></script>   <!-- Loads color library -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.js"></script>   <!-- Loads color library -->
+</head>
+
+<body>
+
+<div id="container">
+	<svg id="substrate"> </svg>
+	<div id="controls"> 
+		<div class="text"> Speed: </div>
+		<div id="faster" class="button"> faster </div>
+		<div id="slower" class="button"> slower </div>
+
+		<div class="text"> Attachment: </div>
+		<div id="stronger" class="button"> stronger </div>
+		<div id="weaker" class="button"> weaker </div>
+	</div>
+	<div id="dashboard">
+		<div id="speed"> </div>
+		<div id="attachment"> </div>
+	</div>
+</div>
+
+<script>
+
+
+// Set snap environment 
+
+	var s = Snap("#substrate")
+
+
+// Global Variable Declarations
+
+
+// Initial Conditions
+
+	conciousnessMoveSpeed = 200
+
+	// create thought_log and first thought
+
+	thought_log = [s.circle(500, 300, 25).attr({ fill: 'black' })]
+
+	// create a conciousness pointer
+
+	conciousness = s.circle(500, 300, 9).attr({ stroke: 'black', strokeWidth: '0'})
+
+
+// Methods
+
+// High Level Methods	
+
+	// to create a thought. 
+	// p's are the probability of generating a thought type, three available: new, followup, return. 
+	function noteThought(p1, p2, p3) {
+		type = getRandom(100)
+		if ( thought_log.length == 1 || type < p1) {  // new thought
+			new_position = newPosition(150, 50)
+			color = randomColor()
+		}
+		else if (type >= p2) { // follow up
+			new_position = newPosition(20, 30)
+			color = lastElement().attr('fill')
+		}
+		conciousness.animate({ stroke: color}, conciousnessMoveSpeed)
+		var thought = s.circle(new_position[0], new_position[1], 25)
+					   .attr({ fill: color })
+		thought_log.push(thought)
+	}
+
+	// to move the conciousness pointer created above. 
+
+	function moveConsciousness() {
+		var new_thought = thought_log.slice(-1)[0]
+		conciousness.animate({ cx: new_thought.attr('cx'), cy: new_thought.attr('cy')}, conciousnessMoveSpeed)
+		s.append(conciousness)
+	}
+
+	// to fadeout previous thoughts.
+
+	function goneThought() {
+		lastElement().animate({opacity: '.4', r: 10}, 200)
+		if (thought_log.length > 1) {thought_log[thought_log.length - 2].animate({opacity: '0.05', r: 2}, 200)};
+	}
+
+// Low Level Methods
+
+	// to determine if the position of a new thought is valid.
+	// delta is the distance to previous thought
+
+	function newPosition(r, d){
+		// add delta to the coordinates of laste lement
+		new_position = getPositionArray(r, d)
+		if (positionValid(new_position)) { return new_position } else { return newPosition(r, d) };
+	}
+
+	// calculate delta for establishing new positions (used in newPosition() )
+
+	function getDelta(r, d){ 
+		var delta = getRandom(r) + d
+		if (getRandom(2) == 0) {var delta = delta * -1};
+		return delta 
+	}
+
+	// get position array using delta (used in newPosition() )
+
+	function getPositionArray(r, d) {
+		return [parseInt(lastElementPosition()[0]) + parseInt(getDelta(r, d)), parseInt(lastElementPosition()[1]) + parseInt(getDelta(r, d))]
+	}
+
+
+	// determine if a new position is valid, two critera:
+	// has to be inside substrate (between 0 and x or y)
+	// is far does not overlap previous thoughts (clearance)
+
+	function positionValid(candidate) {
+		if (candidate[0] < 0) {return false }
+		else if (candidate[0] > 950) {return false }
+		else if (candidate[1] < 0) {return false }
+		else if (candidate[1] > 550) {return false }
+		else { return true }
+	}
+
+	// get last element 
+
+	function lastElement(){
+		return thought_log.slice(-1)[0]
+	}
+
+	// get position of last element, return [x, y]
+
+	function lastElementPosition(){
+		return [thought_log.slice(-1)[0].attr('cx'), thought_log.slice(-1)[0].attr('cy')] 
+	}
+
+	// to get a random number
+	function getRandom(max) {
+	  return Math.floor(Math.random() * Math.floor(max));
+	}
+
+// Action
+
+s.click(function() {
+	goneThought()
+	noteThought(50, 50, 0)
+	moveConsciousness()
+})
+
+// Controls 
+
+$('#faster').click(function() {
+	conciousnessMoveSpeed -= 50
+	if (conciousnessMoveSpeed < 100) { conciousnessMoveSpeed = 0}
+	console.log(conciousnessMoveSpeed)
+})
+
+$('#slower').click(function() {
+	conciousnessMoveSpeed += 50
+	console.log(conciousnessMoveSpeed)
+})
+
+$('#weaker').click(function() {
+	var width = parseInt(conciousness.attr('strokeWidth'))
+	if (width < 1) { width = 2}
+
+	var radius = parseInt(conciousness.attr('r') )
+	if (radius == 9) { radius = 10}
+
+	conciousness.attr({ strokeWidth: width -= 2, r: radius -= 1})
+
+})
+
+$('#stronger').click(function() {
+	var width = parseInt(conciousness.attr('strokeWidth'))
+	if (width > 15) { width = 14}
+
+	var radius = parseInt(conciousness.attr('r') )
+	if (radius > 16) { radius = 16}
+
+	conciousness.attr({ strokeWidth: width += 2, r: radius += 1})
+
+})
+
+
+
+
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+#mind {
+	width: 10px;
+	height:10px;
+	border-radius: 9999999px;
+	overflow: hidden;
+	position: absolute;
+	top: 150px;
+	left: 150px;
+}
+
+#mind-container {
+	width: 800px;
+	height: 600px;
+	position: relative;
+	overflow: hidden;
+	border: 1px solid black;
+	float: left;
+	margin-left: 150px;
+	cursor: none;
+}
+
+#thoughts {
+	position: absolute;
+}
+
+#thoughts img {
+	width: 800px;
+}
+
+.button {
+	float: left;
+	margin: 100px 30px 0px 90px;
+}
+
+#m-button {
+	margin-left: 120px;
+}
+
+#focus {
+	color: lightgray;
+	font-size: 40px;
+	cursor: pointer;
+}

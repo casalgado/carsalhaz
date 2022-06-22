@@ -1,0 +1,17 @@
+
+#container {
+	position: relative;
+	width: 1000px;
+	height: 600px;
+	left: 100px;
+	border: 2px solid black;
+}
+
+#substrate {
+	width:  1000px;
+	height: 600px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
