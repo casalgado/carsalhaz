@@ -1,14 +1,22 @@
 <template>
-  <MindModels />
+  <div class="container">
+    <section>
+      <div class="sidebar">
+        <TheButton text="Business App" theme="dark" />
+        <TheButton />
+      </div>
+      <div class="main"></div>
+    </section>
+  </div>
 </template>
 
 <script>
-import MindModels from "../components/work/MindModels.vue";
+import TheButton from "../components/TheButton.vue";
 export default {
   name: "WorkView",
-  components: { MindModels },
+  components: { TheButton },
 };
 </script>
 
-<style>
+<style scoped>
 </style>

@@ -1,7 +1,7 @@
 
 :root {
   --vt-c-white: #ffffff;
-  --vt-c-white-soft: #f8f8f8;
+  --vt-c-white-light: #f8f8f8;
   --vt-c-white-mute: #f2f2f2;
 
   --vt-c-blue-theme: #033678;
@@ -15,7 +15,7 @@
 /* semantic color variables for this project */
 :root {
   --color-background: var(--vt-c-blue-support);
-  --color-background-soft: var(--vt-c-white-soft);
+  --color-background-light: var(--vt-c-white-light);
   --color-background-mute: var(--vt-c-white-mute);
   --color-background-dark: var(--vt-c-blue-theme);
 
@@ -23,8 +23,8 @@
   --color-border-hover: var(--vt-c-divider-light-1);
 
   --color-heading: var(--vt-c-blue-theme);
-  --color-text: var(--vt-c-blue-theme);
-  --color-text-soft: var(--vt-c-white-soft);
+  --color-text-dark: var(--vt-c-blue-theme);
+  --color-text-light: var(--vt-c-white-light);
   --color-text-mute: var(--vt-c-white-mute);
 
   --section-gap: 160px;
@@ -32,14 +32,27 @@
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
+  color: var(--color-text-light);
   background: var(--color-background);
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#app  {
+  background-image: repeating-linear-gradient(-45deg, rgba(255,255,255, 0.25), rgba(255,255,255, 0.25) 1px, transparent 1px, transparent 6px);
+  background-size: 15px 15px;
+}
+
+a {
+  color: var(--color-text-light);
+  text-decoration: none;
+}
+
+h1 {
+  font-family: 'Montserrat', sans-serif;
 }
