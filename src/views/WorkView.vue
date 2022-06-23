@@ -1,31 +1,35 @@
 <template>
   <div class="container">
     <section id="work-view">
-      <div class="sidebar">
+      <div class="sidebar dark">
         <p>freelance projects</p>
         <TheButton
           ref="btnFocus"
           payload="vues"
           text="Es Alimento"
           theme="light"
+          :animation="{ borderRight: true }"
           @btnClick="load"
         />
         <TheButton
           payload="tuning"
           text="Tuning Academy"
           theme="light"
+          :animation="{ borderRight: true }"
           @btnClick="load"
         />
         <TheButton
           payload="bielo"
           text="Bielo Media"
           theme="light"
+          :animation="{ borderRight: true }"
           @btnClick="load"
         />
         <TheButton
           payload="nfts"
           text="MNKYBSNSS"
           theme="light"
+          :animation="{ borderRight: true }"
           @btnClick="load"
         />
         <p>personal projects</p>
@@ -33,22 +37,25 @@
           payload="destinations"
           text="Destinations"
           theme="light"
+          :animation="{ borderRight: true }"
           @btnClick="load"
         />
         <TheButton
           payload="mind"
           text="Mind Models"
           theme="light"
+          :animation="{ borderRight: true }"
           @btnClick="load"
         />
         <TheButton
           payload="integers"
           text="Integers Game"
           theme="light"
+          :animation="{ borderRight: true }"
           @btnClick="load"
         />
       </div>
-      <div class="main">
+      <div class="main light">
         <ProjectSnippet :project="snippets[currentProject]" />
       </div>
     </section>
@@ -97,7 +104,6 @@ export default {
 }
 
 .sidebar {
-  background: var(--color-background-dark);
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;
@@ -106,8 +112,6 @@ export default {
 }
 
 .main {
-  background: var(--color-background-light);
-  color: var(--color-text-dark);
   grid-column: span 4;
 }
 

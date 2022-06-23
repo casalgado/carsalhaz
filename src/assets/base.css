@@ -1,11 +1,13 @@
 
 :root {
   --vt-c-white: #ffffff;
-  --vt-c-white-light: #f8f8f8;
-  --vt-c-white-mute: #f2f2f2;
+  --vt-c-white-light: #f2f2f2;
 
   --vt-c-blue-theme: #033678;
   --vt-c-blue-support: #ABBDDD;
+
+  --vt-c-blue-light-complement: #8ecae6;
+  --vt-c-blue-dark-complement: #219ebc;
 
   --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
   --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
@@ -16,16 +18,12 @@
 :root {
   --color-background: var(--vt-c-blue-support);
   --color-background-light: var(--vt-c-white-light);
-  --color-background-mute: var(--vt-c-white-mute);
+  --color-background-light-complement: var(--vt-c-blue-light-complement);
   --color-background-dark: var(--vt-c-blue-theme);
+  --color-background-dark-complement: var(--vt-c-blue-dark-complement);
 
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
-
-  --color-heading: var(--vt-c-blue-theme);
   --color-text-dark: var(--vt-c-blue-theme);
   --color-text-light: var(--vt-c-white-light);
-  --color-text-mute: var(--vt-c-white-mute);
 
   --section-gap: 160px;
 }
@@ -55,4 +53,24 @@ a {
 
 h1 {
   font-family: 'Montserrat', sans-serif;
+}
+
+.dark {
+  color: var(--color-text-light);
+  background: var(--color-background-dark);
+}
+
+.dark-complement {
+  color: var(--color-text-light);
+  background: var(--color-background-dark-complement);
+}
+
+.light {
+  color: var(--color-text-dark);
+  background: var(--color-background-light);
+}
+
+.light-complement {
+  color: var(--color-text-dark);
+  background: var(--color-background-light-complement);
 }

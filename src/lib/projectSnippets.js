@@ -10,10 +10,9 @@ export default {
     ],
     solution:
       "A Vue.js web application with firebase and a shopify storefront. Both were co-designed with the organization to produce an app that met their requirements in terms of data and ease of use.",
-    showcase: [
-      "This project shows how a tailored software solution can address the specific needs of an organization in a way that fits their processes and expectations",
-      "Integration of a robust back-end solution with an easy to use front-end experience",
-    ],
+    showcase:
+      "This project shows how a tailored software solution can address the specific needs of an organization in a way that fits their processes and expectations. Integration of a robust back-end solution with an easy to use front-end experience",
+
     tags: ["Vue.js", "firebase", "shopify", "Co-Design"],
     buttons: [
       { text: "visit project page", payload: "/esalimento" },
@@ -27,10 +26,8 @@ export default {
     problems: ["How do we make our website more engaging and readable?"],
     solution:
       "An animated homepage was designed to convey the core value proposition of the educational organization. Other pages were re-organized using infromation design in order to communicate effectively with the user",
-    showcase: [
-      "A successful implementation of co-designing with the client.",
-      "How information design can be used to communicate the key values of an organization in an engaging way.",
-    ],
+    showcase:
+      "A successful implementation of co-designing with the client. How information design can be used to communicate the key values of an organization in an engaging way.",
     tags: ["Wordpress", "Animation", "Co-Design"],
     buttons: [{ text: "visit project page", payload: "/tuningacademy" }],
   },
@@ -44,9 +41,9 @@ export default {
     ],
     solution:
       "An animated landing page was designed, as well as scroll animations and an interactive portfolio.",
-    showcase: [
+    showcase:
       "The experience of visiting this website, specifically, the welcome animation and scroll effects.",
-    ],
+
     tags: ["Vue.js", "Animation", "Spotify"],
     buttons: [{ text: "visit website", payload: "/" }],
   },
@@ -61,10 +58,8 @@ export default {
     ],
     solution:
       "Developed a program that assign probability distributions to traits and then combines then in a .png. Minted NFTs using the Candy Machine on Solana. Created a minting website where users can connect their wallets and mint.",
-    showcase: [
+    showcase:
       "I am showing this project to show my first steps in developing Web3 applications.",
-      "",
-    ],
     tags: ["Vue.js", "CandyMachine", "Web3"],
     buttons: [
       { text: "visit minting site", payload: "/" },
@@ -80,9 +75,8 @@ export default {
     ],
     solution:
       "Build an svg interface that queries google places api to locate cities on the map",
-    showcase: [
+    showcase:
       "Storytelling is such a powerful tool. With this project I want to show how a story can be told with data, animations and interactions. ",
-    ],
     tags: ["Vue.js", "svg", "Places API"],
     buttons: [{ text: "view applet", payload: "/" }],
   },
@@ -95,9 +89,8 @@ export default {
     ],
     solution:
       "A web applet with different activites where users can interact and reflect",
-    showcase: [
+    showcase:
       "This project shows how experiences can be designed on the web that can have potentially deep effects on the users who engage with them.",
-    ],
     tags: ["Jquery", "Animation", "Interaction"],
     buttons: [{ text: "view applet", payload: "/" }],
   },
@@ -110,9 +103,8 @@ export default {
     ],
     solution:
       "A drag and drop game where students have to complete levels by interacting with numbers and operations",
-    showcase: [
-      "With nhis project I want to show a real-life application of software development in an educational context. It was very satisfying to see kids engaging, and competing with each other, to see who could solve the problems faster.",
-    ],
+    showcase:
+      "With this project I want to show a real-life application of software development in an educational context. It was very satisfying to see kids engaging, and competing with each other, to see who could solve the problems faster.",
     tags: ["Vue.js", "Education", "Co-Design"],
     buttons: [{ text: "view applet", payload: "/" }],
   },

@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from "vue-router";
 <template>
   <header>
     <div class="wrapper">
-      <nav>
+      <nav class="dark">
         <RouterLink to="/">home</RouterLink>
         <RouterLink to="/about">about</RouterLink>
         <RouterLink to="/work">work</RouterLink>
@@ -28,8 +28,6 @@ body {
 
 nav {
   width: 100%;
-  color: var(--color-text-light);
-  background: var(--color-background-dark);
   margin: 0;
   padding: 4px 0px 6px 0px;
   text-align: right;

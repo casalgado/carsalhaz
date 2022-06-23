@@ -25,16 +25,13 @@ span {
   border-radius: 99px;
   min-width: 125px;
   cursor: default;
-}
-.dark {
-  border: 1px solid var(--color-background-dark);
   background: transparent;
-  color: var(--color-text-dark);
+}
+.light {
+  border: 1px solid var(--color-background-dark);
 }
 
-.light {
+.dark {
   border: 1px solid var(--color-background-light);
-  background: transparent;
-  color: var(--color-text-light);
 }
 </style>

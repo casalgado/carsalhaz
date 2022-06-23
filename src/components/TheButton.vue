@@ -1,5 +1,7 @@
 <template>
-  <button @click="$emit('btnClick', payload)" :class="theme">{{ text }}</button>
+  <button @click="$emit('btnClick', payload)" :class="computedClass">
+    {{ text }}
+  </button>
 </template>
 
 <script>
@@ -18,6 +20,19 @@ export default {
       type: String,
       default: () => "light",
     },
+    animation: {
+      type: Object,
+      default: { borderRight: false, borderLeft: false },
+    },
+  },
+  computed: {
+    computedClass: function () {
+      return [
+        this.theme,
+        `${this.animation.borderRight ? "border-right-animation" : ""}`,
+        `${this.animation.borderLeft ? "border-left-animation" : ""}`,
+      ].join(" ");
+    },
   },
 };
 </script>
@@ -29,32 +44,29 @@ button {
   border-radius: 99px;
   cursor: pointer;
   transition: border-radius 0.2s;
+  border: none;
+  outline: none !important;
 }
 
 button.light:focus {
-  background: #8ecae6;
-  outline: none !important;
+  background: var(--color-background-light-complement);
+}
+
+button.dark:focus {
+  background: var(--color-background-dark-complement);
+}
+
+button.border-right-animation:focus {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
 }
 
-button.dark:focus {
-  background: #219ebc;
-  outline: none !important;
+button.border-left-animation:focus {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 
 button:hover {
   text-decoration: dotted underline;
-}
-.dark {
-  background: var(--color-background-dark);
-  border: none;
-  color: var(--color-text-light);
-}
-
-.light {
-  background: var(--color-background-light);
-  border: none;
-  color: var(--color-text-dark);
 }
 </style>

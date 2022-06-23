@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <section>
-      <div class="bar">
-        <div class="more-info">
+      <div class="bar dark">
+        <div class="more-info light">
           <p>Bachelors Degree</p>
         </div>
         <img class="full-width" src="https://i.imgur.com/K1iFEF2.jpeg" alt="" />
@@ -19,8 +19,8 @@
         </p>
         <h1>Industrial Design.</h1>
       </div>
-      <div class="bar">
-        <div class="more-info">
+      <div class="bar dark">
+        <div class="more-info light">
           <p>Erasmus Mundus Master's Degree</p>
           <p>4 years experience</p>
         </div>
@@ -37,8 +37,8 @@
           the freedom to explore the world around them and within them.
         </p>
       </div>
-      <div class="bar">
-        <div class="more-info">
+      <div class="bar dark">
+        <div class="more-info light">
           <p>Freelance</p>
           <p>6 years on and off experience</p>
         </div>
@@ -80,7 +80,6 @@ section {
   position: relative;
   width: 300px;
   height: 80vh;
-  background: var(--color-background-dark);
 }
 
 .bar p,
@@ -111,7 +110,6 @@ p {
   left: 15px;
   width: 270px;
   height: 40px;
-  background: var(--color-background-light);
   transition: top 0.3s;
   transition-timing-function: ease-in;
   z-index: -1;
@@ -131,7 +129,6 @@ p {
 .expanded {
   width: 100%;
   height: 0px;
-  background: var(--color-background-light);
   transition: height 1s;
 }
 
