@@ -1,35 +1,50 @@
 <template>
-  <section>
-    <h1 class="title">{{ project.title }}</h1>
-    <p class="description">{{ project.description }}</p>
-    <h3>problems</h3>
-    <ul>
-      <li v-for="(p, i) in project.problems" :key="i">{{ p }}</li>
+  <div id="snippet">
+    <h1 class="title span2">{{ project.title }}</h1>
+    <p class="description span2">{{ project.description }}</p>
+    <div>
+      <h2>problem</h2>
+      <ul>
+        <li v-for="(p, i) in project.problems" :key="i">{{ p }}</li>
+      </ul>
+    </div>
+    <div>
+      <h2>solution</h2>
+      <p>{{ project.solution }}</p>
+    </div>
+    <h2 class="span2">showcase</h2>
+    <ul class="tags span2">
+      <li v-for="(p, i) in project.tags" :key="i" class="tag">
+        <TheTag :text="p" theme="dark" />
+      </li>
     </ul>
-    <h3>solution</h3>
-    <p>{{ project.solution }}</p>
-    <h3>showcase</h3>
-    <ul>
+    <ul class="span2">
       <li v-for="(p, i) in project.showcase" :key="i">{{ p }}</li>
     </ul>
-    <h3>tags</h3>
-    <ul>
-      <li v-for="(p, i) in project.tags" :key="i" class="tag">{{ p }}</li>
-    </ul>
-    <TheButton id="/home" theme="dark" text="Home" @btnClick="linkTo" />
-  </section>
+
+    <div class="buttons span2">
+      <TheButton
+        v-for="(b, i) in project.buttons"
+        :key="i"
+        :text="b.text"
+        :payload="b.payload"
+        theme="dark"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
 import TheButton from "../TheButton.vue";
+import TheTag from "../TheTag.vue";
 export default {
   name: "ProjectSnippet",
-  components: { TheButton },
+  components: { TheButton, TheTag },
   props: {
     project: {
       type: Object,
       default: {
-        title: "",
+        title: "oeu",
         description: "",
         problems: [""],
         solutions: "",
@@ -47,16 +62,51 @@ export default {
 </script>
 
 <style scoped>
-section {
+#snippet {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
 }
 
-section * {
-  margin: 5px 15px 5px 15px;
+#snippet * {
+  margin: 10px 15px 10px 15px;
+}
+
+#snippet:first-child {
+  margin-top: 15px;
 }
 
 .tag {
   display: inline-block;
+}
+
+h1,
+h2,
+h3 {
+  text-align: center;
+}
+
+ul {
+  padding-left: 0px;
+}
+
+li {
+  list-style-type: none;
+}
+
+.description {
+  max-width: 600px;
+  margin: 0 auto !important;
+  text-align: center;
+}
+.span2 {
+  grid-column: span 2;
+}
+
+.tags,
+.buttons {
+  width: max-content;
+  padding: 0px;
+  align-self: center;
+  justify-self: center;
 }
 </style>

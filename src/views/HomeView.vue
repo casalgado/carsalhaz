@@ -5,7 +5,6 @@
         <p>Hello, my name is</p>
         <h1>Carlos</h1>
         <p>Front-end web developer</p>
-        <p>Im here to solve problems</p>
       </div>
       <div class="image"></div>
       <div class="call-to-action"></div>

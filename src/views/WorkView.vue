@@ -1,41 +1,48 @@
 <template>
   <div class="container">
-    <section>
+    <section id="work-view">
       <div class="sidebar">
         <p>freelance projects</p>
         <TheButton
-          id="vues"
-          text="Apps for Business"
+          ref="btnFocus"
+          payload="vues"
+          text="Es Alimento"
           theme="light"
           @btnClick="load"
         />
         <TheButton
-          id="tuning"
-          text="Organization Website"
+          payload="tuning"
+          text="Tuning Academy"
           theme="light"
           @btnClick="load"
         />
         <TheButton
-          id="vues"
-          text="NFT Project"
+          payload="bielo"
+          text="Bielo Media"
+          theme="light"
+          @btnClick="load"
+        />
+        <TheButton
+          payload="nfts"
+          text="MNKYBSNSS"
           theme="light"
           @btnClick="load"
         />
         <p>personal projects</p>
         <TheButton
-          id="vues"
+          payload="destinations"
           text="Destinations"
           theme="light"
           @btnClick="load"
         />
         <TheButton
-          id="vues"
+          payload="mind"
           text="Mind Models"
           theme="light"
           @btnClick="load"
         />
         <TheButton
-          id="vues"
+          payload="integers"
           text="Integers Game"
           theme="light"
           @btnClick="load"
@@ -57,15 +64,17 @@ export default {
   components: { TheButton, ProjectSnippet },
   data() {
     return {
-      currentProject: "aoeu",
+      currentProject: "vues",
       snippets: snippets,
     };
   },
   methods: {
-    load: function (id) {
-      console.log(id);
-      this.currentProject = id;
+    load: function (payload) {
+      this.currentProject = payload;
     },
+  },
+  mounted() {
+    this.$refs.btnFocus.$el.focus();
   },
 };
 </script>
@@ -77,21 +86,18 @@ export default {
   height: 100vh;
 }
 
-section {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+#work-view {
   align-self: center;
   justify-self: center;
-}
-
-section p {
-  text-align: center;
+  display: grid;
+  width: 1000px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0px;
+  height: 80vh;
 }
 
 .sidebar {
-  width: 200px;
   background: var(--color-background-dark);
-  height: 80vh;
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;
@@ -100,15 +106,14 @@ section p {
 }
 
 .main {
-  width: 800px;
-  grid-column: span 4;
   background: var(--color-background-light);
-  height: 80vh;
   color: var(--color-text-dark);
+  grid-column: span 4;
 }
 
 .sidebar * {
   margin-right: 15px;
   margin-left: 15px;
+  text-align: center;
 }
 </style>
