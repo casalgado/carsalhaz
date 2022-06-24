@@ -94,9 +94,6 @@ li {
   max-width: 600px;
   margin: 0 auto !important;
 }
-.span2 {
-  grid-column: span 2;
-}
 
 .list {
   width: max-content;

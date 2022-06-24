@@ -3,7 +3,7 @@
     <section>
       <div class="text">
         <p>Hello, my name is</p>
-        <h1>Carlos</h1>
+        <h1 class="hero">Carlos</h1>
         <p>Front-end web developer</p>
       </div>
       <div class="image"></div>
@@ -39,7 +39,7 @@ section {
   align-self: center;
 }
 
-.text h1 {
+.hero {
   margin: 0;
   font-size: 6em;
   font-family: "Montserrat", sans-serif;
