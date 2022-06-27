@@ -1,8 +1,13 @@
 <template>
   <div class="container">
-    <section>
+    <section class="contact-view-section">
       <h1 class="hero span2">get in touch</h1>
-      <div class="dark">eu</div>
+      <div class="info-section dark">
+        <img src="../assets/envelope-solid.svg" alt="" />
+        <h2 class="info-block">dev@carsalhaz.com</h2>
+        <img src="../assets/phone-solid.svg" alt="" />
+        <h2 class="info-block">+57 315 543 3505</h2>
+      </div>
       <form class="dark" @submit.prevent="send">
         <label for="email">your email</label>
         <input v-model="email" id="email" class="light-complement" />
@@ -45,18 +50,33 @@ export default {
 /* the container is a grid element in order to center the section element */
 .container {
   display: grid;
+  grid-template-columns: 1fr;
   height: 100vh;
 }
 
-h1 {
+h1,
+h2,
+p {
   text-align: center;
 }
-section {
+
+.info-block {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  margin-top: 0px;
+}
+
+.contact-view-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
-
+  gap: 0px;
   align-self: center;
   justify-self: center;
+}
+
+.info-section {
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 form {
@@ -87,5 +107,15 @@ textarea {
 label {
   font-family: "Montserrat", sans-serif;
   text-align: right;
+}
+
+img {
+  width: 40px;
+  justify-self: center;
+  align-self: center;
+}
+
+img:first-of-type {
+  padding-top: 15px;
 }
 </style>

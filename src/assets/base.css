@@ -91,6 +91,10 @@ h1 {
   grid-column: span 2;
 }
 
+.span3 {
+  grid-column: span 3;
+}
+
 .montserrat {
   font-family: 'Montserrat', sans-serif;
 }
