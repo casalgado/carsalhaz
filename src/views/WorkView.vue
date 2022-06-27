@@ -2,7 +2,7 @@
   <div class="container">
     <section id="work-view">
       <div class="sidebar dark">
-        <p>freelance projects</p>
+        <p class="subtitle">freelance projects</p>
         <TheButton
           ref="btnFocus"
           payload="vues"
@@ -32,7 +32,7 @@
           :animation="{ borderRight: true }"
           @btnClick="load"
         />
-        <p>personal projects</p>
+        <p class="subtitle">personal projects</p>
         <TheButton
           payload="destinations"
           text="Destinations"
@@ -56,7 +56,15 @@
         />
       </div>
       <div class="main light">
-        <ProjectSnippet :project="snippets[currentProject]" />
+        <div class="intro-snippet" v-if="currentProject == ''">
+          <h1>Explore Projects</h1>
+          <img
+            src="../assets/arrow-left-solid.svg"
+            alt="arrow pointing to the left"
+            class="arrow"
+          />
+        </div>
+        <ProjectSnippet :project="snippets[currentProject]" v-else />
       </div>
     </section>
   </div>
@@ -71,7 +79,7 @@ export default {
   components: { TheButton, ProjectSnippet },
   data() {
     return {
-      currentProject: "vues",
+      currentProject: "",
       snippets: snippets,
     };
   },
@@ -79,9 +87,6 @@ export default {
     load: function (payload) {
       this.currentProject = payload;
     },
-  },
-  mounted() {
-    this.$refs.btnFocus.$el.focus();
   },
 };
 </script>
@@ -108,16 +113,51 @@ export default {
   grid-template-columns: 1fr;
   justify-content: center;
   align-content: center;
-  gap: 25px;
 }
 
 .main {
   grid-column: span 4;
+  height: 625px;
 }
 
 .sidebar * {
   margin-right: 15px;
   margin-left: 15px;
   text-align: center;
+  margin-bottom: 25px;
+}
+
+.intro-snippet {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.intro-snippet > * {
+  text-align: center;
+  margin-top: 100px;
+}
+.arrow {
+  width: 80px;
+  justify-self: center;
+  align-self: center;
+}
+
+.arrow {
+  animation: shake 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translate(-20px, 0px) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
 }
 </style>

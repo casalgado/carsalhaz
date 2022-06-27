@@ -4,7 +4,7 @@
     <p class="center span2">{{ project.description }}</p>
     <div class="light-complement">
       <h2>problem</h2>
-      <ul>
+      <ul class="bullets">
         <li v-for="(p, i) in project.problems" :key="i">{{ p }}</li>
       </ul>
     </div>
@@ -82,14 +82,6 @@ h3 {
   margin: 0px;
 }
 
-ul {
-  padding-left: 0px;
-}
-
-li {
-  list-style-type: none;
-}
-
 .center {
   max-width: 600px;
   margin: 0 auto !important;
@@ -104,5 +96,9 @@ li {
 .list-item {
   display: inline-block;
   padding: 10px 15px 10px 15px;
+}
+
+li {
+  text-align: left !important;
 }
 </style>

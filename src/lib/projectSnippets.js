@@ -69,7 +69,7 @@ export default {
   destinations: {
     title: "Travel Visualization Applet",
     description:
-      "The Erasmus Mundus Marihe Master’s program offers four semesters of instruction and an internship, each in a different county. The students of the program came from all corners of the world, and from different academic backgrounds. We traveled the world together, each bringing their own perspective. Being able to experience so many cultures, places and people taught me more than anything else has. I value my travels, my masters and the community around them so much that I wanted to have something concrete that reminded me of them. This is how this app was born.",
+      "The Marihe Master’s program offers four semesters of instruction, each in a different county. The students of the program apply from all corners of the world. Being able to experience so many cultures, places and people taught me more than anything else has. I value my masters degree, the travels and the community around them so much that I wanted to have something concrete that reminded me of them.",
     problems: [
       "How to visualize two years of traveling in an interactive way?",
     ],
@@ -97,7 +97,7 @@ export default {
   integers: {
     title: "Negative Numbers Instructional Applet",
     description:
-      "One of the most interesting experiences for me as a Math Teacher was teaching negative number operations for 6th grade students. It’s surprisingly challenging to wrap your head around it for the first time! This app was born as a ‘game’ to complement instruction, and give students the possibility to interact with negative numbers directly. During the development process, two focus groups were held where students were able to give their input to the project, then test it and give feedback. I used the applet in class when I teach the topic!",
+      "When learning negative number operations for the first time, it’s surprisingly challenging to wrap your head around them! This app was born as a ‘game’ to complement instruction, allowing students to interact with numbers directly. During development, two focus groups were held where students were able to give their input, test and give feedback. I used the applet in class when I teach the topic!",
     problems: [
       "How to allow students to interact with negative numbers in a direct way?",
     ],
