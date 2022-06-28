@@ -1,64 +1,70 @@
 <template>
   <div class="container">
     <section>
-      <div class="bar dark">
-        <div class="more-info light">
+      <div class="bar dark" @mouseenter="hide('1')">
+        <div class="more-info light" id="mf1">
           <p>Bachelors Degree</p>
         </div>
-        <img class="full-width" src="https://i.imgur.com/K1iFEF2.jpeg" alt="" />
-        <p>
-          Design is about solving problems while prioritizing the human beings
-          involved. A successful design project is one that improves the quality
-          of life of its users. However, a project that is not implemented is a
-          waste of time. Designing the implementation of the project is as
-          important as designing the project itself. Building a project with all
-          the stakeholders involved improves the probability of implementation.
-          I have a collaborative approach to design. I view the designer as a
-          catalyst who considers the needs off all stakeholders and materializes
-          them in a solution that is willfully adopted.
-        </p>
         <h1>Industrial Design.</h1>
+        <p>
+          I have a collaborative approach to design. I view the designer as a
+          catalyst who evaluates the needs of all stakeholders involved; and
+          materializes them into a solution. My design background has given me
+          graphic design tools as well as methodologies that allow me to go from
+          abstract ideas to concrete solutions.
+        </p>
+
+        <img class="full-width" src="https://i.imgur.com/K1iFEF2.jpeg" alt="" />
+        <p class="hover-me" id="hb1">hover me</p>
       </div>
-      <div class="bar dark">
-        <div class="more-info light">
+      <div class="bar dark" @mouseenter="hide('2')">
+        <div class="more-info light" id="mf2">
           <p>Erasmus Mundus Master's Degree</p>
-          <p>4 years experience</p>
+          <p>4 years Teaching Experience</p>
         </div>
         <h1>Resarch and Education.</h1>
         <img class="inset" src="https://i.imgur.com/K1iFEF2.jpeg" alt="" />
         <p>
-          Education is the propagation of knowledge, skills, and competences. To
-          be an effective teacher, getting to know your students is as important
-          as mastering the subject matter. Teaching is about igniting interest
-          and motivation to acquire knowledge. More than that, teaching showing
-          others how to trust themselves, how to learn from mistakes, how to
-          take risks. My teaching style is relationship based, I see myself as a
-          leader that guides students through a path, giving them the safety and
-          the freedom to explore the world around them and within them.
+          My teaching philosophy is based on relationship-building. I see myself
+          as a leader that inspires learners, giving them the safety and the
+          freedom to explore and take risks. My research and teaching experience
+          has refined my communication skills and the ability to align a group
+          of people towards a common goal. If I can get 6th graders excited
+          about math, I can take our team anywhere.
         </p>
+        <p class="hover-me" id="hb2">hover me</p>
       </div>
-      <div class="bar dark">
-        <div class="more-info light">
-          <p>Freelance</p>
-          <p>6 years on and off experience</p>
+      <div class="bar dark" @mouseenter="hide('3')">
+        <div class="more-info light" id="mf3">
+          <p>Self Taught</p>
+          <p>6 years Freelance Experience</p>
         </div>
-        <p>
-          Software development is leveraging the power of technology to generate
-          value. A holistic approach to development starts with studying the
-          problem, its context and the requirements of all stakeholders
-          involved. My strength as a developer is the ability to bridge the gaps
-          between clients, users and developers in order to build flexible and
-          robust solutions.
-        </p>
-        <h1>Software Development.</h1>
         <img class="full-width" src="https://i.imgur.com/K1iFEF2.jpeg" alt="" />
+        <h1>Software Development.</h1>
+        <p>
+          My strength as a developer is the ability to bridge the gaps between
+          clients, developers and users in order to build flexible and robust
+          solutions. My background in design, research and education allows me
+          to find solutions to a wide variety of problems. While most of my
+          experience is in front-end, I am constantly expanding my knowledge and
+          skills.
+        </p>
+        <p class="hover-me" id="hb3">hover me</p>
       </div>
     </section>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  name: "AboutView",
+  methods: {
+    hide: function (id) {
+      document.getElementById(`hb${id}`).classList.add("hide");
+      document.getElementById(`mf${id}`).classList.add("show");
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -133,10 +139,29 @@ p {
 }
 
 .bar:hover > .more-info {
-  top: -40px;
 }
 
 .more-info:hover > .expanded {
   height: 300px;
+}
+
+.hover-me {
+  position: absolute;
+  width: 100%;
+  bottom: 15px;
+  margin: 0px !important;
+  text-align: center;
+  font-size: 0.8em;
+  font-weight: 100;
+  opacity: 1;
+  transition: opacity 0.2s linear;
+}
+
+.hide {
+  opacity: 0;
+}
+
+.show {
+  top: -40px;
 }
 </style>
