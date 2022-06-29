@@ -6,7 +6,7 @@
         <h1 class="hero">Carlos</h1>
         <p>Front-end web developer</p>
       </div>
-      <div class="image"></div>
+      <div class="image-cont"><img src="../assets/face.png" alt="" /></div>
       <div class="call-to-action"></div>
     </section>
   </div>
@@ -19,7 +19,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* the container is a grid element in order to center the section element */
 .container {
   display: grid;
@@ -58,13 +58,18 @@ section {
   margin: 0;
 }
 
-.image {
+.image-cont {
   justify-self: center;
   width: 300px;
   height: 300px;
   border-radius: 999px;
   background: var(--color-background-dark);
   box-shadow: 30px 15px var(--color-text-light);
+  overflow: hidden;
+}
+
+.image-cont img {
+  width: 100%;
 }
 
 .call-to-action {
