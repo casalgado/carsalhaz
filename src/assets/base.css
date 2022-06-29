@@ -26,6 +26,7 @@
   --color-text-light: var(--vt-c-white-light);
 
   --section-gap: 160px;
+  --icon-width: 40px;
 }
 
 body {

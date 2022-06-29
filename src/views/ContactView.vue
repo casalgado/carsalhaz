@@ -3,10 +3,25 @@
     <section class="contact-view-section">
       <h1 class="hero span2">get in touch</h1>
       <div class="info-section dark">
-        <img src="../assets/envelope-solid.svg" alt="" />
-        <h2 class="info-block">dev@carsalhaz.com</h2>
-        <img src="../assets/phone-solid.svg" alt="" />
-        <h2 class="info-block">+57 315 543 3505</h2>
+        <a href="mailto:dev@carsalhaz.com" target="_blank"
+          ><img src="../assets/envelope-solid.svg" alt="envelope icon"
+        /></a>
+        <p class="info-block">dev@carsalhaz.com</p>
+
+        <a href="https://wa.me/573155433505" target="_blank"
+          ><img src="../assets/phone-solid.svg" alt="phone icon"
+        /></a>
+        <p class="info-block">+57 315 543 3505</p>
+
+        <a href="https://github.com/casalgado" target="_blank"
+          ><img src="../assets/github-brands.svg" alt="github logo icon"
+        /></a>
+        <p class="info-block">casalgado</p>
+
+        <a href="https://www.linkedin.com/in/carsalhaz/" target="_blank"
+          ><img src="../assets/linkedin-brands.svg" alt="linkedin logo icon"
+        /></a>
+        <p class="info-block">carsalhaz</p>
       </div>
       <form class="dark" @submit.prevent="send">
         <label for="email">your email</label>
@@ -46,7 +61,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 /* the container is a grid element in order to center the section element */
 .container {
   display: grid;
@@ -62,8 +77,10 @@ p {
 
 .info-block {
   font-family: "Montserrat", sans-serif;
-  font-weight: 100;
+  font-weight: 400;
+  font-size: 1em;
   margin-top: 0px;
+  display: inline;
 }
 
 .contact-view-section {
@@ -77,6 +94,17 @@ p {
 .info-section {
   display: grid;
   grid-template-columns: 1fr;
+}
+
+.info-section a {
+  justify-self: center;
+  align-self: center;
+  width: var(--icon-width);
+  border-bottom: 1px solid transparent;
+}
+
+.info-section a:hover {
+  border-bottom: 1px solid var(--color-text-light);
 }
 
 form {
@@ -110,12 +138,10 @@ label {
 }
 
 img {
-  width: 40px;
-  justify-self: center;
-  align-self: center;
+  width: var(--icon-width);
 }
 
-img:first-of-type {
-  padding-top: 15px;
+a:first-of-type {
+  margin-top: 15px;
 }
 </style>
