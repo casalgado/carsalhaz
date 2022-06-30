@@ -23,7 +23,13 @@
     </ul>
     <ul class="list span2">
       <li v-for="(b, i) in project.buttons" :key="i" class="list-item">
-        <TheButton :key="i" :text="b.text" :payload="b.payload" theme="dark" />
+        <TheButton
+          :key="i"
+          :text="b.text"
+          :payload="b.payload"
+          @btnClick="linkTo"
+          theme="dark"
+        />
       </li>
     </ul>
   </div>
@@ -49,8 +55,9 @@ export default {
     },
   },
   methods: {
-    linkTo: function (link) {
-      this.$router.push({ path: "/" });
+    linkTo: function (payload) {
+      console.log(payload);
+      window.open(payload);
     },
   },
 };

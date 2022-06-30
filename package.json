@@ -2,6 +2,7 @@
   "name": "carsalhaz",
   "version": "0.0.0",
   "scripts": {
+    "serve": "vite",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --port 4173",

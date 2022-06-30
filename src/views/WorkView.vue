@@ -117,7 +117,6 @@ export default {
 
 .main {
   grid-column: span 4;
-  height: 625px;
 }
 
 .sidebar * {

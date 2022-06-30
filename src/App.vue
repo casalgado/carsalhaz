@@ -22,8 +22,6 @@ import { RouterLink, RouterView } from "vue-router";
 
 body {
   margin: 0;
-  height: 100vh;
-  overflow: hidden;
 }
 
 nav {

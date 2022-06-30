@@ -1,6 +1,6 @@
 export default {
   vues: {
-    title: "Business Apps for Es Alimento",
+    title: "Business Apps for Es Alimento Bakery",
     description:
       "A  productivity app and a storefront website were built for a bakery. The app handles all order processing and establishes the flow of information between management, accounting and production. The storefront allows costumers to buy bakery goods.",
     problems: [
@@ -13,7 +13,7 @@ export default {
     showcase:
       "This project shows how a tailored software solution can address the specific needs of an organization in a way that fits their processes and expectations. Integration of a robust back-end solution with an easy to use front-end experience",
 
-    tags: ["Vue.js", "firebase", "shopify", "Co-Design"],
+    tags: ["Vue.js", "Bootstrap", "Firebase", "Shopify", "Co-Design"],
     buttons: [
       { text: "visit project page", payload: "/esalimento" },
       { text: "visit shopify storefront", payload: "https://esalimento.com/" },
@@ -29,7 +29,13 @@ export default {
     showcase:
       "A successful implementation of co-designing with the client. How information design can be used to communicate the key values of an organization in an engaging way.",
     tags: ["Wordpress", "Animation", "Co-Design"],
-    buttons: [{ text: "visit project page", payload: "/tuningacademy" }],
+    buttons: [
+      {
+        text: "visit website",
+        payload:
+          "https://web.archive.org/web/20190217202518/http://tuningacademy.org:80/",
+      },
+    ],
   },
   bielo: {
     title: "Website Design for Bielo Media",
@@ -77,7 +83,7 @@ export default {
       "Build an svg interface that queries google places api to locate cities on the map",
     showcase:
       "Storytelling is such a powerful tool. With this project I want to show how a story can be told with data, animations and interactions. ",
-    tags: ["Vue.js", "svg", "Places API"],
+    tags: ["Vue.js", "Svg", "Places API"],
     buttons: [{ text: "view applet", payload: "/" }],
   },
   mind: {
