@@ -3,7 +3,6 @@
   <head>
     <link href="styles/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="styles/global.css" rel="stylesheet" type="text/css" />
-    <link href="styles/breadth.css" rel="stylesheet" type="text/css" />
 
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -12,17 +11,69 @@
   </head>
 
   <body>
-    <div id="mind-container">
-      <div id="mind">
-        <div id="thoughts">
-          <img src="images/breadth/breadth-01.jpeg" />
+    <div id="global-container">
+      <div id="mind-container">
+        <div id="mind">
+          <div id="thoughts">
+            <img src="images/breadth/breadth-01.jpeg" />
+          </div>
         </div>
       </div>
-      <div type="button" class="btn btn-primary button" id="m-button">
-        <h5>.. M ..</h5>
+      <div id="button-container">
+        <div type="button" class="btn btn-primary button" id="m-button">
+          <h5>Expand</h5>
+        </div>
       </div>
     </div>
 
     <script src="js/breadth.js"></script>
+    <style>
+      #global-container {
+        width: 800px;
+      }
+
+      #mind-container {
+        width: 800px;
+        height: 600px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid black;
+        cursor: none;
+      }
+
+      #mind {
+        width: 10px;
+        height: 10px;
+        border-radius: 9999999px;
+        overflow: hidden;
+        position: absolute;
+        top: 150px;
+        left: 150px;
+      }
+
+      #thoughts {
+        position: absolute;
+      }
+
+      #thoughts img {
+        width: 800px;
+      }
+
+      #button-container {
+        width: 100%;
+        background-color: beige;
+        height: 50px;
+      }
+
+      #m-button {
+        width: 100%;
+      }
+
+      #focus {
+        color: lightgray;
+        font-size: 40px;
+        cursor: pointer;
+      }
+    </style>
   </body>
 </html>

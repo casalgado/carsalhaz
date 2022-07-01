@@ -105,8 +105,8 @@
         </li>
         <li>
           The printable allows the team to make decisions and communicate their
-          plans easily within the team. The printable saves around 45 minutes of
-          work per day, and has reduced the amount of delivery mistakes.
+          plans easily. This saves around <b>45 minutes of work per day</b>, and
+          has reduced the amount of delivery mistakes.
         </li>
         <li>
           <TheButton

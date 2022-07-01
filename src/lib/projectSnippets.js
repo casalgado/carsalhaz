@@ -15,7 +15,7 @@ export default {
 
     tags: ["Vue.js", "Bootstrap", "Firebase", "Shopify", "Co-Design"],
     buttons: [
-      { text: "visit project page", payload: "/esalimento" },
+      { text: "visit project page", payload: "/work/esalimento" },
       { text: "visit shopify storefront", payload: "https://esalimento.com/" },
     ],
   },
@@ -100,7 +100,7 @@ export default {
     showcase:
       "This project shows how experiences can be designed on the web that can have potentially deep effects on the users who engage with them.",
     tags: ["Jquery", "Animation", "Interaction"],
-    buttons: [{ text: "view applet", payload: "/" }],
+    buttons: [{ text: "view applet", payload: "/work/mind" }],
   },
   integers: {
     title: "Negative Numbers Instructional Applet",
