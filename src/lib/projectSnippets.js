@@ -84,10 +84,12 @@ export default {
     showcase:
       "Storytelling is such a powerful tool. With this project I want to show how a story can be told with data, animations and interactions. ",
     tags: ["Vue.js", "Svg", "Places API"],
-    buttons: [{ text: "view applet", payload: "/" }],
+    buttons: [
+      { text: "view applet", payload: "https://destination7000.web.app/" },
+    ],
   },
   mind: {
-    title: "Meditation Visualization Applet",
+    title: "Mind Visualization Applet",
     description:
       "The benefits of meditation are numerous and well documented, however, meditation can be difficult to ‘get’. This applet was designed to convey an experience of what meditation can feel like to me. And hopefully to inspire others to question what meditation feels like to them.",
     problems: [
@@ -112,7 +114,9 @@ export default {
     showcase:
       "With this project I want to show a real-life application of software development in an educational context. It was very satisfying to see kids engaging, and competing with each other, to see who could solve the problems faster.",
     tags: ["Vue.js", "Education", "Co-Design"],
-    buttons: [{ text: "view applet", payload: "/" }],
+    buttons: [
+      { text: "view applet", payload: "https://integers-24d41.web.app/" },
+    ],
   },
   name: {
     title: "",
