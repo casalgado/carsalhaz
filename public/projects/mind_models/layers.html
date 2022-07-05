@@ -18,9 +18,16 @@
   <body>
     <div id="header"></div>
 
-    <div id="mind-container">
-      <div id="mind">
-        <div id="layer"></div>
+    <div id="global-container">
+      <div id="mind-container">
+        <div id="mind">
+          <div id="layer"></div>
+        </div>
+      </div>
+      <div id="button-container">
+        <div type="button" class="btn btn-primary button" id="m-button">
+          <h5>Observe</h5>
+        </div>
       </div>
     </div>
 
@@ -42,11 +49,12 @@
       #mind-container {
         width: 800px;
         height: 600px;
+      }
+
+      #global-container {
+        width: 800px;
+        height: 600px;
         position: relative;
-        overflow: hidden;
-        border: 1px solid black;
-        float: left;
-        margin-left: 150px;
       }
 
       #layer {
@@ -59,6 +67,16 @@
         top: -10px;
         left: -10px;
         z-index: 1;
+      }
+
+      #button-container {
+        width: 100%;
+        background-color: whitesmoke;
+        height: 50px;
+      }
+
+      #m-button {
+        width: 100%;
       }
     </style>
   </body>
