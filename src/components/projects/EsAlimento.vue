@@ -17,40 +17,7 @@
       <p>Customer names have been encrypted for privacy reasons.</p>
     </div>
 
-    <div class="section">
-      <p class="span2">
-        Admin Team Problem: How do we add orders to the database?
-      </p>
-      <video id="vid1" class="" muted poster="">
-        <source type="video/webm" src="../../assets/esalimento/add_order.mp4" />
-      </video>
-      <ul>
-        <li>solution</li>
-        <li>
-          When a customer is selected, their last order pops up. This is for two
-          reasons. 1. Customers normally ask for the same order, or they make
-          small changes, so having the order ready makes the order creation
-          faster. 2. Having easy access to the customers last order allows us to
-          provide better quality customer service because we have more
-          information about the customers preferences.
-        </li>
-        <li>
-          Instead of searching for products in the dropdown menu, a selection
-          tool was created to select any product with a maximum of 3 clicks.
-          This greatly increases the efficiency of order creation. Two selection
-          tools were created, one for the B2C market, and another for B2B
-          customers
-        </li>
-        <li>
-          <TheButton
-            text="play video"
-            theme="dark"
-            payload="1"
-            @btnClick="play"
-          />
-        </li>
-      </ul>
-    </div>
+    <Section :content="content.addOrders" />
 
     <div class="section">
       <p class="span2">
@@ -221,10 +188,17 @@
 </template>
 
 <script>
+import content from "../../lib/esAlimentoProjectContent";
 import TheButton from "../TheButton.vue";
+import Section from "./EsAlimentoSection.vue";
 export default {
   name: "Es Alimento",
-  components: { TheButton },
+  components: { TheButton, Section },
+  data() {
+    return {
+      content: content,
+    };
+  },
   methods: {
     play: function (payload) {
       document.getElementById(`vid${payload}`).play();
