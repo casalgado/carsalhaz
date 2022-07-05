@@ -1,23 +1,20 @@
 <template>
   <div>
-    <iframe src="/projects/mind_models/layers.html"></iframe>
-    <iframe src="/projects/mind_models/waves.html"></iframe>
-    <iframe src="/projects/mind_models/threads.html"></iframe>
-    <iframe src="/projects/mind_models/breadth.html"></iframe>
-    <iframe src="/projects/mind_models/milliseconds.html"></iframe>
+    <Frame src="/projects/mind_models/layers.html" />
+    <Frame src="/projects/mind_models/waves.html" />
+    <Frame src="/projects/mind_models/threads.html" />
+    <Frame src="/projects/mind_models/breadth.html" />
+    <Frame src="/projects/mind_models/milliseconds.html" />
   </div>
 </template>
 
 <script>
+import Frame from "./MindModelsFrame.vue";
 export default {
   name: "MindModels",
+  components: { Frame },
 };
 </script>
 
 <style scoped>
-iframe {
-  width: 800px;
-  height: 650px;
-  margin-top: 100px;
-}
 </style>
