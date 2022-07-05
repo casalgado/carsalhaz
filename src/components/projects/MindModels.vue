@@ -1,5 +1,7 @@
 <template>
   <div>
+    <iframe src="/projects/mind_models/layers.html"></iframe>
+    <iframe src="/projects/mind_models/waves.html"></iframe>
     <iframe src="/projects/mind_models/threads.html"></iframe>
     <iframe src="/projects/mind_models/breadth.html"></iframe>
     <iframe src="/projects/mind_models/milliseconds.html"></iframe>

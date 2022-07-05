@@ -1,53 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <link href="styles/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="styles/waves.css" rel="stylesheet" type="text/css" />
 
-<head>
-	<link href='styles/bootstrap.min.css' rel='stylesheet' type='text/css'>
-	<link href='styles/global.css' rel='stylesheet' type='text/css'>
-	<link href='styles/waves.css' rel='stylesheet' type='text/css'>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/snap.svg.js"></script>
+    <script src="js/papaparse.min.js"></script>
+  </head>
 
-	<script src="js/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/snap.svg.js"></script> 
-	<script src="js/papaparse.min.js"></script> 
+  <body>
+    <div id="header"></div>
 
-</head>
+    <div id="global-container">
+      <div id="mind">
+        <div id="thoughts">
+          <img id="img-one" src="images/waves/waves-01.jpg" />
+        </div>
+      </div>
+    </div>
 
-	<body>
+    <div class="button-container">
+      <button type="button" class="btn btn-primary button" id="01">01</button>
+      <button type="button" class="btn btn-primary button" id="02">02</button>
+      <button type="button" class="btn btn-primary button" id="03">03</button>
+      <button type="button" class="btn btn-primary button" id="04">04</button>
+      <button type="button" class="btn btn-primary button" id="05">05</button>
+      <button type="button" class="btn btn-primary button" id="06">06</button>
+      <button type="button" class="btn btn-primary button" id="07">07</button>
+      <button type="button" class="btn btn-primary button" id="08">08</button>
+      <button type="button" class="btn btn-primary button" id="09">09</button>
+      <button type="button" class="btn btn-primary button" id="10">10</button>
+      <button type="button" class="btn btn-primary button" id="11">11</button>
+      <button type="button" class="btn btn-primary button" id="12">12</button>
+      <button type="button" class="btn btn-primary button" id="13">13</button>
+      <button type="button" class="btn btn-primary button" id="14">14</button>
+    </div>
 
-	<div id="header"> </div>
+    <div id="footer"></div>
 
-	<div id="mind-container">
-		<div id="mind">
-			<div id="thoughts">
-				<img id="img-two" src="images/waves/waves-01.jpg">
-				<img id="img-one" src="images/waves/waves-01.jpg">
-			</div>
-		</div>
-	</div>
+    <script src="js/waves.js"></script>
+    <style>
+      #mind {
+        width: 150px;
+        height: 150px;
+        border-radius: 9999999px;
+        border: 5px solid black;
+        overflow: hidden;
+        position: absolute;
+        top: 210px;
+        left: 310px;
+      }
 
-		<div type="button" class="btn btn-primary button" id="01"> 01 </div>
-		<div type="button" class="btn btn-primary button" id="02"> 02 </div>
-		<div type="button" class="btn btn-primary button" id="03"> 03 </div>
-		<div type="button" class="btn btn-primary button" id="04"> 04 </div>
-		<div type="button" class="btn btn-primary button" id="05"> 05 </div>
-		<div type="button" class="btn btn-primary button" id="06"> 06 </div>
-		<div type="button" class="btn btn-primary button" id="07"> 07 </div>
-		<div type="button" class="btn btn-primary button" id="08"> 08 </div>
-		<div type="button" class="btn btn-primary button" id="09"> 09 </div>
-		<div type="button" class="btn btn-primary button" id="10"> 10 </div>
-		<div type="button" class="btn btn-primary button" id="11"> 11 </div>
-		<div type="button" class="btn btn-primary button" id="12"> 12 </div>
-		<div type="button" class="btn btn-primary button" id="13"> 13 </div>
-		<div type="button" class="btn btn-primary button" id="14"> 14 </div>
+      #global-container {
+        width: 800px;
+        height: 600px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid black;
+      }
 
-	<div id="footer"> </div>
+      #thoughts img {
+        position: absolute;
+        height: 140px;
+      }
 
-	<script src='js/waves.js'></script>
+      #img-two {
+        left: -3593px;
+      }
 
-	</body>
+      .button {
+        width: 53px;
+        height: 50px;
+      }
 
+      .button-container {
+        padding-left: 3px;
+      }
+    </style>
+  </body>
 </html>
-
-
-
