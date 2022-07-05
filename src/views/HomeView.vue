@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="view-container">
     <section>
       <div class="text">
         <p>Hello, my name is</p>

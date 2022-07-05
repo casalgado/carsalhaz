@@ -29,6 +29,7 @@
   --icon-width: 40px;
 }
 
+/*  global styles */
 body {
   min-height: 100vh;
   color: var(--color-text-light);
@@ -100,3 +101,10 @@ h1 {
   font-family: 'Montserrat', sans-serif;
 }
 
+
+/* styles for views components */
+
+.view-container {
+  display: grid;
+  height: 100vh;
+}
