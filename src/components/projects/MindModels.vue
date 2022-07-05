@@ -1,5 +1,6 @@
 <template>
   <div>
+    <iframe src="/projects/mind_models/threads.html"></iframe>
     <iframe src="/projects/mind_models/breadth.html"></iframe>
     <iframe src="/projects/mind_models/milliseconds.html"></iframe>
   </div>
