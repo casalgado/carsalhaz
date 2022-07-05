@@ -20,11 +20,6 @@ export default {
 </script>
 
 <style scoped>
-/* the container is a grid element in order to center the section element */
-.container {
-  display: grid;
-  height: 100vh;
-}
 section {
   display: grid;
   grid-template-columns: 1fr 1fr;

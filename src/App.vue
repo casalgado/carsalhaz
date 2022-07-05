@@ -3,16 +3,14 @@ import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <nav class="dark">
-        <RouterLink to="/">home</RouterLink>
-        <RouterLink to="/about">about</RouterLink>
-        <RouterLink to="/work">work</RouterLink>
-        <RouterLink to="/contact">contact</RouterLink>
-      </nav>
-    </div>
-  </header>
+  <div class="wrapper">
+    <nav class="dark">
+      <RouterLink to="/">home</RouterLink>
+      <RouterLink to="/about">about</RouterLink>
+      <RouterLink to="/work">work</RouterLink>
+      <RouterLink to="/contact">contact</RouterLink>
+    </nav>
+  </div>
 
   <RouterView />
 </template>
@@ -29,6 +27,7 @@ nav {
   margin: 0;
   padding: 4px 0px 6px 0px;
   text-align: right;
+  position: absolute;
 }
 
 nav a {

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="view-container">
     <section class="contact-view-section">
       <h1 class="hero span2">get in touch</h1>
       <div class="info-section dark">
@@ -62,13 +62,6 @@ export default {
 </script>
 
 <style scoped>
-/* the container is a grid element in order to center the section element */
-.container {
-  display: grid;
-  grid-template-columns: 1fr;
-  height: 100vh;
-}
-
 h1,
 h2,
 p {
