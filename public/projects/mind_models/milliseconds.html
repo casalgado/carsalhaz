@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <link href="styles/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="js/bootstrap.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body style="margin: 0px">
+    <div id="global-container">
+      <div id="box">
+        <img id="card" src="images/1s.png" style="width: 100%" />
+      </div>
+      <div id="button-container">
+        <div type="button" class="btn btn-primary button" id="m-button">
+          <h5>Flash</h5>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      numbers = [14, 15, 16];
+      letters = ["c", "s", "h", "d"];
+      window.images = [];
+
+      $(document).ready(function () {
+        numbers.forEach(function (num) {
+          letters.forEach(function (let) {
+            var load = num + let;
+            var new_src = "images/milliseconds/" + load + ".png";
+            var i = new Image();
+            i.src = new_src;
+            window.images.push(i);
+          });
+        });
+        $("#card").hide();
+      });
+
+      $("#m-button").click(function () {
+        // var shuffle = numbers[Math.floor(Math.random() * 3)] + letters[Math.floor(Math.random() * 4)]
+        var shuffle = Math.floor(Math.random() * window.images.length);
+        var delay = Math.floor(Math.random() * 1000) + 50;
+        $("#card").attr("src", window.images[shuffle].src);
+        $("#card").delay(delay).fadeIn(1).delay(50).fadeOut(1);
+      });
+    </script>
+    <style>
+      #global-container {
+        width: 800px;
+        height: 600px;
+        background-color: white;
+        position: relative;
+      }
+
+      #box {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        width: 800px;
+        height: 600px;
+        overflow: hidden;
+      }
+
+      #button-container {
+        width: 100%;
+        background-color: beige;
+        height: 50px;
+      }
+
+      #m-button {
+        width: 100%;
+      }
+    </style>
+  </body>
+</html>

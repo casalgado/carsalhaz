@@ -1,6 +1,7 @@
 <template>
   <div>
     <iframe src="/projects/mind_models/breadth.html"></iframe>
+    <iframe src="/projects/mind_models/milliseconds.html"></iframe>
   </div>
 </template>
 
@@ -12,7 +13,8 @@ export default {
 
 <style scoped>
 iframe {
-  width: 100%;
-  height: 800px;
+  width: 800px;
+  height: 650px;
+  margin-top: 100px;
 }
 </style>
