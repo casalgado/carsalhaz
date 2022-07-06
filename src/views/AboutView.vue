@@ -5,7 +5,10 @@
         <div class="more-info light" id="mf1">
           <p>Bachelors Degree</p>
         </div>
-        <h1>Industrial Design.</h1>
+        <h1>
+          Industrial <br />
+          Design.
+        </h1>
         <p>
           I have a collaborative approach to design. I view the designer as a
           catalyst who evaluates the needs of all stakeholders involved; and
@@ -14,7 +17,7 @@
           solutions.
         </p>
 
-        <img class="full-width" src="https://i.imgur.com/K1iFEF2.jpeg" alt="" />
+        <img class="full-width" src="https://i.imgur.com/etPRIOH.jpeg" alt="" />
         <p class="hover-me" id="hb1">hover me</p>
       </div>
       <div class="bar dark" @mouseenter="hide('2')">
@@ -23,7 +26,8 @@
           <p>4 years Teaching Experience</p>
         </div>
         <h1>Resarch and Education.</h1>
-        <img class="inset" src="https://i.imgur.com/K1iFEF2.jpeg" alt="" />
+        <img class="inset" src="https://i.imgur.com/Z3BNIjI.jpeg" alt="" />
+
         <p>
           My teaching philosophy is based on relationship-building. I see myself
           as a leader that inspires learners, giving them the safety and the
@@ -39,7 +43,7 @@
           <p>Self Taught</p>
           <p>6 years Freelance Experience</p>
         </div>
-        <img class="full-width" src="https://i.imgur.com/K1iFEF2.jpeg" alt="" />
+        <img class="full-width" src="https://i.imgur.com/Kgr0313.jpeg" alt="" />
         <h1>Software Development.</h1>
         <p>
           My strength as a developer is the ability to bridge the gaps between

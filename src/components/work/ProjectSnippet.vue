@@ -2,6 +2,17 @@
   <div id="snippet">
     <h1 class="title span2">{{ project.title }}</h1>
     <p class="center span2">{{ project.description }}</p>
+    <ul class="list span2">
+      <li v-for="(b, i) in project.buttons" :key="i" class="list-item">
+        <TheButton
+          :key="i"
+          :text="b.text"
+          :payload="b.payload"
+          @btnClick="linkTo"
+          theme="dark"
+        />
+      </li>
+    </ul>
     <div class="light-complement">
       <h2>problem</h2>
       <ul class="bullets">
@@ -19,17 +30,6 @@
     <ul class="list span2">
       <li v-for="(p, i) in project.tags" :key="i" class="list-item">
         <TheTag :text="p" theme="light" />
-      </li>
-    </ul>
-    <ul class="list span2">
-      <li v-for="(b, i) in project.buttons" :key="i" class="list-item">
-        <TheButton
-          :key="i"
-          :text="b.text"
-          :payload="b.payload"
-          @btnClick="linkTo"
-          theme="dark"
-        />
       </li>
     </ul>
   </div>

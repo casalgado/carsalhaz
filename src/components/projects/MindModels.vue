@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <Frame src="/projects/mind_models/layers.html" />
-    <Frame src="/projects/mind_models/waves.html" />
-    <Frame src="/projects/mind_models/threads.html" />
+  <center>
     <Frame src="/projects/mind_models/breadth.html" />
     <Frame src="/projects/mind_models/milliseconds.html" />
-  </div>
+    <Frame src="/projects/mind_models/threads.html" />
+    <Frame src="/projects/mind_models/waves.html" />
+    <Frame src="/projects/mind_models/layers.html" />
+  </center>
 </template>
 
 <script>
