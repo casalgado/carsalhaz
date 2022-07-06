@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from "vue-router";
 <template>
   <div class="wrapper">
     <nav class="dark">
-      <ul>
+      <ul v-if="notAtHome">
         <li><RouterLink to="/">home</RouterLink></li>
         <li><RouterLink to="/about">about</RouterLink></li>
         <li><RouterLink to="/work">work</RouterLink></li>
@@ -19,14 +19,23 @@ import { RouterLink, RouterView } from "vue-router";
 <script>
 export default {
   name: "App",
+  data() {
+    return {
+      notAtHome: false,
+    };
+  },
   computed: {
     currentPath: function () {
       return this.route;
     },
   },
   watch: {
-    currentPath() {
-      console.log(this.currentPath);
+    $route(to) {
+      if (to.name == "home") {
+        this.notAtHome = false;
+      } else {
+        this.notAtHome = true;
+      }
     },
   },
 };

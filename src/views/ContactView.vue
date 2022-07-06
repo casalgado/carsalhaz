@@ -2,7 +2,7 @@
   <div class="view-container">
     <section class="contact-view-section">
       <h1 class="hero span2">get in touch</h1>
-      <div class="info-section dark span2">
+      <div class="info-section dark">
         <a href="mailto:dev@carsalhaz.com" target="_blank"
           ><img src="../assets/envelope-solid.svg" alt="envelope icon"
         /></a>
@@ -23,7 +23,7 @@
         /></a>
         <p class="info-block">carsalhaz</p>
       </div>
-      <!-- <form class="dark" @submit.prevent="send">
+      <form class="dark" @submit.prevent="sendEmail">
         <label for="email">your email</label>
         <input v-model="email" id="email" class="light-complement" />
         <label for="subject">subject</label>
@@ -35,12 +35,13 @@
           class="light-complement"
         ></textarea>
         <TheButton theme="light" text="send message" />
-      </form> -->
+      </form>
     </section>
   </div>
 </template>
 
 <script>
+import emailjs from "@emailjs/browser";
 import TheButton from "../components/TheButton.vue";
 export default {
   name: "HomeView",
@@ -53,9 +54,25 @@ export default {
     };
   },
   methods: {
-    send: function () {
-      console.log([this.email, this.subject, this.message]);
-      console.log("im here");
+    sendEmail: function () {
+      console.log(emailjs);
+      let serviceID = "carsalhaz_contact";
+      let templateID = "template_448ku3h";
+      let publicKey = "dK6RmHzCvEn6xt7B5";
+      let templateParams = {
+        email: this.email,
+        subject: this.subject,
+        message: this.message,
+      };
+      emailjs.send(serviceID, templateID, templateParams, publicKey).then(
+        (response) => {
+          console.log("SUCCESS!", response.status, response.text);
+          alert("Message Sent!");
+        },
+        (err) => {
+          console.log("FAILED...", err);
+        }
+      );
     },
   },
 };
