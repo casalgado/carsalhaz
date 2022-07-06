@@ -7,19 +7,45 @@
         <p>Front-end web developer</p>
       </div>
       <div class="image-cont"><img src="../assets/face.png" alt="" /></div>
-      <div class="call-to-action"></div>
+      <div class="call-to-action">
+        <center>
+          <ul>
+            <li><RouterLink to="/about">about</RouterLink></li>
+            <li><RouterLink to="/work">work</RouterLink></li>
+            <li><RouterLink to="/contact">contact</RouterLink></li>
+          </ul>
+        </center>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
+import TheButton from "../components/TheButton.vue";
 export default {
   name: "HomeView",
-  components: {},
+  components: { TheButton },
+  methods: {
+    linkTo: function (payload) {
+      this.$router.push(payload);
+    },
+  },
 };
 </script>
 
 <style scoped>
+a:hover {
+  text-decoration: underline;
+}
+
+ul > li {
+  list-style-type: none;
+  display: inline;
+  font-size: 1.5em;
+  padding-right: 80px;
+  padding-left: 80px;
+}
+
 section {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -71,7 +97,7 @@ section {
   justify-self: center;
   grid-column: span 2;
   width: 800px;
-  height: 100px;
+
   background: var(--color-background-dark);
   border-radius: 25px;
 }

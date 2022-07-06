@@ -16,6 +16,21 @@ import { RouterLink, RouterView } from "vue-router";
 
   <RouterView />
 </template>
+<script>
+export default {
+  name: "App",
+  computed: {
+    currentPath: function () {
+      return this.route;
+    },
+  },
+  watch: {
+    currentPath() {
+      console.log(this.currentPath);
+    },
+  },
+};
+</script>
 
 <style>
 @import "@/assets/base.css";

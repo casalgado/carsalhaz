@@ -2,7 +2,7 @@
   <div class="view-container">
     <section class="contact-view-section">
       <h1 class="hero span2">get in touch</h1>
-      <div class="info-section dark">
+      <div class="info-section dark span2">
         <a href="mailto:dev@carsalhaz.com" target="_blank"
           ><img src="../assets/envelope-solid.svg" alt="envelope icon"
         /></a>
@@ -23,7 +23,7 @@
         /></a>
         <p class="info-block">carsalhaz</p>
       </div>
-      <form class="dark" @submit.prevent="send">
+      <!-- <form class="dark" @submit.prevent="send">
         <label for="email">your email</label>
         <input v-model="email" id="email" class="light-complement" />
         <label for="subject">subject</label>
@@ -35,7 +35,7 @@
           class="light-complement"
         ></textarea>
         <TheButton theme="light" text="send message" />
-      </form>
+      </form> -->
     </section>
   </div>
 </template>
