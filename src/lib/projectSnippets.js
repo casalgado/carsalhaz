@@ -51,7 +51,9 @@ export default {
       "The experience of visiting this website, specifically, the welcome animation and scroll effects.",
 
     tags: ["Vue.js", "Animation", "Spotify"],
-    buttons: [{ text: "visit website", payload: "/" }],
+    buttons: [
+      { text: "visit website", payload: "https://www.bielomedia.io/home" },
+    ],
   },
   nfts: {
     title: "NFTs for MNKYBSNSS",
@@ -68,8 +70,11 @@ export default {
       "I am showing this project to show my first steps in developing Web3 applications.",
     tags: ["Vue.js", "CandyMachine", "Web3"],
     buttons: [
-      { text: "visit minting site", payload: "/" },
-      { text: "visit collection", payload: "/" },
+      { text: "visit minting site", payload: "https://mnkynft.web.app/" },
+      {
+        text: "visit collection",
+        payload: "https://opensea.io/collection/mnkybnn",
+      },
     ],
   },
   destinations: {

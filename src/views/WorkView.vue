@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="view-container">
     <section id="work-view">
       <div class="sidebar dark">
         <p class="subtitle">freelance projects</p>
@@ -92,12 +92,6 @@ export default {
 </script>
 
 <style scoped>
-/* the container is a grid element in order to center the section element */
-.container {
-  display: grid;
-  height: 100vh;
-}
-
 #work-view {
   align-self: center;
   justify-self: center;

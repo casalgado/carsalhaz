@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="view-container">
     <section>
       <div class="bar dark" @mouseenter="hide('1')">
         <div class="more-info light" id="mf1">
@@ -9,9 +9,9 @@
         <p>
           I have a collaborative approach to design. I view the designer as a
           catalyst who evaluates the needs of all stakeholders involved; and
-          materializes them into a solution. My design background has given me
-          graphic design tools as well as methodologies that allow me to go from
-          abstract ideas to concrete solutions.
+          materializes them into a solution. My design background has provided
+          methodologies that allow me to go from abstract ideas to concrete
+          solutions.
         </p>
 
         <img class="full-width" src="https://i.imgur.com/K1iFEF2.jpeg" alt="" />
@@ -45,9 +45,9 @@
           My strength as a developer is the ability to bridge the gaps between
           clients, developers and users in order to build flexible and robust
           solutions. My background in design, research and education allows me
-          to find solutions to a wide variety of problems. While most of my
-          experience is in front-end, I am constantly expanding my knowledge and
-          skills.
+          to find solutions to a wide variety of problems, and implement them.
+          While most of my experience is in front-end, I am constantly expanding
+          my knowledge and skills.
         </p>
         <p class="hover-me" id="hb3">hover me</p>
       </div>
@@ -68,12 +68,6 @@ export default {
 </script>
 
 <style scoped>
-/* the container is a grid element in order to center the section element */
-.container {
-  display: grid;
-  height: 100vh;
-}
-
 section {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
