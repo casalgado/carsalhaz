@@ -32,10 +32,7 @@ export default {
   },
   computed: {
     path: function () {
-      return new URL(
-        `./../../assets/esalimento/${this.content.videoTitle}`,
-        import.meta.url
-      ).href;
+      return `/projects/esalimento/${this.content.videoTitle}`;
     },
   },
 };
