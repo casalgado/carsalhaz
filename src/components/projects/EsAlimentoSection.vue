@@ -33,7 +33,7 @@ export default {
   computed: {
     path: function () {
       return new URL(
-        `../../../public/projects/esalimento/${this.content.videoTitle}`,
+        `/projects/esalimento/${this.content.videoTitle}`,
         import.meta.url
       ).href;
     },
