@@ -4,7 +4,7 @@
       <div class="text">
         <p>Hello, my name is</p>
         <h1 class="hero">Carlos</h1>
-        <p>Front-end web developer</p>
+        <p>Web developer, designer, educator.</p>
       </div>
       <div class="image-cont"><img src="../assets/face.png" alt="" /></div>
       <div class="call-to-action">
