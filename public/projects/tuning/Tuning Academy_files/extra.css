@@ -1,0 +1,280 @@
+/*
+Table of contents
+1. Article list widget
+2. Article tab list widget
+3. Comment form
+4. WordPress Editor Classes
+5. Tag box link
+6. Shortcodes Columns Styles
+7. Default widgets styles
+8. Entry list distance
+9. Text logo
+10. Facebook comments
+11. user content typography
+12. Initial width for carousel
+13. Advertising widget
+14. Children comment
+*/
+.kopa-article-list-widget ul li {
+    margin-bottom: 0px;
+}
+
+.kopa-article-list-widget .older-post li {
+    margin-bottom: 0;
+}
+
+/* 2. Article tab list widget */
+.kopa-entry-list-widget .tab-container-1 ul li .kp-2nd-post {
+    background-color: #1c1c1c;
+}
+
+.kopa-entry-list-widget .tab-container-1 ul li .kp-3rd-post {
+    background-color: #666;
+}
+
+.kopa-entry-list-widget .tab-container-1 .kp-thumbnail-style ul li .entry-thumb {
+    background: none;
+    display: block;
+    float: left;
+    height: auto;
+    line-height: inherit;
+    width: 53px;
+}
+
+.kopa-entry-list-widget .video-icon {
+    color: #1e7fd1;
+    float: right;
+    font-size: 16px;
+}
+
+/* 3. Comment form title */
+#reply-title {
+    color: #222;
+    font-size: 12px;
+    text-transform: uppercase;
+    border-top: solid 3px #e2e1e2;
+    padding: 2px 15px 5px;
+    margin: 0 0 20px;
+    position: relative;
+    background-color: #f0f0f1;
+}
+
+#cancel-comment-reply-link {
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0 0 15px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    text-shadow: none;
+}
+
+.comment #respond {
+    margin-top: 20px;
+}
+
+/* 4. WordPress Editor Classes */
+.wp-caption{
+    max-width: 100%;
+}
+.wp-caption-text{}
+.sticky{}
+.gallery-caption{}
+.bypostauthor{}
+.alignleft {
+    display: inline;
+    float: left;
+    margin-right: 10px;
+}
+.alignright {
+    display: inline;
+    float: right;
+    margin-left: 10px;
+}
+.aligncenter {
+    clear: both;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 5. Tag box link */
+.tag-box a {
+    margin-bottom: 3px;
+}
+
+/* 6. Shortcodes Columns Styles */
+.kopa-one-two {
+    float:left;
+    margin-right:3%;
+    width:48%;
+}
+.kopa-one-third {
+    float:left;
+    margin-right:2%;
+    width:32%;
+}
+.kopa-two-third {
+    float:left;
+    margin-right:2%;
+    width:66%;
+}
+.kopa-one-fourth {
+    float:left;
+    margin-right:2%;
+    width:23.5%;
+}
+.kopa-three-fourth {
+    float:left;
+    margin-right:2%;
+    width:74.5%;
+}
+
+.kopa-one-two.last,
+.kopa-one-third.last,
+.kopa-two-third.last,
+.kopa-one-fourth.last,
+.kopa-three-fourth.last{
+    margin-right:0 !important;
+}
+
+/* 7. Default widgets styles */
+.widget_categories li a,
+.widget_pages li a,
+.widget_meta li a,
+.widget_tag_cloud a,
+.widget_nav_menu li a,
+.widget_search .search-form .search-text,
+.widget_search .search-form .search-submit,
+.widget_calendar a {
+    color: #222;
+}
+#bottom-sidebar .widget_categories li a,
+#bottom-sidebar .widget_pages li a,
+#bottom-sidebar .widget_meta li a,
+#bottom-sidebar .widget_tag_cloud a,
+#bottom-sidebar .widget_nav_menu li a,
+#bottom-sidebar .widget_search .search-form .search-text,
+#bottom-sidebar .widget_search .search-form .search-submit,
+#bottom-sidebar .widget_calendar a {
+    color: #666;
+}
+.widget_categories li a:hover,
+.widget_pages li a:hover,
+.widget_meta li a:hover,
+.widget_tag_cloud a:hover,
+.widget_nav_menu li a:hover,
+.widget_calendar a:hover {
+    color: #1e7fd1;
+}
+.widget_categories li .children,
+.widget_pages li .children,
+.widget_nav_menu li .sub-menu {
+    /*margin-left: 10px;*/
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e8e8e8;
+}
+#bottom-sidebar .widget_categories li .children,
+#bottom-sidebar .widget_pages li .children,
+#bottom-sidebar .widget_nav_menu li .sub-menu {
+    margin-top: 5px;
+    border-top: none;
+}
+.widget_search .search-form {
+    border-bottom: 1px solid #222;
+}
+.widget_calendar table {
+    width: 100%;
+}
+.widget_calendar table,
+.widget_calendar td {
+    border: 0;
+    border-collapse: separate;
+    border-spacing: 1px;
+}
+.widget_calendar th,
+.widget_calendar td,
+.widget_calendar caption {
+    padding: 0;
+    text-align: left;
+}
+.widget_calendar #next {
+    padding-right: 24px;
+    text-align: right;
+}
+.widget_calendar a {
+    display: block;
+}
+
+.widget_categories .postform,
+.widget_archive select {
+    width: 100%;
+    border-radius: 0;
+    border-color: #e8e8e8;
+}
+
+.rsswidget,
+.rsswidget:hover {
+    color: white;
+}
+
+/* 8. Entry list distance */
+.entry-list {
+    margin-bottom: 20px;
+}
+
+/* 9. Text Logo */
+#kopa-logo-text {
+    margin: 0;
+}
+#kopa-logo-text a {
+    color: white;
+}
+
+/* 10. Facebook comments */
+.fb-comments {
+    margin-bottom: 20px;
+}
+
+/* Responsive comments */
+#fbcomments, .fb-comments, .fb-comments iframe[style], .fb-comments span {
+width: 100% !important;
+}
+
+/* 11. user content typography */
+.elements-box li ul,
+.elements-box li ol,
+.comment-body li ul,
+.comment-body li ol {
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.elements-box ol li,
+.comment-body ol li {
+    list-style: inside decimal;
+}
+
+.comment-body ul li {
+    list-style: inside disc;
+}
+
+.elements-box table,
+.comment-body table {
+    width: 100%;
+}
+
+/* 12. Initial width for carousel */
+.kopa-related-post-carousel li {
+    width: 156px;
+}
+
+/* 13. Advertising widget */
+.kopa-adv-widget {
+    padding: 20px 0;
+}
+
+/* 14. Children comment */
+.comments-list .children {
+    margin-top: 15px;
+}

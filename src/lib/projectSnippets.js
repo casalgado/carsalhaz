@@ -32,8 +32,7 @@ export default {
     buttons: [
       {
         text: "visit website",
-        payload:
-          "https://web.archive.org/web/20190217202518/http://tuningacademy.org:80/",
+        payload: "/work/tuning",
       },
     ],
   },
