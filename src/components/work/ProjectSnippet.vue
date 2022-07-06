@@ -56,8 +56,11 @@ export default {
   },
   methods: {
     linkTo: function (payload) {
-      console.log(payload);
-      window.open(payload);
+      if (payload[0] == "/") {
+        this.$router.push(payload);
+      } else {
+        window.open(payload);
+      }
     },
   },
 };
