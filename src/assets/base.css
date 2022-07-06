@@ -107,5 +107,5 @@ h1 {
 /* the container is a grid element in order to center the section element */
 .view-container {
   display: grid;
-  height: 100vh;
+  height: 96vh;
 }

@@ -103,19 +103,19 @@ export default {
 }
 
 .sidebar {
-  display: grid;
-  grid-template-columns: 1fr;
-  justify-content: center;
-  align-content: center;
+}
+
+.the-button {
+  width: 80%;
 }
 
 .main {
   grid-column: span 4;
 }
 
-.sidebar * {
-  margin-right: 15px;
-  margin-left: 15px;
+.sidebar > * {
+  margin-right: 10%;
+  margin-left: 10%;
   text-align: center;
   margin-bottom: 25px;
 }

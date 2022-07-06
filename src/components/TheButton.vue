@@ -1,5 +1,9 @@
 <template>
-  <button @click="$emit('btnClick', payload)" :class="computedClass">
+  <button
+    @click="$emit('btnClick', payload)"
+    class="the-button"
+    :class="computedClass"
+  >
     {{ text }}
   </button>
 </template>

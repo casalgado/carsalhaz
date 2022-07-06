@@ -5,10 +5,12 @@ import { RouterLink, RouterView } from "vue-router";
 <template>
   <div class="wrapper">
     <nav class="dark">
-      <RouterLink to="/">home</RouterLink>
-      <RouterLink to="/about">about</RouterLink>
-      <RouterLink to="/work">work</RouterLink>
-      <RouterLink to="/contact">contact</RouterLink>
+      <ul>
+        <li><RouterLink to="/">home</RouterLink></li>
+        <li><RouterLink to="/about">about</RouterLink></li>
+        <li><RouterLink to="/work">work</RouterLink></li>
+        <li><RouterLink to="/contact">contact</RouterLink></li>
+      </ul>
     </nav>
   </div>
 
@@ -25,13 +27,24 @@ body {
 nav {
   width: 100%;
   margin: 0;
-  padding: 4px 0px 6px 0px;
+  padding: 0px;
   text-align: right;
-  position: absolute;
+  height: 4vh;
+  line-height: 4vh;
+  white-space: nowrap;
 }
 
-nav a {
-  margin-right: 60px;
+nav > ul {
+  margin: 0px;
+}
+
+nav > ul > li {
+  list-style-type: none;
+  display: inline;
+}
+
+nav a:hover {
+  text-decoration: underline;
 }
 
 nav a:last-child {
