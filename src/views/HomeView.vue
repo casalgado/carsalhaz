@@ -1,6 +1,19 @@
 <template>
   <div class="view-container">
-    <section>
+    <section id="home-view-mobile">
+      <div class="image-cont"><img src="../assets/face.png" alt="" /></div>
+      <div class="text">
+        <p style="margin-top: 25px">Hello, my name is</p>
+        <h1 class="hero">Carlos</h1>
+        <p>Web developer, designer, educator.</p>
+      </div>
+      <p id="notice" class="dark">
+        This website is optimized for desktop.<br />Mobile version is limited to
+        this tab.
+      </p>
+      <InfoSection />
+    </section>
+    <section id="home-view-desktop">
       <div class="text">
         <p>Hello, my name is</p>
         <h1 class="hero">Carlos</h1>
@@ -22,9 +35,10 @@
 
 <script>
 import TheButton from "../components/TheButton.vue";
+import InfoSection from "../components/contact/InfoSection.vue";
 export default {
   name: "HomeView",
-  components: { TheButton },
+  components: { TheButton, InfoSection },
   methods: {
     linkTo: function (payload) {
       this.$router.push(payload);
@@ -34,6 +48,37 @@ export default {
 </script>
 
 <style scoped>
+#home-view-desktop {
+  display: none;
+}
+
+#home-view-mobile {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-self: center;
+  justify-self: center;
+  padding: 50px;
+}
+
+#notice {
+  border-radius: 5px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  #home-view-desktop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-self: center;
+    justify-self: center;
+  }
+
+  #home-view-mobile {
+    display: none;
+  }
+}
+
 a:hover {
   text-decoration: underline;
 }
@@ -44,14 +89,6 @@ ul > li {
   font-size: 1.5em;
   padding-right: 80px;
   padding-left: 80px;
-}
-
-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-self: center;
-  justify-self: center;
 }
 
 .text {

@@ -5,55 +5,71 @@
         <div class="more-info light" id="mf1">
           <p>Bachelors Degree</p>
         </div>
-        <h1>
-          Industrial <br />
-          Design.
-        </h1>
-        <p>
-          I have a collaborative approach to design. I view the designer as a
-          catalyst who evaluates the needs of all stakeholders involved; and
-          materializes them into a solution. My design background has provided
-          methodologies that allow me to go from abstract ideas to concrete
-          solutions.
-        </p>
+        <div class="content-container">
+          <h1>
+            Industrial <br />
+            Design.
+          </h1>
+          <p>
+            I have a collaborative approach to design. I view the designer as a
+            catalyst who evaluates the needs of all stakeholders involved; and
+            materializes them into a solution. My design background has provided
+            methodologies that allow me to go from abstract ideas to concrete
+            solutions.
+          </p>
 
-        <img class="full-width" src="https://i.imgur.com/etPRIOH.jpeg" alt="" />
-        <p class="hover-me" id="hb1">hover me</p>
+          <img
+            class="full-width"
+            src="https://i.imgur.com/etPRIOH.jpeg"
+            alt=""
+          />
+          <p class="hover-me" id="hb1">hover me</p>
+        </div>
       </div>
+
       <div class="bar dark" @mouseenter="hide('2')">
         <div class="more-info light" id="mf2">
           <p>Erasmus Mundus Master's Degree</p>
           <p>4 years Teaching Experience</p>
         </div>
-        <h1>Resarch and Education.</h1>
-        <img class="inset" src="https://i.imgur.com/Z3BNIjI.jpeg" alt="" />
+        <div class="content-container">
+          <h1>Resarch and Education.</h1>
+          <img class="inset" src="https://i.imgur.com/Z3BNIjI.jpeg" alt="" />
 
-        <p>
-          My teaching philosophy is based on relationship-building. I see myself
-          as a leader that inspires learners, giving them the safety and the
-          freedom to explore and take risks. My research and teaching experience
-          has refined my communication skills and the ability to align a group
-          of people towards a common goal. If I can get 6th graders excited
-          about math, I can take our team anywhere.
-        </p>
-        <p class="hover-me" id="hb2">hover me</p>
+          <p>
+            My teaching philosophy is based on relationship-building. I see
+            myself as a leader that inspires learners, giving them the safety
+            and the freedom to explore and take risks. My research and teaching
+            experience has refined my communication skills and the ability to
+            align a group of people towards a common goal. If I can get 6th
+            graders excited about math, I can take our team anywhere.
+          </p>
+          <p class="hover-me" id="hb2">hover me</p>
+        </div>
       </div>
+
       <div class="bar dark" @mouseenter="hide('3')">
         <div class="more-info light" id="mf3">
           <p>Self Taught</p>
           <p>6 years Freelance Experience</p>
         </div>
-        <img class="full-width" src="https://i.imgur.com/Kgr0313.jpeg" alt="" />
-        <h1>Software Development.</h1>
-        <p>
-          My strength as a developer is the ability to bridge the gaps between
-          clients, developers and users in order to build flexible and robust
-          solutions. My background in design, research and education allows me
-          to find solutions to a wide variety of problems, and implement them.
-          While most of my experience is in front-end, I am constantly expanding
-          my knowledge and skills.
-        </p>
-        <p class="hover-me" id="hb3">hover me</p>
+        <div class="content-container">
+          <img
+            class="full-width"
+            src="https://i.imgur.com/Kgr0313.jpeg"
+            alt=""
+          />
+          <h1>Software Development.</h1>
+          <p>
+            My strength as a developer is the ability to bridge the gaps between
+            clients, developers and users in order to build flexible and robust
+            solutions. My background in design, research and education allows me
+            to find solutions to a wide variety of problems, and implement them.
+            While most of my experience is in front-end, I am constantly
+            expanding my knowledge and skills.
+          </p>
+          <p class="hover-me" id="hb3">hover me</p>
+        </div>
       </div>
     </section>
   </div>
@@ -83,7 +99,12 @@ section {
 .bar {
   position: relative;
   width: 300px;
-  height: 80vh;
+  height: 75vh;
+}
+
+.content-container {
+  height: 100%;
+  overflow: hidden;
 }
 
 .bar p,

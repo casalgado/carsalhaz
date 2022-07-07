@@ -43,6 +43,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 #app  {
   background-image: repeating-linear-gradient(-45deg, rgba(255,255,255, 0.25), rgba(255,255,255, 0.25) 1px, transparent 1px, transparent 6px);
   background-size: 15px 15px;
@@ -101,11 +102,20 @@ h1 {
   font-family: 'Montserrat', sans-serif;
 }
 
+.hide {
+  display: none !important;
+}
+
 
 /* styles for views components */
 
 /* the container is a grid element in order to center the section element */
 .view-container {
   display: grid;
-  height: 96vh;
+  height: 94vh;
+  overflow-y: auto;
+}
+
+#footer {
+  height: 2vh;
 }

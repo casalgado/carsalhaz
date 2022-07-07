@@ -15,6 +15,7 @@ import { RouterLink, RouterView } from "vue-router";
   </div>
 
   <RouterView />
+  <div id="footer"></div>
 </template>
 <script>
 export default {
