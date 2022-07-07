@@ -3,10 +3,10 @@
     <section class="contact-view-section">
       <h1 class="hero span2">get in touch</h1>
       <div class="info-section dark">
-        <a href="mailto:dev@carsalhaz.com" target="_blank"
+        <a href="mailto:contact@carsalhaz.com" target=""
           ><img src="../assets/envelope-solid.svg" alt="envelope icon"
         /></a>
-        <p class="info-block">dev@carsalhaz.com</p>
+        <p class="info-block">contact@carsalhaz.com</p>
 
         <a href="https://wa.me/573155433505" target="_blank"
           ><img src="../assets/phone-solid.svg" alt="phone icon"
