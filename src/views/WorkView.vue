@@ -12,8 +12,8 @@
           @btnClick="load"
         />
         <TheButton
-          payload="tuning"
-          text="Tuning Academy"
+          payload="nfts"
+          text="MNKYBSNSS"
           theme="light"
           :animation="{ borderRight: true }"
           @btnClick="load"
@@ -26,12 +26,13 @@
           @btnClick="load"
         />
         <TheButton
-          payload="nfts"
-          text="MNKYBSNSS"
+          payload="tuning"
+          text="Tuning Academy"
           theme="light"
           :animation="{ borderRight: true }"
           @btnClick="load"
         />
+
         <p class="subtitle">personal projects</p>
         <TheButton
           payload="destinations"

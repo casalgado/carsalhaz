@@ -95,7 +95,7 @@ export default {
   mind: {
     title: "Mind Visualization Applet",
     description:
-      "The benefits of meditation are numerous and well documented, however, meditation can be difficult to ‘get’. This applet was designed to convey an experience of what meditation can feel like to me. And hopefully to inspire others to question what meditation feels like to them.",
+      "This applet is a visualization of some aspects of our inner mental world.",
     problems: [
       "How to express abstract internal experiences in a 2D interactive medium",
     ],
