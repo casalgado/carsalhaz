@@ -25,13 +25,13 @@
           :animation="{ borderRight: true }"
           @btnClick="load"
         />
-        <TheButton
+        <!-- <TheButton
           payload="tuning"
           text="Tuning Academy"
           theme="light"
           :animation="{ borderRight: true }"
           @btnClick="load"
-        />
+        /> -->
 
         <p class="subtitle">personal projects</p>
         <TheButton
