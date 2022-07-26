@@ -6,10 +6,7 @@
         illustrative purposes.
       </p>
     </div>
-    <iframe
-      src="../../../public/projects/tuning/Tuning Academy.html"
-      frameborder="0"
-    ></iframe>
+    <iframe src="/projects/tuning/Tuning Academy.html" frameborder="0"></iframe>
   </center>
 </template>
 
