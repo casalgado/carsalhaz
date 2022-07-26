@@ -9,9 +9,10 @@
         they were created with an intention, feel free to interpret them in a
         way that is meaningful to you.
       </p>
-      <p>
+      <h4>
         Breadth: How meaning can be found by expanding our frame of observation.
-      </p>
+      </h4>
+      <Section :content="content.breadth" />
       <p>
         The goal of this experience is to make sense of the image that is being
         hidden. The mouse cursor acts as a "field of view". At level one, you
@@ -19,12 +20,14 @@
         button, the field of view is expanded. Alternate between expanding the
         field and trying to decipher the image.
       </p>
-
-      <Section :content="content.breadth" />
+      <h4>Speed: How fast our minds can be</h4>
       <Section :content="content.speed" />
-      <Section />
-      <Section />
-      <Section />
+      <p>
+        When you click the button, an image will flash for 50 milliseconds. That
+        is 1/20th of a second. Even at this speed, your mind can recognize the
+        images. Continue pressing the button and observe how fast your mind
+        really is.
+      </p>
     </center>
   </div>
 </template>

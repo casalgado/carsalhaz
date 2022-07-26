@@ -18,6 +18,5 @@ export default {
 iframe {
   width: 800px;
   height: 650px;
-  margin-top: 100px;
 }
 </style>
