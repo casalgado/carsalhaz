@@ -1,61 +1,42 @@
+/*  global styles */
 
 :root {
-  --vt-c-white: #ffffff;
-  --vt-c-white-light: #f2f2f2;
+  --color-background: #abbddd;
+  --color-background-light: #f2f2f2;
 
-  --vt-c-blue-theme: #033678;
-  --vt-c-blue-support: #ABBDDD;
+  --color-background-light-complement: #8ecae6;
+  --color-background-dark: #033678;
+  --color-background-dark-complement: #219ebc;
 
-  --vt-c-blue-light-complement: #8ecae6;
-  --vt-c-blue-dark-complement: #219ebc;
-
-  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
-  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
-
-}
-
-/* semantic color variables for this project */
-:root {
-  --color-background: var(--vt-c-blue-support);
-  --color-background-light: var(--vt-c-white-light);
-  --color-background-light-complement: var(--vt-c-blue-light-complement);
-  --color-background-dark: var(--vt-c-blue-theme);
-  --color-background-dark-complement: var(--vt-c-blue-dark-complement);
-
-  --color-text-dark: var(--vt-c-blue-theme);
-  --color-text-light: var(--vt-c-white-light);
+  --color-text-dark: #033678;
+  --color-text-light: #f2f2f2;
 
   --section-gap: 160px;
   --icon-width: 40px;
 }
 
-/*  global styles */
+#app {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.25),
+    rgba(255, 255, 255, 0.25) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  background-size: 15px 15px;
+}
+
 body {
   min-height: 100vh;
   color: var(--color-text-light);
   background: var(--color-background);
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
-  font-family: 'Cabin', sans-serif;
+  font-family: "Cabin", sans-serif;
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-
-#app  {
-  background-image: repeating-linear-gradient(-45deg, rgba(255,255,255, 0.25), rgba(255,255,255, 0.25) 1px, transparent 1px, transparent 6px);
-  background-size: 15px 15px;
-}
-
-a {
-  color: var(--color-text-light);
-  text-decoration: none;
-}
-
-h1 {
-  font-family: 'Montserrat', sans-serif;
 }
 
 .dark {
@@ -78,16 +59,46 @@ h1 {
   background: var(--color-background-light-complement);
 }
 
-.hero {
+/*  links  */
+
+a {
+  color: var(--color-text-light);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/*  fonts  */
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Montserrat", sans-serif;
+}
+
+.hero-text {
   margin: 0;
   font-size: 6em;
-  font-family: "Montserrat", sans-serif;
   font-weight: 600;
   color: var(--color-text-dark);
   position: relative;
   left: -6px;
   top: -6px;
   text-shadow: 6px 5px var(--color-text-light);
+}
+
+/* layout */
+
+/* sections are grid elements in order to center content */
+section {
+  display: grid;
+  height: 94vh;
+  overflow-y: auto;
 }
 
 .span2 {
@@ -98,24 +109,8 @@ h1 {
   grid-column: span 3;
 }
 
-.montserrat {
-  font-family: 'Montserrat', sans-serif;
-}
-
 .hide {
   display: none !important;
 }
 
-
 /* styles for views components */
-
-/* the container is a grid element in order to center the section element */
-.view-container {
-  display: grid;
-  height: 94vh;
-  overflow-y: auto;
-}
-
-#footer {
-  height: 2vh;
-}

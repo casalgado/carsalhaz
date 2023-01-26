@@ -1,6 +1,6 @@
 <template>
   <div class="view-container">
-    <section>
+    <section id="about-view">
       <div class="bar dark" @mouseenter="hide('1')">
         <div class="more-info light" id="mf1">
           <p>Bachelors Degree</p>
@@ -88,12 +88,32 @@ export default {
 </script>
 
 <style scoped>
-section {
+#about-view {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 80px;
   align-self: center;
   justify-self: center;
+}
+
+.bar {
+  margin-top: 40px;
+}
+
+@media (min-width: 768px) {
+  #about-view {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 959px) {
+  #about-view {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .bar {
+    margin-top: 0px;
+  }
 }
 
 .bar {

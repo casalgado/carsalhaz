@@ -1,9 +1,9 @@
 <template>
-  <div class="view-container">
-    <section class="contact-view-section">
-      <h1 class="hero span2">get in touch</h1>
+  <section class="view-container">
+    <div class="contact-view-section">
+      <h1 class="hero-text span2">get in touch</h1>
       <InfoSection />
-      <form class="dark" @submit.prevent="sendEmail">
+      <!-- <form class="dark" @submit.prevent="sendEmail">
         <label for="email">your email</label>
         <input v-model="email" id="email" class="light-complement" />
         <label for="subject">subject</label>
@@ -15,9 +15,9 @@
           class="light-complement"
         ></textarea>
         <TheButton theme="light" text="send message" />
-      </form>
-    </section>
-  </div>
+      </form> -->
+    </div>
+  </section>
 </template>
 
 <script>
@@ -67,7 +67,7 @@ h2 {
 
 .contact-view-section {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 0px;
   align-self: center;
   justify-self: center;

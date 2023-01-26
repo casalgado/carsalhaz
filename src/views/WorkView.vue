@@ -1,6 +1,6 @@
 <template>
-  <div class="view-container">
-    <section id="work-view">
+  <section>
+    <div id="work-view">
       <div class="sidebar dark">
         <p class="subtitle">freelance projects</p>
         <TheButton
@@ -67,8 +67,8 @@
         </div>
         <ProjectSnippet :project="snippets[currentProject]" v-else />
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </template>
 
 <script>
