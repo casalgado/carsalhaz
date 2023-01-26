@@ -7,7 +7,6 @@ import { RouterLink, RouterView } from "vue-router";
     <nav class="dark">
       <ul v-if="notAtHome">
         <li><RouterLink to="/">home</RouterLink></li>
-        <li><RouterLink to="/about">about</RouterLink></li>
         <li><RouterLink to="/work">work</RouterLink></li>
         <li><RouterLink to="/contact">contact</RouterLink></li>
       </ul>
