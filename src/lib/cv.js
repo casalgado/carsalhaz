@@ -14,7 +14,10 @@ const parseData = () => {
         for (let i = 0; i < data.length; i++) {
           const element = data[i];
           //console.log(element.bullets.split("\n"));
-          element.bullets = element.bullets.split("\n");
+          element.bullets = element.bullets
+            .split("\n")
+            .map((e) => e.split("**"));
+          console.log(element.bullets);
         }
         // console.log(data);
         resolve(data);

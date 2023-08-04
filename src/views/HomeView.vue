@@ -4,44 +4,105 @@ import { cv_data } from "./../lib/cv";
 import InfoEntry from "@/components/InfoEntry.vue";
 
 const cv = ref([]);
+const loading = ref(true);
+console.log(loading.value);
 
 onBeforeMount(() => {
   console.log("obm");
-  cv_data.then((res) => (cv.value = res));
+  cv_data.then((res) => {
+    loading.value = false;
+    cv.value = res;
+  });
 });
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="spinner" :class="`${loading ? 'show' : 'hide'}`">
+    <div id="nucleus"></div>
+    <div id="orbit"></div>
+    <div id="electron"></div>
+  </div>
+  <div class="wrapper" :class="`${loading ? 'hide' : 'show'}`">
     <header>
       <h1>Carlos Salgado</h1>
-      <p>Educador - Desarrollador</p>
-      <p class="view">
-        <a href="http://github.com/orderedlist/minimal"
-          >View the Project on GitHub <small>orderedlist/minimal</small></a
-        >
-      </p>
-      <ul>
+      <p>Educador y Desarrollador</p>
+      <ul class="onlyScreen">
         <li>
-          <a href="https://github.com/orderedlist/minimal/zipball/master"
-            >Download <strong>ZIP File</strong></a
+          <a href="javascript:if(window.print)window.print()"
+            >imprimir <strong>PDF</strong></a
           >
         </li>
         <li>
-          <a href="https://github.com/orderedlist/minimal/tarball/master"
-            >Download <strong>TAR Ball</strong></a
+          <a :href="`https://wa.me/${3155433505}`" target="_blank"
+            >whatsapp <strong>Chat</strong></a
           >
         </li>
         <li>
-          <a href="http://github.com/orderedlist/minimal"
-            >Fork On <strong>GitHub</strong></a
+          <a href="mailto:contacto@carsalhaz.com" target="_blank"
+            >contacto<strong>Email</strong></a
           >
         </li>
       </ul>
     </header>
     <section>
-      <h1>GitHub Flavored Markdown</h1>
-      <InfoEntry v-for="(e, i) in cv" :entry="e" :key="i" />
+      <h3 class="banner">Educación</h3>
+      <InfoEntry
+        v-for="(e, i) in cv.filter((e) => e.category == 'Edu')"
+        :entry="e"
+        :key="i"
+      />
+      <h3 class="banner">Experiencia Laboral</h3>
+      <InfoEntry
+        v-for="(e, i) in cv.filter((e) => e.category == 'Exp')"
+        :entry="e"
+        :key="i"
+      />
+      <h3 class="banner">Habilidades y Competencias</h3>
+
+      <table>
+        <tbody>
+          <tr>
+            <th>Idioma</th>
+            <th>Nivel</th>
+          </tr>
+          <tr>
+            <td>Ingles</td>
+            <td>C2</td>
+          </tr>
+          <tr>
+            <td>Frances</td>
+            <td>B1</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <dl>
+        <dt>Lower cost</dt>
+        <dd>
+          The new version of this product costs significantly less than the
+          previous one!
+        </dd>
+        <dt>Easier to use</dt>
+        <dd>We've changed the product so that it's much easier to use!</dd>
+      </dl>
+
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <p>
         <em
           >View the
@@ -309,17 +370,82 @@ end
     </section>
     <footer>
       <p>
-        This project is maintained by
-        <a href="http://github.com/orderedlist">Steve Smith</a>
-      </p>
-      <p>
         <small
-          >Hosted on GitHub Pages &mdash; Theme by
-          <a href="https://github.com/orderedlist">orderedlist</a></small
-        >
+          >Alojado en
+          <a href="https://firebase.google.com/">Firebase</a> &mdash;
+          Desarrollado en <a href="https://vuejs.org/">Vue</a>
+        </small>
       </p>
     </footer>
   </div>
 </template>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.wrapper {
+  opacity: 0;
+  transition: all 0.5s;
+}
+
+$spinner-width: 60px;
+$nucleus-width: $spinner-width * 0.4;
+$orbit-width: $spinner-width * 0.8;
+$electron-width: $spinner-width * 0.15;
+
+.spinner {
+  width: $spinner-width;
+  height: $spinner-width;
+  position: absolute;
+  opacity: 0.8;
+  left: 50%;
+  top: 50%;
+  animation: spin 5s linear infinite;
+  transition: all 0.5s;
+}
+.spinner > div {
+  border-radius: 100px;
+  position: absolute;
+}
+
+#nucleus {
+  background-color: var(--color-text-dark);
+  width: $nucleus-width;
+  height: $nucleus-width;
+  left: calc(($spinner-width - $nucleus-width) / 2);
+  top: calc(($spinner-width - $nucleus-width) / 2);
+}
+
+#orbit {
+  border: 2px solid var(--color-text-dark);
+  width: $orbit-width;
+  height: $orbit-width;
+  left: calc((($spinner-width - $orbit-width) / 2) - 1px);
+  top: calc((($spinner-width - $orbit-width) / 2) - 1px);
+}
+
+#electron {
+  background-color: var(--color-text-dark);
+  width: $electron-width;
+  height: $electron-width;
+  left: calc(
+    (($spinner-width - $orbit-width) / 2) - (($electron-width - 2px) / 2)
+  );
+  top: calc(($spinner-width - $electron-width) / 2);
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.show {
+  opacity: 1;
+}
+
+.hide {
+  opacity: 0;
+}
+</style>
