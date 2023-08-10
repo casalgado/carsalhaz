@@ -150,6 +150,7 @@ td {
 dt {
   color: #444;
   font-weight: 500;
+  margin-top: 15px;
 }
 
 th {
@@ -338,5 +339,25 @@ footer {
 
   .onlyScreen {
     display: none;
+  }
+
+  @page {
+    size: auto;
+    margin: 0.5cm;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 14pt;
+  }
+
+  p,
+  li,
+  dt {
+    font-size: 10pt;
   }
 }
