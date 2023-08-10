@@ -360,4 +360,8 @@ footer {
   dt {
     font-size: 10pt;
   }
+
+  .dates {
+    margin-bottom: 0px;
+  }
 }

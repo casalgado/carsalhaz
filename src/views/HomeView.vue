@@ -49,7 +49,7 @@ onBeforeMount(() => {
         </li>
         <li>
           <a :href="`https://wa.me/${3155433505}`" target="_blank"
-            >whatsapp <strong>Chat</strong></a
+            >chat <strong>WA</strong></a
           >
         </li>
         <li>
