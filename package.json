@@ -13,9 +13,11 @@
   },
   "dependencies": {
     "@emailjs/browser": "^3.6.2",
+    "chart.js": "^4.4.3",
     "papaparse": "^5.4.1",
     "pinia": "^2.0.14",
     "vue": "^3.2.36",
+    "vue-chartjs": "^5.3.1",
     "vue-router": "^4.0.15"
   },
   "devDependencies": {

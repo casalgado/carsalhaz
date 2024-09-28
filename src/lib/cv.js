@@ -10,6 +10,7 @@ const parseData = () => {
       download: true,
       header: true,
       complete: (results) => {
+        //console.log(results);
         data = results.data.filter((e) => e.description != "");
         for (let i = 0; i < data.length; i++) {
           const element = data[i];
@@ -17,9 +18,9 @@ const parseData = () => {
           element.bullets = element.bullets
             .split("\n")
             .map((e) => e.split("**"));
-          console.log(element.bullets);
+          // console.log(element.bullets);
         }
-        // console.log(data);
+        //console.log(data);
         resolve(data);
       },
     });
@@ -76,7 +77,26 @@ const getProducts = () => {
     });
   });
 };
+
+const design_info_url =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUmLReoqswu9GCYQUbf7M-ZqgogFjFOgNhXJ7NirfCJtUEeapK61QqA6DqVt-Htowe1WMXQFBerLdQ/pub?gid=1263643295&single=true&output=csv";
+const getPhoneInfo = () => {
+  let data = [];
+  return new Promise((resolve) => {
+    Papa.parse(design_info_url, {
+      download: true,
+      header: true,
+      complete: (results) => {
+        data = results.data;
+        // console.log(data);
+        resolve(data);
+      },
+    });
+  });
+};
+
 export const cv_data = parseData();
 export const members = getMembers();
 export const orders = getOrders();
 export const products = getProducts();
+export const phoneInfo = getPhoneInfo();

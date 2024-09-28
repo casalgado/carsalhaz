@@ -9,61 +9,25 @@ const router = createRouter({
       component: () => import("../views/HomeView.vue"),
     },
     {
-      path: "/about",
-      name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/AboutView.vue"),
+      path: "/phone_data",
+      name: "phone_data",
+      component: () => import("../views/PhoneData.vue"),
     },
-    {
-      path: "/work",
-      name: "work",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/WorkView.vue"),
-    },
-    {
-      path: "/contact",
-      name: "contact",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/ContactView.vue"),
-    },
-    {
-      path: "/3fc",
-      name: "3fc",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../views/ClubData.vue"),
-    },
-    {
-      path: "/work/esalimento",
-      name: "esalimento",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../components/projects/EsAlimento.vue"),
-    },
-    {
-      path: "/work/mind",
-      name: "mind",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../components/projects/MindModels.vue"),
-    },
-    {
-      path: "/work/tuning",
-      name: "tuning",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import("../components/projects/TuningAcademy.vue"),
-    },
+    // {
+    //   path: "/about",
+    //   name: "about",
+    //   component: () => import("../views/AboutView.vue"),
+    // },
+    // {
+    //   path: "/api",
+    //   name: "api",
+    //   component: () => import("../views/ApiView.vue"),
+    // },
+    // {
+    //   path: "/contact",
+    //   name: "contact",
+    //   component: () => import("../views/ContactView.vue"),
+    // },
   ],
 });
 

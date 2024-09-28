@@ -33,3 +33,5 @@ onBeforeMount(() => {
 </template>
 
 <style lang="scss" scoped></style>
+
+<!-- hola Edgar, buenas noches. Mi fortaleza es el diseño web y los fundamentos de programación. Tengo experiencia dictando este taller. Se enseña a pensar computacionalmente y a diseñar utilizando HTML, css y js. -->

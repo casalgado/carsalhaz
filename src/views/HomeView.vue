@@ -14,14 +14,6 @@ onBeforeMount(() => {
     cv.value = res;
   });
 });
-
-// Mi pasión por la educación, el diseño y la tecnologia se complementan,
-// creando un perfil versátil y comprometido con la innovación y el
-// desarrollo continuo. Poseo una sólida formación académica y una amplia
-// experiencia en el campo de la educación. Como Diseñador tengo una
-// perspectiva única en el desarrollo de proyectos creativos y funcionales.
-// Mi experiencia laboral ha fortalecido mi destreza en la implementación
-// de soluciones digitales y la enseñanza efectiva.
 </script>
 
 <template>
@@ -69,6 +61,12 @@ onBeforeMount(() => {
       <h3 class="banner">Experiencia Laboral</h3>
       <InfoEntry
         v-for="(e, i) in cv.filter((e) => e.category == 'Exp')"
+        :entry="e"
+        :key="i"
+      />
+      <h3 class="banner">Emprendimientos</h3>
+      <InfoEntry
+        v-for="(e, i) in cv.filter((e) => e.category == 'Emp')"
         :entry="e"
         :key="i"
       />
