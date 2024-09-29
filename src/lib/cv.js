@@ -27,68 +27,15 @@ const parseData = () => {
   });
 };
 
-const members_url =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRRmDmlVnTE5B2MQ6n76icC-UJwP20sOdJ_WM-EQVjrLcJuTwSmMqyWR0pkui4YJTSxvW9U52Nnfw_X/pub?gid=0&single=true&output=csv";
-const getMembers = () => {
+const getData = (url) => {
   let data = [];
   return new Promise((resolve) => {
-    Papa.parse(members_url, {
+    Papa.parse(url, {
       download: true,
       header: true,
       complete: (results) => {
         data = results.data;
-        // console.log(data);
-        resolve(data);
-      },
-    });
-  });
-};
-
-const orders_url =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRRmDmlVnTE5B2MQ6n76icC-UJwP20sOdJ_WM-EQVjrLcJuTwSmMqyWR0pkui4YJTSxvW9U52Nnfw_X/pub?gid=1607532012&single=true&output=csv";
-const getOrders = () => {
-  let data = [];
-  return new Promise((resolve) => {
-    Papa.parse(orders_url, {
-      download: true,
-      header: true,
-      complete: (results) => {
-        data = results.data;
-        // console.log(data);
-        resolve(data);
-      },
-    });
-  });
-};
-
-const products_url =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vRRmDmlVnTE5B2MQ6n76icC-UJwP20sOdJ_WM-EQVjrLcJuTwSmMqyWR0pkui4YJTSxvW9U52Nnfw_X/pub?gid=1511137527&single=true&output=csv";
-const getProducts = () => {
-  let data = [];
-  return new Promise((resolve) => {
-    Papa.parse(products_url, {
-      download: true,
-      header: true,
-      complete: (results) => {
-        data = results.data;
-        // console.log(data);
-        resolve(data);
-      },
-    });
-  });
-};
-
-const design_info_url =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vTUmLReoqswu9GCYQUbf7M-ZqgogFjFOgNhXJ7NirfCJtUEeapK61QqA6DqVt-Htowe1WMXQFBerLdQ/pub?gid=1263643295&single=true&output=csv";
-const getPhoneInfo = () => {
-  let data = [];
-  return new Promise((resolve) => {
-    Papa.parse(design_info_url, {
-      download: true,
-      header: true,
-      complete: (results) => {
-        data = results.data;
-        // console.log(data);
+        console.log("incv", data);
         resolve(data);
       },
     });
@@ -96,7 +43,12 @@ const getPhoneInfo = () => {
 };
 
 export const cv_data = parseData();
-export const members = getMembers();
-export const orders = getOrders();
-export const products = getProducts();
-export const phoneInfo = getPhoneInfo();
+export const recipe_book = getData(
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSAtekbqE04bfBvLYrqa6gnUIJK1ObopQ5UkMzsXiWYHt4WODzRGbUi3tgrvXc2fwew8pYQ0gpvwxFm/pub?gid=0&single=true&output=csv"
+);
+export const recipe_images = getData(
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSAtekbqE04bfBvLYrqa6gnUIJK1ObopQ5UkMzsXiWYHt4WODzRGbUi3tgrvXc2fwew8pYQ0gpvwxFm/pub?gid=965312415&single=true&output=csv"
+);
+export const recipe_categories = getData(
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSAtekbqE04bfBvLYrqa6gnUIJK1ObopQ5UkMzsXiWYHt4WODzRGbUi3tgrvXc2fwew8pYQ0gpvwxFm/pub?gid=1285482102&single=true&output=csv"
+);
