@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, onBeforeMount } from "vue";
-import { recipe_book, recipe_categories, recipe_images } from "./../lib/cv"; // Adjusted the import order
+import { ref, computed, onBeforeMount, watch } from "vue";
+import { recipe_book, recipe_categories, recipe_images } from "./../lib/cv";
 
 const loading = ref(true);
 
@@ -14,6 +14,9 @@ const selectedRecipes = ref([]);
 // Reactive variable for selected category
 const selectedCategory = ref("All");
 
+// Reactive variable for checked ingredients
+const checkedIngredients = ref(new Set());
+
 // Function to toggle recipe selection
 const toggleRecipeSelection = (recipeName) => {
   if (selectedRecipes.value.includes(recipeName)) {
@@ -21,7 +24,8 @@ const toggleRecipeSelection = (recipeName) => {
       (name) => name !== recipeName
     );
   } else {
-    selectedRecipes.value.push(recipeName);
+    // Create a new array to trigger reactivity
+    selectedRecipes.value = [...selectedRecipes.value, recipeName];
   }
 };
 
@@ -60,8 +64,20 @@ const selectCategory = (category) => {
   selectedCategory.value = category;
 };
 
+// Load checked ingredients and selected recipes from local storage
 onBeforeMount(() => {
-  // Adjusted the order of promises
+  // Load checked ingredients
+  const storedCheckedIngredients = localStorage.getItem("checkedIngredients");
+  if (storedCheckedIngredients) {
+    checkedIngredients.value = new Set(JSON.parse(storedCheckedIngredients));
+  }
+
+  // Load selected recipes
+  const storedSelectedRecipes = localStorage.getItem("selectedRecipes");
+  if (storedSelectedRecipes) {
+    selectedRecipes.value = JSON.parse(storedSelectedRecipes);
+  }
+
   Promise.all([recipe_book, recipe_categories, recipe_images])
     .then(([bookData, categoriesDataArray, imagesDataArray]) => {
       loading.value = false;
@@ -70,9 +86,6 @@ onBeforeMount(() => {
       // Extract the single objects from arrays
       const categoriesData = categoriesDataArray[0];
       const imagesData = imagesDataArray[0];
-
-      console.log("cat", categoriesData);
-      console.log("ima", imagesData);
 
       // Build the recipeCategories mapping directly from categoriesData
       recipeCategories.value = categoriesData;
@@ -87,7 +100,9 @@ onBeforeMount(() => {
         .map((name) => ({
           name,
           category: recipeCategories.value[name] || "Other",
-          image: imagesData[name] || `https://via.placeholder.com/150`,
+          image:
+            imagesData[name] ||
+            `https://img.freepik.com/vector-gratis/ilustracion-icono-galeria_53876-27002.jpg?semt=ais_hybrid`,
         }));
     })
     .catch((error) => {
@@ -95,6 +110,33 @@ onBeforeMount(() => {
       loading.value = false;
     });
 });
+
+// Watch for changes in checkedIngredients to update local storage
+watch(
+  () => Array.from(checkedIngredients.value),
+  (newVal) => {
+    localStorage.setItem("checkedIngredients", JSON.stringify(newVal));
+  },
+  { deep: true }
+);
+
+// Watch for changes in selectedRecipes to update local storage
+watch(
+  selectedRecipes,
+  (newVal) => {
+    localStorage.setItem("selectedRecipes", JSON.stringify(newVal));
+  },
+  { deep: true }
+);
+
+// Function to toggle ingredient checked state
+const toggleIngredient = (ingredient) => {
+  if (checkedIngredients.value.has(ingredient)) {
+    checkedIngredients.value.delete(ingredient);
+  } else {
+    checkedIngredients.value.add(ingredient);
+  }
+};
 </script>
 
 <template>
@@ -129,12 +171,26 @@ onBeforeMount(() => {
 
       <!-- Ingredients List -->
       <div class="ingredients-list">
-        <h2>Ingredients to Buy:</h2>
-        <ul>
-          <li v-for="ingredient in combinedIngredients" :key="ingredient">
-            {{ ingredient }}
-          </li>
-        </ul>
+        <h2>Lista de Compras:</h2>
+        <template v-if="combinedIngredients.length">
+          <ul>
+            <li
+              v-for="ingredient in combinedIngredients"
+              :key="ingredient"
+              :class="{ checked: checkedIngredients.has(ingredient) }"
+              @click="toggleIngredient(ingredient)"
+            >
+              <span>{{ ingredient }}</span>
+              <input
+                type="checkbox"
+                class="checkbox"
+                :checked="checkedIngredients.has(ingredient)"
+                @change.stop="toggleIngredient(ingredient)"
+              />
+            </li>
+          </ul>
+        </template>
+        <p v-else>Selecciona recetas para ver los ingredientes.</p>
       </div>
     </div>
   </div>
@@ -174,6 +230,7 @@ onBeforeMount(() => {
   display: flex;
   width: 100%;
   max-width: 1200px;
+  align-items: flex-start;
 }
 
 /* Image Grid */
@@ -203,6 +260,7 @@ onBeforeMount(() => {
 .image-item img {
   width: 100%;
   height: auto;
+  border-radius: 8px;
 }
 
 .image-item p {
@@ -214,6 +272,8 @@ onBeforeMount(() => {
   flex-basis: 25%;
   flex-shrink: 1;
   margin-left: 24px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .ingredients-list h2 {
@@ -227,14 +287,31 @@ onBeforeMount(() => {
 }
 
 .ingredients-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 4px 8px;
   background: #f9f9f9;
   border-radius: 4px;
+  cursor: pointer;
 }
 
-/* Remove space between list items */
+.ingredients-list li.checked {
+  background: #333;
+  color: #fff;
+}
+
+.ingredients-list li.checked .checkbox {
+  background-color: #fff;
+}
+
 .ingredients-list li + li {
   margin-top: 2px;
+}
+
+.ingredients-list .checkbox {
+  margin-left: 8px;
+  cursor: pointer;
 }
 
 /* Responsive Design */
@@ -244,11 +321,17 @@ onBeforeMount(() => {
     align-items: center;
   }
 
+  .image-grid {
+    justify-content: center; /* Center images on mobile */
+  }
+
   .ingredients-list {
     margin-left: 0;
     margin-top: 24px;
     width: 100%;
     max-width: 600px;
+    max-height: none;
+    overflow-y: visible;
   }
 
   .image-grid,
