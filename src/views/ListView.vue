@@ -19,56 +19,91 @@
     <div class="ingredients-list">
       <div class="list-header">
         <h2>Lista de Ingredientes</h2>
+
         <!-- <button
-                v-if="hasCheckedIngredients"
-                @click="clearCheckedIngredients"
-                class="clear-button"
-              >
-                Clear
-              </button> -->
+          v-if="hasCheckedIngredients"
+          @click="clearCheckedIngredients"
+          class="clear-button"
+        >
+          Clear
+        </button> -->
       </div>
-      <template v-if="ingredients.length">
-        <ul>
-          <li
-            v-for="ingredient in ingredients"
-            :key="ingredient.name"
-            :class="{
-              urgent: ingredient.urgent && !ingredient.needed,
-              needed: ingredient.needed && !ingredient.urgent,
-              'urgent-needed': ingredient.urgent && ingredient.needed,
-              dark: isDarkTheme,
-            }"
+
+      <!-- Navigation Buttons -->
+      <nav :class="['nav', { dark: isDarkTheme }]">
+        <div class="navigation-buttons">
+          <button
+            v-for="category in sortedCategories"
+            :key="category"
+            @click="scrollToCategory(category)"
+            class="nav-button"
           >
-            <span class="ingredient-name">{{ ingredient.name }}</span>
-            <div class="buttons">
-              <button
-                :class="{ active: ingredient.urgent }"
-                @click.stop="toggleUrgent(ingredient)"
+            {{ capitalizeFirstLetter(category) }}
+          </button>
+        </div>
+        <div class="actions">
+          <button @click="exportList">Export</button>
+          <button class="red-button" @click="resetList">Reset</button>
+        </div>
+      </nav>
+
+      <!-- Loading Indicator -->
+      <div v-if="loading" class="loading">Cargando...</div>
+
+      <!-- Error Message -->
+      <div v-if="error" class="error">Hubo un error al cargar los datos.</div>
+
+      <!-- Ingredients Grouped by Category -->
+      <template v-else-if="!error">
+        <template v-if="ingredients.length">
+          <div
+            v-for="(ingredients, category) in ingredientsByCategory"
+            :key="category"
+            class="category-group"
+            :id="`category-${sanitizeCategory(category)}`"
+          >
+            <h3 class="category-title">
+              {{ capitalizeFirstLetter(category) }}
+            </h3>
+            <ul>
+              <li
+                v-for="ingredient in ingredients"
+                :key="ingredient.name"
+                :class="{
+                  urgent: ingredient.urgent && !ingredient.needed,
+                  needed: ingredient.needed && !ingredient.urgent,
+                  'urgent-needed': ingredient.urgent && ingredient.needed,
+                  dark: isDarkTheme,
+                }"
               >
-                Urgente
-              </button>
-              <button
-                :class="{ active: ingredient.needed }"
-                @click.stop="toggleNeeded(ingredient)"
-              >
-                Normal
-              </button>
-            </div>
-          </li>
-        </ul>
+                <span class="ingredient-name">{{ ingredient.name }}</span>
+                <div class="buttons">
+                  <button
+                    :class="{ active: ingredient.urgent }"
+                    @click.stop="toggleUrgent(ingredient)"
+                  >
+                    Urgente
+                  </button>
+                  <button
+                    :class="{ active: ingredient.needed }"
+                    @click.stop="toggleNeeded(ingredient)"
+                  >
+                    Normal
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </template>
+        <p v-else>Selecciona recetas para ver los ingredientes.</p>
       </template>
-      <p v-else>Selecciona recetas para ver los ingredientes.</p>
-      <div class="actions">
-        <button @click="exportList">Export</button>
-        <button @click="resetList">Reset</button>
-      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onBeforeMount, watch, computed } from "vue";
-import { list_book } from "./../lib/cv"; // Adjust the import path as needed
+import { list_book } from "./../lib/cv"; // Ajusta la ruta según sea necesario
 import jsPDF from "jspdf";
 
 // Reactive variable for theme (light or dark)
@@ -78,6 +113,7 @@ const isDarkTheme = ref(localStorage.getItem("theme") === "dark");
 const loading = ref(true);
 const fullList = ref([]);
 const ingredients = ref([]);
+const error = ref(null);
 
 // Computed property to check if any ingredients are checked
 const hasCheckedIngredients = computed(() => {
@@ -85,6 +121,36 @@ const hasCheckedIngredients = computed(() => {
     (ingredient) => ingredient.urgent || ingredient.needed
   );
 });
+
+// Computed property to group ingredients by category
+const ingredientsByCategory = computed(() => {
+  const grouped = {};
+  ingredients.value.forEach((ingredient) => {
+    const { categoria } = ingredient;
+    if (!grouped[categoria]) {
+      grouped[categoria] = [];
+    }
+    grouped[categoria].push(ingredient);
+  });
+  return grouped;
+});
+
+// Computed property to get sorted list of categories
+const sortedCategories = computed(() => {
+  return Object.keys(ingredientsByCategory.value).sort((a, b) =>
+    a.localeCompare(b)
+  );
+});
+
+// Función auxiliar para capitalizar la primera letra
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
+// Función auxiliar para sanitizar el nombre de la categoría para usar como ID
+const sanitizeCategory = (category) => {
+  return category.replace(/\s+/g, "-").toLowerCase();
+};
 
 // Function to toggle theme
 const toggleTheme = () => {
@@ -125,7 +191,7 @@ const clearCheckedIngredients = () => {
 
 // Function to reset the list
 const resetList = () => {
-  if (window.confirm("¿Seguro que desea resetear la lista?")) {
+  if (window.confirm("¿Deseas vaciar la lista?")) {
     ingredients.value.forEach((ingredient) => {
       ingredient.urgent = false;
       ingredient.needed = false;
@@ -134,7 +200,6 @@ const resetList = () => {
   }
 };
 
-// Function to export the list to PDF
 // Function to export the list to PDF
 const exportList = () => {
   // Organizar ingredientes por 'lugar' y luego por 'categoria'
@@ -164,7 +229,7 @@ const exportList = () => {
   const doc = new jsPDF();
 
   // Añadir título
-  doc.setFontSize(18);
+  doc.setFontSize(14);
   doc.text("Lista de Compras", 14, 22);
 
   let y = 30; // Coordenada Y inicial
@@ -175,7 +240,7 @@ const exportList = () => {
     if (Object.keys(categorias).length === 0) continue;
 
     // Añadir nombre del 'lugar'
-    doc.setFontSize(14);
+    doc.setFontSize(18);
     doc.text(loc, 14, y);
     y += 10;
 
@@ -220,12 +285,16 @@ const exportList = () => {
   doc.save("lista_de_compras.pdf");
 };
 
-// Función auxiliar para capitalizar la primera letra
-const capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+// Función para scroll a una categoría específica
+const scrollToCategory = (category) => {
+  const categoryId = `category-${sanitizeCategory(category)}`;
+  const element = document.getElementById(categoryId);
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
 };
 
-// Load data and initialize ingredients
+// Cargar datos y inicializar ingredientes
 onBeforeMount(() => {
   // Cargar preferencia de tema
   if (isDarkTheme.value) {
@@ -291,7 +360,7 @@ onBeforeMount(() => {
     });
 });
 
-// Watch for changes in ingredients and save to local storage
+// Watch para cambios en ingredients y guardar en local storage
 watch(
   ingredients,
   (newVal) => {
@@ -318,11 +387,11 @@ $dark-text: #e0e0e0;
 $button-bg: #42b983;
 $button-hover-bg: #2d8c6c;
 $urgent-bg-light: #e34d4d;
-$needed-bg-light: #448be8;
-$urgent-bg-dark: #891f1f;
-$needed-bg-dark: #1a73e8;
-$urgent-needed-bg-light: #ccffcc;
-$urgent-needed-bg-dark: #226622;
+$needed-bg-light: #5666b8;
+$urgent-bg-dark: #662222;
+$needed-bg-dark: #1a73e8; // Cambiado a azul oscuro
+$urgent-needed-bg-light: #c6d9ff; // Cambiado a azul claro
+$urgent-needed-bg-dark: #1a73e8; // Cambiado a azul oscuro
 $category-bg-light: #eee;
 $category-bg-dark: #333;
 $category-active-bg-light: #42b983;
@@ -379,6 +448,48 @@ $toggle-thumb-dark: #333;
     }
   }
 
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    position: sticky;
+    top: 0px;
+    background-color: $light-bg;
+    transition: transform 0.3s, background-color 0.3s;
+    padding: 10px 0px;
+
+    &.dark {
+      background-color: $dark-bg;
+    }
+
+    .actions {
+      display: flex;
+      gap: 5px;
+
+      button {
+        padding: 5px 5px;
+        background-color: $button-bg;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: $button-hover-bg;
+        }
+
+        &.dark {
+          background-color: $button-bg;
+
+          &:hover {
+            background-color: $button-hover-bg;
+          }
+        }
+      }
+    }
+  }
+
   /* Ingredients List */
   .ingredients-list {
     width: 100%;
@@ -388,10 +499,11 @@ $toggle-thumb-dark: #333;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
+      margin: 5px;
 
       h2 {
         text-align: center;
+        margin: 0px;
         color: inherit; // Inherit color from parent
       }
 
@@ -414,6 +526,61 @@ $toggle-thumb-dark: #333;
       }
     }
 
+    /* Navigation Buttons */
+    .navigation-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+
+      justify-content: center;
+    }
+
+    .nav-button {
+      padding: 5px 5px;
+      background-color: $button-bg;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 0.9em;
+
+      &:hover {
+        background-color: $button-hover-bg;
+      }
+
+      &.dark {
+        background-color: $button-bg;
+
+        &:hover {
+          background-color: $button-hover-bg;
+        }
+      }
+    }
+
+    .loading {
+      text-align: center;
+      font-size: 18px;
+      color: $button-bg;
+    }
+
+    .error {
+      text-align: center;
+      font-size: 18px;
+      color: red;
+    }
+
+    .category-group {
+      scroll-margin-top: 50px;
+      margin-bottom: 24px;
+
+      .category-title {
+        font-size: 1.2em;
+        margin-bottom: 12px;
+        color: $button-bg; // Utiliza uno de tus colores SASS para resaltar
+      }
+    }
+
     ul {
       list-style-type: none;
       padding: 0;
@@ -424,27 +591,29 @@ $toggle-thumb-dark: #333;
         align-items: center;
         justify-content: space-between;
         padding: 8px;
-        background-color: #373737; // Default, overridden below
+        background-color: #aaa; // Default, overridden below
         color: #fff; // Default, overridden below
         border-radius: 4px;
         margin-bottom: 8px;
         transition: background-color 0.3s, color 0.3s;
+        font-weight: normal; // Default
 
         &.urgent {
           background-color: $urgent-bg-light;
           color: $light-text;
-          font-weight: bold;
+          font-weight: bold; // Agregado
         }
 
         &.needed {
           background-color: $needed-bg-light;
           color: $light-text;
-          font-weight: bold;
+          font-weight: bold; // Agregado
         }
 
         &.urgent-needed {
           background-color: $urgent-needed-bg-light;
           color: $light-text;
+          font-weight: bold; // Agregado
         }
 
         &.dark {
@@ -455,18 +624,19 @@ $toggle-thumb-dark: #333;
           &.urgent {
             background-color: $urgent-bg-dark;
             color: $dark-text;
-            font-weight: bold;
+            font-weight: bold; // Agregado
           }
 
           &.needed {
             background-color: $needed-bg-dark;
             color: $dark-text;
-            font-weight: bold;
+            font-weight: bold; // Agregado
           }
 
           &.urgent-needed {
             background-color: $urgent-needed-bg-dark;
             color: $dark-text;
+            font-weight: bold; // Agregado
           }
         }
 
@@ -491,7 +661,7 @@ $toggle-thumb-dark: #333;
             }
 
             &:hover {
-              background-color: darken($category-bg-light, 10%);
+              background-color: darken($category-bg_light, 10%);
               color: $light-text;
             }
 
@@ -514,36 +684,6 @@ $toggle-thumb-dark: #333;
       }
     }
 
-    /* Actions Buttons */
-    .actions {
-      display: flex;
-      justify-content: center;
-      margin-top: 16px;
-
-      button {
-        margin: 0 8px;
-        padding: 8px 16px;
-        background-color: $button-bg;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-
-        &:hover {
-          background-color: $button-hover-bg;
-        }
-
-        &.dark {
-          background-color: $button-bg;
-
-          &:hover {
-            background-color: $button-hover-bg;
-          }
-        }
-      }
-    }
-
     /* Responsive Design */
     @media (max-width: 768px) {
       .ingredients-list {
@@ -553,5 +693,9 @@ $toggle-thumb-dark: #333;
       }
     }
   }
+}
+
+.red-button {
+  background-color: #e34d4d !important;
 }
 </style>

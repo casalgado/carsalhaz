@@ -19,56 +19,74 @@
     <div class="ingredients-list">
       <div class="list-header">
         <h2>Lista de Ingredientes</h2>
-        <!-- <button
-                v-if="hasCheckedIngredients"
-                @click="clearCheckedIngredients"
-                class="clear-button"
-              >
-                Clear
-              </button> -->
+        <div class="actions">
+          <button @click="exportList">Export</button>
+          <button @click="resetList">Reset</button>
+        </div>
+        <button
+          v-if="hasCheckedIngredients"
+          @click="clearCheckedIngredients"
+          class="clear-button"
+        >
+          Clear
+        </button>
       </div>
-      <template v-if="ingredients.length">
-        <ul>
-          <li
-            v-for="ingredient in ingredients"
-            :key="ingredient.name"
-            :class="{
-              urgent: ingredient.urgent && !ingredient.needed,
-              needed: ingredient.needed && !ingredient.urgent,
-              'urgent-needed': ingredient.urgent && ingredient.needed,
-              dark: isDarkTheme,
-            }"
+
+      <!-- Loading Indicator -->
+      <div v-if="loading" class="loading">Cargando...</div>
+
+      <!-- Error Message -->
+      <div v-if="error" class="error">Hubo un error al cargar los datos.</div>
+
+      <!-- Ingredients Grouped by Category -->
+      <template v-else-if="!error">
+        <template v-if="ingredients.length">
+          <div
+            v-for="(ingredients, category) in ingredientsByCategory"
+            :key="category"
+            class="category-group"
           >
-            <span class="ingredient-name">{{ ingredient.name }}</span>
-            <div class="buttons">
-              <button
-                :class="{ active: ingredient.urgent }"
-                @click.stop="toggleUrgent(ingredient)"
+            <h3 class="category-title">
+              {{ capitalizeFirstLetter(category) }}
+            </h3>
+            <ul>
+              <li
+                v-for="ingredient in ingredients"
+                :key="ingredient.name"
+                :class="{
+                  urgent: ingredient.urgent && !ingredient.needed,
+                  needed: ingredient.needed && !ingredient.urgent,
+                  'urgent-needed': ingredient.urgent && ingredient.needed,
+                  dark: isDarkTheme,
+                }"
               >
-                Urgente
-              </button>
-              <button
-                :class="{ active: ingredient.needed }"
-                @click.stop="toggleNeeded(ingredient)"
-              >
-                Normal
-              </button>
-            </div>
-          </li>
-        </ul>
+                <span class="ingredient-name">{{ ingredient.name }}</span>
+                <div class="buttons">
+                  <button
+                    :class="{ active: ingredient.urgent }"
+                    @click.stop="toggleUrgent(ingredient)"
+                  >
+                    Urgente
+                  </button>
+                  <button
+                    :class="{ active: ingredient.needed }"
+                    @click.stop="toggleNeeded(ingredient)"
+                  >
+                    Normal
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </template>
+        <p v-else>Selecciona recetas para ver los ingredientes.</p>
       </template>
-      <p v-else>Selecciona recetas para ver los ingredientes.</p>
-      <div class="actions">
-        <button @click="exportList">Export</button>
-        <button @click="resetList">Reset</button>
-      </div>
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref, onBeforeMount, watch, computed } from "vue";
-import { list_book } from "./../lib/cv"; // Adjust the import path as needed
+import { list_book } from "./../lib/cv"; // Ajusta la ruta según sea necesario
 import jsPDF from "jspdf";
 
 // Reactive variable for theme (light or dark)
@@ -78,6 +96,7 @@ const isDarkTheme = ref(localStorage.getItem("theme") === "dark");
 const loading = ref(true);
 const fullList = ref([]);
 const ingredients = ref([]);
+const error = ref(null);
 
 // Computed property to check if any ingredients are checked
 const hasCheckedIngredients = computed(() => {
@@ -85,6 +104,24 @@ const hasCheckedIngredients = computed(() => {
     (ingredient) => ingredient.urgent || ingredient.needed
   );
 });
+
+// Computed property to group ingredients by category
+const ingredientsByCategory = computed(() => {
+  const grouped = {};
+  ingredients.value.forEach((ingredient) => {
+    const { categoria } = ingredient;
+    if (!grouped[categoria]) {
+      grouped[categoria] = [];
+    }
+    grouped[categoria].push(ingredient);
+  });
+  return grouped;
+});
+
+// Función auxiliar para capitalizar la primera letra
+const capitalizeFirstLetter = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 
 // Function to toggle theme
 const toggleTheme = () => {
@@ -125,16 +162,13 @@ const clearCheckedIngredients = () => {
 
 // Function to reset the list
 const resetList = () => {
-  if (window.confirm("¿Seguro que desea resetear la lista?")) {
-    ingredients.value.forEach((ingredient) => {
-      ingredient.urgent = false;
-      ingredient.needed = false;
-    });
-    localStorage.removeItem("ingredientsState");
-  }
+  ingredients.value.forEach((ingredient) => {
+    ingredient.urgent = false;
+    ingredient.needed = false;
+  });
+  localStorage.removeItem("ingredientsState");
 };
 
-// Function to export the list to PDF
 // Function to export the list to PDF
 const exportList = () => {
   // Organizar ingredientes por 'lugar' y luego por 'categoria'
@@ -155,7 +189,7 @@ const exportList = () => {
         }
 
         const status = urgent ? "Urgente" : "Normal";
-        groupedData[loc][categoria].push(`${name}`);
+        groupedData[loc][categoria].push(`${status}: ${name}`);
       });
     }
   });
@@ -220,12 +254,7 @@ const exportList = () => {
   doc.save("lista_de_compras.pdf");
 };
 
-// Función auxiliar para capitalizar la primera letra
-const capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
-
-// Load data and initialize ingredients
+// Cargar datos y inicializar ingredientes
 onBeforeMount(() => {
   // Cargar preferencia de tema
   if (isDarkTheme.value) {
@@ -291,7 +320,7 @@ onBeforeMount(() => {
     });
 });
 
-// Watch for changes in ingredients and save to local storage
+// Watch para cambios en ingredients y guardar en local storage
 watch(
   ingredients,
   (newVal) => {
@@ -318,11 +347,11 @@ $dark-text: #e0e0e0;
 $button-bg: #42b983;
 $button-hover-bg: #2d8c6c;
 $urgent-bg-light: #e34d4d;
-$needed-bg-light: #448be8;
-$urgent-bg-dark: #891f1f;
-$needed-bg-dark: #1a73e8;
-$urgent-needed-bg-light: #ccffcc;
-$urgent-needed-bg-dark: #226622;
+$needed-bg-light: #5666b8;
+$urgent-bg-dark: #662222;
+$needed-bg-dark: #1a73e8; // Cambiado a azul oscuro
+$urgent-needed-bg-light: #c6d9ff; // Cambiado a azul claro
+$urgent-needed-bg-dark: #1a73e8; // Cambiado a azul oscuro
 $category-bg-light: #eee;
 $category-bg-dark: #333;
 $category-active-bg-light: #42b983;
@@ -395,6 +424,33 @@ $toggle-thumb-dark: #333;
         color: inherit; // Inherit color from parent
       }
 
+      .actions {
+        display: flex;
+        gap: 8px;
+
+        button {
+          padding: 8px 16px;
+          background-color: $button-bg;
+          color: #fff;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+
+          &:hover {
+            background-color: $button-hover-bg;
+          }
+
+          &.dark {
+            background-color: $button-bg;
+
+            &:hover {
+              background-color: $button-hover-bg;
+            }
+          }
+        }
+      }
+
       .clear-button {
         background-color: transparent;
         border: none;
@@ -414,6 +470,28 @@ $toggle-thumb-dark: #333;
       }
     }
 
+    .loading {
+      text-align: center;
+      font-size: 18px;
+      color: $button-bg;
+    }
+
+    .error {
+      text-align: center;
+      font-size: 18px;
+      color: red;
+    }
+
+    .category-group {
+      margin-bottom: 24px;
+
+      .category-title {
+        font-size: 1.2em;
+        margin-bottom: 12px;
+        color: $button-bg; // Utiliza uno de tus colores SASS para resaltar
+      }
+    }
+
     ul {
       list-style-type: none;
       padding: 0;
@@ -424,27 +502,29 @@ $toggle-thumb-dark: #333;
         align-items: center;
         justify-content: space-between;
         padding: 8px;
-        background-color: #373737; // Default, overridden below
+        background-color: #aaa; // Default, overridden below
         color: #fff; // Default, overridden below
         border-radius: 4px;
         margin-bottom: 8px;
         transition: background-color 0.3s, color 0.3s;
+        font-weight: normal; // Default
 
         &.urgent {
           background-color: $urgent-bg-light;
           color: $light-text;
-          font-weight: bold;
+          font-weight: bold; // Agregado
         }
 
         &.needed {
           background-color: $needed-bg-light;
           color: $light-text;
-          font-weight: bold;
+          font-weight: bold; // Agregado
         }
 
         &.urgent-needed {
           background-color: $urgent-needed-bg-light;
           color: $light-text;
+          font-weight: bold; // Agregado
         }
 
         &.dark {
@@ -455,18 +535,19 @@ $toggle-thumb-dark: #333;
           &.urgent {
             background-color: $urgent-bg-dark;
             color: $dark-text;
-            font-weight: bold;
+            font-weight: bold; // Agregado
           }
 
           &.needed {
             background-color: $needed-bg-dark;
             color: $dark-text;
-            font-weight: bold;
+            font-weight: bold; // Agregado
           }
 
           &.urgent-needed {
             background-color: $urgent-needed-bg-dark;
             color: $dark-text;
+            font-weight: bold; // Agregado
           }
         }
 
@@ -509,36 +590,6 @@ $toggle-thumb-dark: #333;
                 color: $dark-text;
               }
             }
-          }
-        }
-      }
-    }
-
-    /* Actions Buttons */
-    .actions {
-      display: flex;
-      justify-content: center;
-      margin-top: 16px;
-
-      button {
-        margin: 0 8px;
-        padding: 8px 16px;
-        background-color: $button-bg;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-
-        &:hover {
-          background-color: $button-hover-bg;
-        }
-
-        &.dark {
-          background-color: $button-bg;
-
-          &:hover {
-            background-color: $button-hover-bg;
           }
         }
       }

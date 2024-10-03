@@ -1,6 +1,9 @@
 <script setup>
 import { ref, computed, onBeforeMount, watch } from "vue";
-import { recipe_book, recipe_categories, recipe_images } from "./../lib/cv";
+import {
+  recipe_book,
+  recipe_additional_data,
+} from "./../lib/cv";
 
 const loading = ref(true);
 
@@ -75,6 +78,14 @@ const clearCheckedIngredients = () => {
   localStorage.removeItem("checkedIngredients");
 };
 
+// Function to clear all selected recipes ingredients
+const clearSelectedRecipes = () => {
+  if (window.confirm("¿Eliminar Seleccion?")) {
+    selectedRecipes.value = [];
+    localStorage.removeItem("selectedRecipes");
+  }
+};
+
 // Function to toggle theme
 const toggleTheme = () => {
   isDarkTheme.value = !isDarkTheme.value;
@@ -101,14 +112,41 @@ onBeforeMount(() => {
     isDarkTheme.value = storedTheme === "dark";
   }
 
-  Promise.all([recipe_book, recipe_categories, recipe_images])
-    .then(([bookData, categoriesDataArray, imagesDataArray]) => {
+  Promise.all([recipe_book, recipe_additional_data])
+    .then(([bookData, moreData]) => {
+      console.log("onBeforeMount - bookData", bookData);
       loading.value = false;
       database.value = bookData;
 
+      console.log("mr", moreData);
+
       // Extract the single objects from arrays
-      const categoriesData = categoriesDataArray[0];
-      const imagesData = imagesDataArray[0];
+      const categoriesData = moreData.reduce(
+        (acc, item) => ({ ...acc, [item.receta]: item.categoria }),
+        {}
+      );
+      const imagesData = moreData.reduce(
+        (acc, item) => ({ ...acc, [item.receta]: item.imagen }),
+        {}
+      );
+
+      console.log("categoriesData", categoriesData);
+      console.log(
+        "newCategoriesData",
+        moreData.reduce(
+          (acc, item) => ({ ...acc, [item.receta]: item.categoria }),
+          {}
+        )
+      );
+      console.log("imagesData", imagesData);
+      console.log(
+        "newImagesData",
+        moreData.reduce(
+          (acc, item) => ({ ...acc, [item.receta]: item.imagen }),
+          {}
+        )
+      );
+      console.log("moreData", moreData);
 
       // Build the recipeCategories mapping directly from categoriesData
       recipeCategories.value = categoriesData;
@@ -184,6 +222,13 @@ const toggleIngredient = (ingredient) => {
       >
         {{ category }}
       </button>
+      <button
+        class="clear-recipe-button"
+        v-if="categories.length > 0"
+        @click="clearSelectedRecipes()"
+      >
+        clear
+      </button>
     </div>
 
     <!-- Main Content -->
@@ -214,24 +259,23 @@ const toggleIngredient = (ingredient) => {
             Clear
           </button>
         </div>
-        <template v-if="combinedIngredients.length">
-          <ul>
-            <li
-              v-for="ingredient in combinedIngredients"
-              :key="ingredient"
-              :class="{ checked: checkedIngredients.has(ingredient) }"
-              @click="toggleIngredient(ingredient)"
-            >
-              <span>{{ ingredient }}</span>
-              <input
-                type="checkbox"
-                class="checkbox"
-                :checked="checkedIngredients.has(ingredient)"
-                @change.stop="toggleIngredient(ingredient)"
-              />
-            </li>
-          </ul>
-        </template>
+        <ul v-if="combinedIngredients.length">
+          <li
+            v-for="ingredient in combinedIngredients"
+            :key="ingredient"
+            :class="{ checked: checkedIngredients.has(ingredient) }"
+            @click="toggleIngredient(ingredient)"
+          >
+            <span>{{ ingredient }}</span>
+            <input
+              type="checkbox"
+              class="checkbox"
+              :checked="checkedIngredients.has(ingredient)"
+              @change.stop="toggleIngredient(ingredient)"
+            />
+          </li>
+        </ul>
+
         <p v-else>Selecciona recetas para ver los ingredientes.</p>
       </div>
     </div>
@@ -383,6 +427,10 @@ body {
   overflow-y: auto;
 }
 
+.ingredients-list ul {
+  padding: 0px;
+}
+
 .ingredients-list .list-header {
   display: flex;
   align-items: center;
@@ -487,6 +535,10 @@ body {
     justify-content: center; /* Center images on mobile */
   }
 
+  .image-item {
+    width: 80px;
+  }
+
   .ingredients-list {
     margin-left: 0;
     margin-top: 24px;
@@ -500,5 +552,10 @@ body {
   .ingredients-list {
     flex-basis: 100%;
   }
+}
+
+.clear-recipe-button {
+  color: white !important;
+  background-color: #e34d4d !important;
 }
 </style>
