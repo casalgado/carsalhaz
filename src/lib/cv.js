@@ -42,7 +42,6 @@ const getData = (url) => {
   });
 };
 
-
 // for cv
 // sheet url: https://docs.google.com/spreadsheets/d/1g2GNxXqNLozb1_-nhTLwHPsUqiat3eH2EO4NbKPl8Bk/edit?gid=0#gid=0
 export const cv_data = parseData();
@@ -52,10 +51,20 @@ export const cv_data = parseData();
 export const recipe_book = getData(
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSAtekbqE04bfBvLYrqa6gnUIJK1ObopQ5UkMzsXiWYHt4WODzRGbUi3tgrvXc2fwew8pYQ0gpvwxFm/pub?gid=0&single=true&output=csv"
 );
-export const recipe_additional_data = getData("https://docs.google.com/spreadsheets/d/e/2PACX-1vSAtekbqE04bfBvLYrqa6gnUIJK1ObopQ5UkMzsXiWYHt4WODzRGbUi3tgrvXc2fwew8pYQ0gpvwxFm/pub?gid=1260042740&single=true&output=csv");
+export const recipe_additional_data = getData(
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSAtekbqE04bfBvLYrqa6gnUIJK1ObopQ5UkMzsXiWYHt4WODzRGbUi3tgrvXc2fwew8pYQ0gpvwxFm/pub?gid=1260042740&single=true&output=csv"
+);
 
+// for viajes y paseos
+// sheet url: https://docs.google.com/spreadsheets/d/1Wbcd8pR9s7P_0R-b2nCkVBWL1u93YC-zbRpyIjkmZfk/edit?gid=0#gid=0
+export const viajes_book = getData(
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vToS4T2gjCtVUSHQZ6GxRD8ppJC-uhrjhIAcjY-wy0z0MAISwuOUxOzu_fe--XWZGQy9G7WV7d_W-2w/pub?gid=0&single=true&output=csv"
+);
+export const viajes_additional_data = getData(
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vToS4T2gjCtVUSHQZ6GxRD8ppJC-uhrjhIAcjY-wy0z0MAISwuOUxOzu_fe--XWZGQy9G7WV7d_W-2w/pub?gid=1260042740&single=true&output=csv"
+);
 // for shopping list
-// sheet url: https://docs.google.com/spreadsheets/d/1RYgAmmGF8e3EL29l6KTssE5th2R1yC4097q5GgW8rao/edit?usp=drive_link 
+// sheet url: https://docs.google.com/spreadsheets/d/1RYgAmmGF8e3EL29l6KTssE5th2R1yC4097q5GgW8rao/edit?usp=drive_link
 export const list_book = getData(
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQoYu5hbGmEuAP6v9a1NTkhD9iOTmGwm9lGC8MzG5C_mQcWho_JBNwmjJ83Rhr5fY6pkqR_7JY7CSYo/pub?gid=332160851&single=true&output=csv"
 );

@@ -3,6 +3,8 @@ import { ref, computed, onBeforeMount, watch } from "vue";
 import {
   recipe_book,
   recipe_additional_data,
+  viajes_book,
+  viajes_additional_data,
 } from "./../lib/cv";
 
 const loading = ref(true);
@@ -112,7 +114,7 @@ onBeforeMount(() => {
     isDarkTheme.value = storedTheme === "dark";
   }
 
-  Promise.all([recipe_book, recipe_additional_data])
+  Promise.all([viajes_book, viajes_additional_data])
     .then(([bookData, moreData]) => {
       console.log("onBeforeMount - bookData", bookData);
       loading.value = false;
@@ -406,7 +408,8 @@ body {
 
 .image-item img {
   width: 100%;
-  height: auto;
+  object-fit: cover;
+  height: 120px;
   border-radius: 8px;
 }
 
