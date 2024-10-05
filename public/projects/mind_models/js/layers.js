@@ -17,7 +17,7 @@ $("#m-button").click(function () {
     {
       opacity: ".6",
     },
-    12000,
+    14000,
     "easeInQuart",
     function () {
       $("#layer").animate(
@@ -28,13 +28,13 @@ $("#m-button").click(function () {
           top: "200px",
           left: "200px",
         },
-        7500,
+        12000,
         "easeInBack",
         function () {
           setTimeout(function () {
             newLayer(colors[colorIndex % 10]);
             colorIndex += 1;
-          }, 4000);
+          }, 8000);
         }
       );
     }

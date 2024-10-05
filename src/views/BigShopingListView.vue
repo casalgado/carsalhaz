@@ -103,7 +103,7 @@
 
 <script setup>
 import { ref, onBeforeMount, watch, computed } from "vue";
-import { list_book } from "./../lib/cv"; // Ajusta la ruta según sea necesario
+import { list_book } from "../lib/cv"; // Ajusta la ruta según sea necesario
 import jsPDF from "jspdf";
 
 // Reactive variable for theme (light or dark)

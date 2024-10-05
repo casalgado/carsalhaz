@@ -36,6 +36,28 @@
     <script src="js/layers.js"></script>
 
     <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+
+      #header {
+        width: 100%;
+      }
+
+      #footer {
+        width: 100%;
+      }
+
+      #global-container {
+        position: relative;
+
+        margin: auto; /* Centers both vertically and horizontally */
+      }
+
       #mind {
         width: 480px;
         height: 480px;
@@ -49,12 +71,6 @@
       #mind-container {
         width: 800px;
         height: 600px;
-      }
-
-      #global-container {
-        width: 800px;
-        height: 600px;
-        position: relative;
       }
 
       #layer {
