@@ -367,14 +367,18 @@ $toggle-thumb-dark: #333;
   flex-direction: column;
   align-items: center;
   padding: 16px;
-  background-color: $light-bg; /* Light gray background */
-  color: $light-text; /* Dark text */
+  background-color: $light-bg;
+  /* Light gray background */
+  color: $light-text;
+  /* Dark text */
   min-height: 100vh;
   transition: background-color 0.3s, color 0.3s;
 
   &.dark {
-    background-color: $dark-bg; /* Very dark gray background */
-    color: $dark-text; /* Light text */
+    background-color: $dark-bg;
+    /* Very dark gray background */
+    color: $dark-text;
+    /* Light text */
   }
 
   /* Theme Toggle Switch */

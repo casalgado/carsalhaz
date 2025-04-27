@@ -23,6 +23,11 @@ const router = createRouter({
       name: "lvyp",
       component: () => import("../views/AnthologyListView.vue"),
     },
+    {
+      path: "/bitac",
+      name: "bitac",
+      component: () => import("../views/BitacView.vue"),
+    },
 
     // {
     //   path: "/about",

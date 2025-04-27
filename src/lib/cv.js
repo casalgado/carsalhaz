@@ -35,7 +35,7 @@ const getData = (url) => {
       header: true,
       complete: (results) => {
         data = results.data;
-        console.log("incv", data);
+        // console.log("incv", data);
         resolve(data);
       },
     });
@@ -67,4 +67,8 @@ export const viajes_additional_data = getData(
 // sheet url: https://docs.google.com/spreadsheets/d/1RYgAmmGF8e3EL29l6KTssE5th2R1yC4097q5GgW8rao/edit?usp=drive_link
 export const list_book = getData(
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQoYu5hbGmEuAP6v9a1NTkhD9iOTmGwm9lGC8MzG5C_mQcWho_JBNwmjJ83Rhr5fY6pkqR_7JY7CSYo/pub?gid=332160851&single=true&output=csv"
+);
+
+export const bitac = getData(
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSDw0wxa70qvghwXSbhRtz-rg-eWFD9UmZDJfNkEFIAdXCOQ28HIwE5Ga6P_DpudJsWunK8eoLUbA2V/pub?output=csv"
 );
