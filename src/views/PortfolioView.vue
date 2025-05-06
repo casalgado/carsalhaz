@@ -4,6 +4,9 @@ import { portfolio_data } from "../lib/cv";
 
 const rawData = ref([]);
 const selectedApellido = ref("");
+const passwordInput = ref("");
+const passwordError = ref("");
+const passwordVerified = ref(false);
 
 // Orden horario deseado
 const horarioOrden = ["2:30", "3:30", "4:30"];
@@ -19,9 +22,7 @@ const passwords = [
   { student: "Herazo", password: 7560 },
   { student: "Joya", password: 3952 },
   { student: "Martinez j", password: 1480 },
-  { student: "Martínez j", password: 6729 },
   { student: "Martinez n", password: 3194 },
-  { student: "Martínez n", password: 8563 },
   { student: "Petro", password: 4287 },
   { student: "Pumarejo", password: 9371 },
   { student: "Velasco", password: 2046 },
@@ -134,32 +135,62 @@ onBeforeMount(async () => {
     if (ha !== hb) return ha - hb;
     return a.apellido.localeCompare(b.apellido);
   });
+  console.log(reportes.value);
+  console.log(rawData.value);
 });
 
 const apellidos = computed(() => reportes.value.map((r) => r.apellido));
-
+const nombres = computed(() => {
+  return rawData.value.reduce((acc, r) => {
+    const apellido = r["Apellido de quien evalúas:"].toLowerCase().trim();
+    const nombre = r["Nombre de quien evaluas:"].toLowerCase().trim();
+    acc[apellido] = nombre;
+    return acc;
+  }, {});
+});
 const reporteSeleccionado = ref({});
+
+// Función para verificar contraseña
+const verifyPassword = () => {
+  if (!selectedApellido.value) return;
+
+  const studentData = passwords.find(
+    (p) => p.student.toLowerCase() === selectedApellido.value.toLowerCase()
+  );
+
+  if (studentData && passwordInput.value === studentData.password.toString()) {
+    passwordVerified.value = true;
+    passwordError.value = "";
+  } else {
+    passwordError.value = "Contraseña incorrecta";
+    passwordVerified.value = false;
+  }
+};
+
+// Resetear verificación al cambiar apellido
 watch(selectedApellido, () => {
+  passwordVerified.value = false;
+  passwordInput.value = "";
+  passwordError.value = "";
   reporteSeleccionado.value = reportes.value.find(
     (r) => r.apellido.toLowerCase() === selectedApellido.value.toLowerCase()
   );
-  console.log("apellido");
-  console.log(selectedApellido.value);
-  console.log(apellidos.value);
-  console.log(reportes.value);
 });
+
+const capitalize = (str) => {
+  if (!str) return "";
+  return str
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
 </script>
 
 <template>
-  <div class="p-4 max-w-3xl mx-auto">
-    <label for="apellido" class="block mb-2 font-bold"
-      >Selecciona un apellido:</label
-    >
-    <select
-      id="apellido"
-      v-model="selectedApellido"
-      class="w-full p-2 border border-gray-300 rounded"
-    >
+  <div class="container">
+    <label for="apellido">Selecciona un apellido:</label>
+    <select id="apellido" v-model="selectedApellido">
       <option value="">-- Selecciona --</option>
       <option v-for="apellido in apellidos" :key="apellido" :value="apellido">
         {{ apellido }}
@@ -167,35 +198,63 @@ watch(selectedApellido, () => {
     </select>
 
     <div
-      v-if="reporteSeleccionado"
-      class="mt-6 whitespace-pre-wrap bg-gray-50 p-4 border rounded"
+      v-if="selectedApellido && !passwordVerified"
+      class="password-container"
     >
-      <h2 class="text-lg font-semibold mb-2">
-        Hola {{ reporteSeleccionado.apellido }},
+      <div class="password-box">
+        <h3>Acceso al Reporte</h3>
+        <input
+          type="password"
+          v-model="passwordInput"
+          placeholder="Ingresa tu contraseña de 4 dígitos"
+          maxlength="4"
+          class="password-input"
+        />
+        <button @click="verifyPassword" class="verify-button">Verificar</button>
+        <div v-if="passwordError" class="error-message">
+          {{ passwordError }}
+        </div>
+      </div>
+    </div>
+
+    <div
+      v-if="passwordVerified && reporteSeleccionado"
+      class="report-container"
+    >
+      <h2 class="report-title">
+        Hola
+        {{
+          capitalize(nombres[reporteSeleccionado.apellido.toLowerCase().trim()])
+        }}
+        {{ capitalize(reporteSeleccionado.apellido) }}
       </h2>
-      <p class="mb-4">
+      <p class="report-intro">
         A continuación te comparto un resumen de las evaluaciones que recibiste
         de tus compañeros sobre tu portafolio.
       </p>
 
-      <h3 class="font-bold mb-1">Promedios de evaluación:</h3>
-      <ul class="mb-4">
+      <h3 class="section-title">Promedios de evaluación:</h3>
+      <ul class="score-list">
         <li
           v-for="(suma, campo) in reporteSeleccionado.cuantitativos"
           :key="campo"
         >
           - {{ campo }}:
-          {{ (suma / reporteSeleccionado.cantidades[campo]).toFixed(1) }}
+          <strong>
+            {{
+              (suma / reporteSeleccionado.cantidades[campo]).toFixed(1)
+            }}</strong
+          >
         </li>
       </ul>
 
       <div
         v-for="(comentarios, campo) in reporteSeleccionado.cualitativos"
         :key="campo"
-        class="mb-3"
+        class="comment-section"
       >
-        <strong>{{ campo }}</strong>
-        <ul>
+        <strong class="comment-title">{{ campo }}</strong>
+        <ul class="comment-list">
           <li v-for="comentario in comentarios" :key="comentario">
             - {{ comentario }}
           </li>
@@ -206,7 +265,126 @@ watch(selectedApellido, () => {
 </template>
 
 <style scoped>
+.container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
 select {
-  font-size: 1rem;
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.password-container {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.password-box {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.password-input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 2px solid #007bff;
+  border-radius: 4px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.verify-button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.verify-button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.report-container {
+  margin-top: 30px;
+  padding: 25px;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.report-title {
+  font-size: 24px;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.report-intro {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  color: #4a5568;
+}
+
+.section-title {
+  font-size: 20px;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
+
+.score-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.score-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+  color: #4a5568;
+}
+
+.comment-section {
+  margin-bottom: 25px;
+}
+
+.comment-title {
+  display: block;
+  font-size: 17px;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.comment-list {
+  padding-left: 20px;
+  color: #4a5568;
+}
+
+.comment-list li {
+  margin-bottom: 8px;
+  line-height: 1.5;
 }
 </style>
