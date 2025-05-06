@@ -68,3 +68,7 @@ export const viajes_additional_data = getData(
 export const list_book = getData(
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQoYu5hbGmEuAP6v9a1NTkhD9iOTmGwm9lGC8MzG5C_mQcWho_JBNwmjJ83Rhr5fY6pkqR_7JY7CSYo/pub?gid=332160851&single=true&output=csv"
 );
+
+export const portfolio_data = getData(
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSM1iKzoQGRq2jd2cNkOVIlrCR0i88qdX2kx959yBAMGrBEolpj7_aWeiWAZY_9DnSFSMdm-YOP8aQS/pub?gid=1391686964&single=true&output=csv"
+);
