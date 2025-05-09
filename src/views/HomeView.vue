@@ -26,12 +26,11 @@ onBeforeMount(() => {
     <header>
       <h1>Carlos Salgado</h1>
       <p>
-        Mi pasión por la educación, el diseño y la tecnologia se complementan,
-        creando un perfil versátil y comprometido con la innovación y el
-        desarrollo continuo. Poseo una sólida formación académica y una amplia
-        experiencia en el campo de la educación y el diseño. Mi experiencia
-        laboral ha fortalecido mi destreza en la implementación de soluciones
-        digitales y la enseñanza efectiva.
+        Diseñador, educador y desarrollador con experiencia internacional.
+        Combino creatividad, análisis técnico y pedagogía para crear soluciones
+        digitales prácticas y proyectos educativos innovadores. Mi enfoque:
+        aprendizaje continuo, diseño funcional y tecnología al servicio de las
+        personas.
       </p>
       <ul class="onlyScreen">
         <li>
@@ -64,7 +63,7 @@ onBeforeMount(() => {
         :entry="e"
         :key="i"
       />
-      <h3 class="banner">Emprendimientos</h3>
+      <h3 class="banner">Emprendimiento</h3>
       <InfoEntry
         v-for="(e, i) in cv.filter((e) => e.category == 'Emp')"
         :entry="e"
@@ -79,11 +78,11 @@ onBeforeMount(() => {
             <th>Nivel</th>
           </tr>
           <tr>
-            <td>Ingles</td>
+            <td>Inglés</td>
             <td>C2</td>
           </tr>
           <tr>
-            <td>Frances</td>
+            <td>Francés</td>
             <td>B1</td>
           </tr>
         </tbody>
@@ -92,17 +91,15 @@ onBeforeMount(() => {
       <dl>
         <dt>Habilidades Organizacionales</dt>
         <dd>
-          He asumido posiciones de liderazgo, guiado por mi creencia en que el
-          liderazgo es una forma de servicio que fortalece grupos, cultiva
-          relaciones y fomenta un entorno de trabajo productivo y saludable.
+          Liderazgo colaborativo: Representación estudiantil (pregrado y
+          posgrado) con enfoque en construir consensos, mediar necesidades y
+          promover entornos productivos.
         </dd>
         <dt>Habilidades Sociales y de Comunicación</dt>
         <dd>
-          Fui seleccionado como representante estudiantil tanto en mis estudios
-          de pregrado como de posgrado, desempeñando un papel fundamental al
-          unir a los estudiantes y actuar como su voz ante los consejos
-          académicos. Mi enfoque principal era facilitar una comunicación
-          bidireccional efectiva.
+          Puente entre equipos: Vocería estudiantil ante consejos académicos,
+          facilitando diálogos bidireccionales y resolviendo conflictos con
+          empatía.
         </dd>
       </dl>
     </section>

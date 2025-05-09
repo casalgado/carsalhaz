@@ -72,3 +72,7 @@ export const list_book = getData(
 export const bitac = getData(
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSDw0wxa70qvghwXSbhRtz-rg-eWFD9UmZDJfNkEFIAdXCOQ28HIwE5Ga6P_DpudJsWunK8eoLUbA2V/pub?output=csv"
 );
+
+export const portfolio_data = getData(
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSM1iKzoQGRq2jd2cNkOVIlrCR0i88qdX2kx959yBAMGrBEolpj7_aWeiWAZY_9DnSFSMdm-YOP8aQS/pub?gid=1391686964&single=true&output=csv"
+);

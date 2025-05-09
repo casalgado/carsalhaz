@@ -28,6 +28,11 @@ const router = createRouter({
       name: "bitac",
       component: () => import("../views/BitacView.vue"),
     },
+    {
+      path: "/portafolio",
+      name: "portafolio",
+      component: () => import("../views/PortfolioView.vue"),
+    },
 
     // {
     //   path: "/about",

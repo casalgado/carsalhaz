@@ -17,6 +17,7 @@ const database = ref([]);
 const categories = ref([]);
 const recipeCategories = ref({});
 const selectedRecipes = ref([]);
+const template = ref("recetas");
 
 // Reactive variable for selected category
 const selectedCategory = ref("All");
@@ -40,18 +41,20 @@ const loadRouteData = async () => {
         recipe_book,
         recipe_additional_data,
       ]);
+      template.value = "recetas";
     } else if (route.path === "/lvyp") {
       [bookData, moreData] = await Promise.all([
         viajes_book,
         viajes_additional_data,
       ]);
+      template.value = "lvyp";
     } else {
       console.error("Unknown route:", route.path);
       return;
     }
 
-    console.log("onBeforeMount - bookData", bookData);
     database.value = bookData;
+    console.log("onBeforeMount - database", database.value);
 
     // Extract the single objects from arrays
     const categoriesData = moreData.reduce(
@@ -85,6 +88,33 @@ const loadRouteData = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+// Function to get the quantity of an ingredient
+const ingredientQuantity = (ingredient) => {
+  // Find the ingredient data in database
+  const ingredientData = database.value.find(
+    (item) => item.ingrediente === ingredient
+  );
+
+  console.log("ingredientData", ingredientData);
+
+  if (!ingredientData || selectedRecipes.value.length === 0) {
+    return "";
+  }
+
+  // Sum up quantities from selected recipes
+  const sum = selectedRecipes.value.reduce((total, recipeName) => {
+    const value = ingredientData[recipeName];
+    // Only add numeric values greater than 0
+    return total + (value && value !== "0" ? Number(value) : 0);
+  }, 0);
+
+  // If sum is 0, return empty string
+  if (sum === 0) return "";
+
+  // Return sum with unit if it exists
+  return ingredientData.ud ? `${sum}${ingredientData.ud} ` : sum.toString();
 };
 
 // Function to toggle recipe selection
@@ -264,7 +294,9 @@ const toggleIngredient = (ingredient) => {
       <!-- Ingredients List -->
       <div class="ingredients-list">
         <div class="list-header">
-          <h2>Lista de Compras:</h2>
+          <h2>
+            {{ template == "recetas" ? "Lista de Compras:" : "Empacar:" }}
+          </h2>
           <button
             v-if="checkedIngredients.size > 0"
             @click="clearCheckedIngredients"
@@ -280,17 +312,23 @@ const toggleIngredient = (ingredient) => {
             :class="{ checked: checkedIngredients.has(ingredient) }"
             @click="toggleIngredient(ingredient)"
           >
-            <span>{{ ingredient }}</span>
+            <span>{{ `${ingredient} ${ingredientQuantity(ingredient)}` }}</span>
             <input
               type="checkbox"
               class="checkbox"
               :checked="checkedIngredients.has(ingredient)"
-              @change.stop="toggleIngredient(ingredient)"
+              @click.stop="toggleIngredient(ingredient)"
             />
           </li>
         </ul>
 
-        <p v-else>Selecciona recetas para ver los ingredientes.</p>
+        <p v-else>
+          {{
+            template == "recetas"
+              ? "Selecciona recetas para ver los ingredientes."
+              : "Selecciona viaje o paseo para ver lista."
+          }}
+        </p>
       </div>
     </div>
   </div>
@@ -609,6 +647,10 @@ body {
 
         .image-item {
           width: $image-item-size-mobile;
+
+          img {
+            height: $image-item-size-mobile;
+          }
         }
       }
 
