@@ -9,7 +9,7 @@ const selectedDay = ref("");
 const days = ref([]);
 
 const categoryColors = {
-  UNorte: "#C53030", // Red
+  UNorte: "#EF5350", // Red
   LCI: "#F6E05E", // Yellow
   Tutorias: "#48BB78", // Green
   Worktime: "#63B3ED", // Light Blue
@@ -20,9 +20,9 @@ const categoryColors = {
 
   // Other categories
   Amigos: "#ED8936", // Orange
-  Casa_Bella: "#805AD5", // Purple
-  Casa_Beto: "#9F7AEA", // Light Purple
-  Dormir: "#4FD1C5", // Teal
+  "Casa Bella": "#805AD5", // Purple
+  "Casa Beto": "#3467c6", // Dark Blue
+  Dormir: "#999", // Light Gray
   Enfermo: "#FC8181", // Light Red
   Familia: "#E53E3E", // Bright Red
   Gym: "#68D391", // Light Green
@@ -33,9 +33,9 @@ const categoryColors = {
   Playa: "#4FC3F7", // Sky Blue
   Reunion: "#BA68C8", // Light Purple
   Snooze: "#90A4AE", // Blue Gray
-  TT: "#00BCD4", // Cyan
+  TT: "#444", // Cyan
   Vueltas: "#FF8A65", // Light Orange
-  Vueltas_Yaya: "#FFAB91", // Peach
+  "Vueltas Yaya": "#FFAB91", // Peach
 };
 
 // ========= Funciones existentes =========
@@ -114,7 +114,7 @@ const getBarSegments = (items) => {
       duration,
       category: item.Categoria.trim(),
       description: item.Descripcion,
-      color: categoryColors[item.Categoria.trim()] || "#999",
+      color: categoryColors[item.Categoria.trim()] || "#FFF",
       doom: doom,
       leer: leer,
     };
@@ -129,7 +129,7 @@ onMounted(async () => {
   uniqueCategoriesList.value = uniqueCategories(data.value);
   categoriesByDay.value = calculateCategoriesByDay(data.value);
   days.value = [...new Set(data.value.map((item) => item.Fecha))];
-  selectedDay.value = days.value[0]; // por defecto el primero
+  selectedDay.value = days.value[days.value.length - 2]; // por defecto el último
 });
 </script>
 
@@ -185,7 +185,6 @@ onMounted(async () => {
         <span v-for="h in 25" :key="h">{{ h - 1 }}h</span>
       </div>
     </div>
-    <pre>{{ getBarSegments(activitiesForSelectedDay) }}</pre>
   </div>
 
   <div class="table-container">
@@ -223,6 +222,10 @@ table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+}
+
+.timeline-container {
+  margin-bottom: 2rem;
 }
 
 th,
