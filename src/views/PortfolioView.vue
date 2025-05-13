@@ -16,7 +16,6 @@ const passwords = [
   { student: "Charris", password: 8156 },
   { student: "Diaz", password: 1638 },
   { student: "Franco", password: 9047 },
-  { student: "Gonzáles s", password: 2873 },
   { student: "González e", password: 6391 },
   { student: "González s", password: 5024 },
   { student: "Herazo", password: 7560 },
@@ -26,7 +25,6 @@ const passwords = [
   { student: "Petro", password: 4287 },
   { student: "Pumarejo", password: 9371 },
   { student: "Velasco", password: 2046 },
-  { student: "Vergara", password: 5810 },
   { student: "Buitrago", password: 6935 },
   { student: "Caballero", password: 7421 },
   { student: "De la ossa", password: 3598 },
@@ -48,12 +46,32 @@ const passwords = [
   { student: "Villegas", password: 6428 },
   { student: "Amaya", password: 3057 },
   { student: "Arcos", password: 7291 },
-  { student: "Gómez", password: 8649 },
   { student: "Gonzales g", password: 1936 },
   { student: "Manzur", password: 5302 },
   { student: "Mendez", password: 3781 },
   { student: "Ochoa", password: 4159 },
-];
+
+  // NEW ENTRIES (missing names with unique passwords)
+  { student: "Ballesteros", password: 1025 },
+  { student: "Bonivento", password: 1077 },
+  { student: "Chadid", password: 1103 },
+  { student: "Cogollo", password: 1129 },
+  { student: "Escorcia", password: 1204 },
+  { student: "Garavito", password: 1307 },
+  { student: "Linero", password: 1408 },
+  { student: "Losada", password: 1509 },
+  { student: "Maldonado sh", password: 1610 },
+  { student: "Maldonado st", password: 1721 },
+  { student: "Mendoza", password: 1802 },
+  { student: "Osorio", password: 1903 },
+  { student: "Seba colina", password: 2001 },
+  { student: "Silva", password: 2104 },
+  { student: "Solano", password: 2205 },
+  { student: "Suárez", password: 2306 },
+  { student: "Velez", password: 2407 },
+  { student: "Vergara j", password: 5810 },
+  { student: "Vergara mg", password: 2609 },
+].sort((a, b) => a.student.localeCompare(b.student));
 
 // Campos
 const cuantitativos = [
@@ -189,10 +207,21 @@ const capitalize = (str) => {
 
 <template>
   <div class="container">
+    <!-- <pre>{{ [apellidos.length, passwords.length] }}</pre>
+
+    <pre>{{
+      apellidos.sort().map((m, i) => {
+        return [m, passwords[i]];
+      })
+    }}</pre> -->
     <label for="apellido">Selecciona un apellido:</label>
     <select id="apellido" v-model="selectedApellido">
       <option value="">-- Selecciona --</option>
-      <option v-for="apellido in apellidos" :key="apellido" :value="apellido">
+      <option
+        v-for="apellido in apellidos.sort()"
+        :key="apellido"
+        :value="apellido"
+      >
         {{ apellido }}
       </option>
     </select>
