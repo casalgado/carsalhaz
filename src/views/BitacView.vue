@@ -1,17 +1,45 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { bitac } from "./../lib/cv";
 
 const data = ref([]);
 const uniqueCategoriesList = ref([]);
 const categoriesByDay = ref([]);
+const selectedDay = ref("");
+const days = ref([]);
 
-onMounted(async () => {
-  console.log("obm");
-  [data.value] = await Promise.all([bitac]);
-  uniqueCategoriesList.value = uniqueCategories(data.value);
-  categoriesByDay.value = calculateCategoriesByDay(data.value);
-});
+const categoryColors = {
+  UNorte: "#C53030", // Red
+  LCI: "#F6E05E", // Yellow
+  Tutorias: "#48BB78", // Green
+  Worktime: "#63B3ED", // Light Blue
+  DOOM: "#B91C1C", // Blood Red
+  LEER: "#4A90B4", // Medium Blue
+  Meditacion: "#5A8BAF", // Darker Blue
+  Jrnl: "#6B95C7", // Light Blue-Gray
+
+  // Other categories
+  Amigos: "#ED8936", // Orange
+  Casa_Bella: "#805AD5", // Purple
+  Casa_Beto: "#9F7AEA", // Light Purple
+  Dormir: "#4FD1C5", // Teal
+  Enfermo: "#FC8181", // Light Red
+  Familia: "#E53E3E", // Bright Red
+  Gym: "#68D391", // Light Green
+  MDM: "#F687B3", // Pink
+  Misc: "#A0AEC0", // Gray
+  Paseo: "#81C784", // Soft Green
+  Personal: "#FFB74D", // Amber
+  Playa: "#4FC3F7", // Sky Blue
+  Reunion: "#BA68C8", // Light Purple
+  Snooze: "#90A4AE", // Blue Gray
+  TT: "#00BCD4", // Cyan
+  UNorte: "#C53030", // Red (duplicate, keeping consistent)
+  Vueltas: "#FF8A65", // Light Orange
+  Vueltas_Yaya: "#FFAB91", // Peach
+};
+
+// ========= Funciones existentes =========
 
 const uniqueCategories = (arr) => {
   const categories = new Set();
@@ -60,34 +88,127 @@ const calculateCategoriesByDay = (arr) => {
 const formatHours = (value) => {
   return value > 0 ? Math.round(value * 10) / 10 : "-";
 };
+
+// ========= Funciones nuevas para visualización =========
+
+const parseTime = (str) => {
+  const [h, m] = str.split(":").map(Number);
+
+  return h * 60 + m;
+};
+
+const activitiesForSelectedDay = computed(() =>
+  data.value.filter((item) => item.Fecha === selectedDay.value)
+);
+
+const getBarSegments = (items) => {
+  console.log("NEW BAR");
+  return items.map((item) => {
+    const start = parseTime(item["Hora Inicio"]);
+    const end = parseTime(item["Hora Fin"]);
+    const duration = end - start;
+
+    const doom = Number(item.DOOM) || 0;
+    const leer = Number(item.LEER) || 0;
+
+    return {
+      start,
+      duration,
+      category: item.Categoria.trim(),
+      color: categoryColors[item.Categoria.trim()] || "#999",
+      doom: doom,
+      leer: leer,
+    };
+  });
+};
+
+// ========= Cargar datos =========
+
+onMounted(async () => {
+  console.log("obm");
+  [data.value] = await Promise.all([bitac]);
+  uniqueCategoriesList.value = uniqueCategories(data.value);
+  categoriesByDay.value = calculateCategoriesByDay(data.value);
+  days.value = [...new Set(data.value.map((item) => item.Fecha))];
+  selectedDay.value = days.value[0]; // por defecto el primero
+});
 </script>
 
 <template>
   <div>
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Día</th>
-            <th v-for="category in uniqueCategoriesList" :key="category">
-              {{ category }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(categories, day) in categoriesByDay" :key="day">
-            <td>{{ day.split(",")[1] }}</td>
-            <td v-for="category in uniqueCategoriesList" :key="category">
-              {{ formatHours(categories[category] || 0) }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <label for="day">Selecciona un día:</label>
+
+    <select id="day" v-model="selectedDay">
+      <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
+    </select>
+
+    <div class="timeline-container">
+      <div class="timeline">
+        <div
+          v-for="(segment, index) in getBarSegments(activitiesForSelectedDay)"
+          :key="index"
+          class="segment"
+          :style="{
+            left: (segment.start / (24 * 60)) * 100 + '%',
+            width: (segment.duration / (24 * 60)) * 100 + '%',
+            backgroundColor: segment.color,
+          }"
+        >
+          <!-- Subsegmento: DOOM -->
+          <div
+            v-if="segment.doom > 0"
+            class="sub-segment doom"
+            :style="{
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: (segment.doom / (24 * 60)) * 100 + '%',
+            }"
+          ></div>
+
+          <!-- Subsegmento: LEER -->
+          <div
+            v-if="segment.leer > 0"
+            class="sub-segment leer"
+            :style="{
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: (segment.leer / (24 * 60)) * 100 + '%',
+            }"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Ejes -->
+      <div class="time-labels">
+        <span v-for="h in 25" :key="h">{{ h - 1 }}h</span>
+      </div>
     </div>
-    <pre>{{ categoriesByDay }}</pre>
-    <pre>{{ uniqueCategoriesList }}</pre>
-    <pre>{{ data }}</pre>
+    <pre>{{ getBarSegments(activitiesForSelectedDay) }}</pre>
   </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Día</th>
+          <th v-for="category in uniqueCategoriesList" :key="category">
+            {{ category }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(categories, day) in categoriesByDay" :key="day">
+          <td>{{ day.split(",")[1]?.trim() }}</td>
+          <td v-for="category in uniqueCategoriesList" :key="category">
+            {{ formatHours(categories[category] || 0) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <pre>{{ uniqueCategoriesList }}</pre>
+  <pre>{{ data }}</pre>
 </template>
 
 <style scoped>
@@ -116,5 +237,47 @@ td {
 thead {
   background-color: #f8f8f8;
   font-weight: bold;
+}
+
+.timeline-container {
+  margin-top: 20px;
+  position: relative;
+}
+
+.timeline {
+  position: relative;
+  height: 30px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.segment {
+  position: absolute;
+  height: 100%;
+  box-sizing: border-box;
+  border-right: 1px solid #fff;
+}
+
+.sub-segment {
+  position: absolute;
+  top: 25%;
+  height: 50%;
+  background-color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.sub-segment.doom {
+  background-color: rgba(139, 0, 0, 0.6);
+}
+
+.sub-segment.leer {
+  background-color: rgba(46, 139, 87, 0.6);
+}
+
+.time-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
 }
 </style>
