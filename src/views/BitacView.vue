@@ -34,7 +34,6 @@ const categoryColors = {
   Reunion: "#BA68C8", // Light Purple
   Snooze: "#90A4AE", // Blue Gray
   TT: "#00BCD4", // Cyan
-  UNorte: "#C53030", // Red (duplicate, keeping consistent)
   Vueltas: "#FF8A65", // Light Orange
   Vueltas_Yaya: "#FFAB91", // Peach
 };
@@ -93,7 +92,6 @@ const formatHours = (value) => {
 
 const parseTime = (str) => {
   const [h, m] = str.split(":").map(Number);
-
   return h * 60 + m;
 };
 
@@ -115,6 +113,7 @@ const getBarSegments = (items) => {
       start,
       duration,
       category: item.Categoria.trim(),
+      description: item.Descripcion,
       color: categoryColors[item.Categoria.trim()] || "#999",
       doom: doom,
       leer: leer,
@@ -153,6 +152,9 @@ onMounted(async () => {
             width: (segment.duration / (24 * 60)) * 100 + '%',
             backgroundColor: segment.color,
           }"
+          :title="`${segment.category}${
+            segment.description ? `:${segment.description}` : ''
+          }`"
         >
           <!-- Subsegmento: DOOM -->
           <div
