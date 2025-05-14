@@ -8,6 +8,38 @@ const categoriesByDay = ref([]);
 const selectedDay = ref("");
 const days = ref([]);
 
+const onlyDoom = {
+  UNorte: "#999", // Gray
+  LCI: "#999", // Gray
+  Tutorias: "#999", // Gray
+  Worktime: "#999", // Gray
+  DOOM: "#B91C1C", // Blood Red
+  LEER: "#999", // Gray
+  Meditacion: "#999", // Gray
+  Jrnl: "#999", // Gray
+
+  // Other categories
+  Amigos: "#999", // Gray
+  "Casa Bella": "#999", // Gray
+  "Casa Beto": "#999", // Gray
+  Dormir: "#999", // Gray
+  Enfermo: "#999", // Gray
+  Familia: "#999", // Gray
+  Gym: "#999", // Gray
+  MDM: "#999", // Gray
+  Misc: "#999", // Gray
+  Paseo: "#999", // Gray
+  Personal: "#999", // Gray
+  Playa: "#999", // Gray
+  Reunion: "#999", // Gray
+  Snooze: "#999", // Gray
+  TT: "#999", // Gray
+  Vueltas: "#999", // Gray
+  "Vueltas Yaya": "#999", // Gray
+};
+
+void onlyDoom;
+
 const categoryColors = {
   UNorte: "#EF5350", // Red
   LCI: "#F6E05E", // Yellow
@@ -99,6 +131,10 @@ const activitiesForSelectedDay = computed(() =>
   data.value.filter((item) => item.Fecha === selectedDay.value)
 );
 
+const activitiesForInputDay = (day) => {
+  return data.value.filter((item) => item.Fecha === day);
+};
+
 const getBarSegments = (items) => {
   console.log("NEW BAR");
   return items.map((item) => {
@@ -126,9 +162,30 @@ const getBarSegments = (items) => {
 onMounted(async () => {
   console.log("obm");
   [data.value] = await Promise.all([bitac]);
+  days.value = [...new Set(data.value.map((item) => item.Fecha))];
+  data.value = data.value.filter((e) => e.Fecha !== "");
+
+  data.value = data.value.flatMap((e) => {
+    if (parseTime(e["Hora Fin"]) < parseTime(e["Hora Inicio"])) {
+      let nextDay = days.value[days.value.indexOf(e.Fecha) + 1];
+
+      let thisItem = {
+        ...e,
+        "Hora Fin": "24:00",
+      };
+      let nextItem = {
+        ...e,
+        "Hora Inicio": "00:00",
+        Fecha: nextDay,
+      };
+      return [thisItem, nextItem];
+    }
+    return e;
+  });
+  console.log("data2", ...data.value);
   uniqueCategoriesList.value = uniqueCategories(data.value);
   categoriesByDay.value = calculateCategoriesByDay(data.value);
-  days.value = [...new Set(data.value.map((item) => item.Fecha))];
+
   selectedDay.value = days.value[days.value.length - 2]; // por defecto el último
 });
 </script>
@@ -145,6 +202,55 @@ onMounted(async () => {
       <div class="timeline">
         <div
           v-for="(segment, index) in getBarSegments(activitiesForSelectedDay)"
+          :key="index"
+          class="segment"
+          :style="{
+            left: (segment.start / (24 * 60)) * 100 + '%',
+            width: (segment.duration / (24 * 60)) * 100 + '%',
+            backgroundColor: segment.color,
+          }"
+          :title="`${segment.category}${
+            segment.description ? `:${segment.description}` : ''
+          }`"
+        >
+          <!-- Subsegmento: DOOM -->
+          <div
+            v-if="segment.doom > 0"
+            class="sub-segment doom"
+            :style="{
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: (segment.doom / (24 * 60)) * 100 + '%',
+            }"
+          ></div>
+
+          <!-- Subsegmento: LEER -->
+          <div
+            v-if="segment.leer > 0"
+            class="sub-segment leer"
+            :style="{
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: (segment.leer / (24 * 60)) * 100 + '%',
+            }"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Ejes -->
+      <div class="time-labels">
+        <span v-for="h in 25" :key="h">{{ h - 1 }}h</span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="day">Stacked:</label>
+
+    <div class="timeline-container">
+      <div class="timeline" v-for="day in days" :key="day">
+        <div
+          v-for="(segment, index) in getBarSegments(activitiesForInputDay(day))"
           :key="index"
           class="segment"
           :style="{
@@ -254,7 +360,7 @@ thead {
   height: 30px;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 
 .segment {
@@ -262,6 +368,10 @@ thead {
   height: 100%;
   box-sizing: border-box;
   border-right: 1px solid #fff;
+}
+
+.segment:last-child {
+  border-right: none;
 }
 
 .sub-segment {
