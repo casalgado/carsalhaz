@@ -6,39 +6,8 @@ const data = ref([]);
 const uniqueCategoriesList = ref([]);
 const categoriesByDay = ref([]);
 const selectedDay = ref("");
+const selectedCategory = ref(null);
 const days = ref([]);
-
-const onlyDoom = {
-  UNorte: "#999", // Gray
-  LCI: "#999", // Gray
-  Tutorias: "#999", // Gray
-  Worktime: "#999", // Gray
-  DOOM: "#B91C1C", // Blood Red
-  LEER: "#999", // Gray
-  Meditacion: "#999", // Gray
-  Jrnl: "#999", // Gray
-
-  // Other categories
-  Amigos: "#999", // Gray
-  "Casa Bella": "#999", // Gray
-  "Casa Beto": "#999", // Gray
-  Dormir: "#999", // Gray
-  Enfermo: "#999", // Gray
-  Familia: "#999", // Gray
-  Gym: "#999", // Gray
-  MDM: "#999", // Gray
-  Misc: "#999", // Gray
-  Paseo: "#999", // Gray
-  Personal: "#999", // Gray
-  Playa: "#999", // Gray
-  Reunion: "#999", // Gray
-  Snooze: "#999", // Gray
-  TT: "#999", // Gray
-  Vueltas: "#999", // Gray
-  "Vueltas Yaya": "#999", // Gray
-};
-
-void onlyDoom;
 
 const categoryColors = {
   UNorte: "#EF5350", // Red
@@ -160,8 +129,8 @@ const getBarSegments = (items) => {
 // ========= Cargar datos =========
 
 onMounted(async () => {
-  console.log("obm");
   [data.value] = await Promise.all([bitac]);
+
   days.value = [...new Set(data.value.map((item) => item.Fecha))];
   data.value = data.value.filter((e) => e.Fecha !== "");
 
@@ -182,12 +151,24 @@ onMounted(async () => {
     }
     return e;
   });
-  console.log("data2", ...data.value);
+
   uniqueCategoriesList.value = uniqueCategories(data.value);
   categoriesByDay.value = calculateCategoriesByDay(data.value);
 
   selectedDay.value = days.value[days.value.length - 2]; // por defecto el último
 });
+
+const handleSegmentClick = (category) => {
+  selectedCategory.value =
+    category === selectedCategory.value ? null : category;
+};
+
+const isWeekend = (day) => {
+  const date = new Date(day);
+  const dayOfWeek = date.getDay();
+  const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+  return isWeekend;
+};
 </script>
 
 <template>
@@ -204,10 +185,14 @@ onMounted(async () => {
           v-for="(segment, index) in getBarSegments(activitiesForSelectedDay)"
           :key="index"
           class="segment"
+          @click="handleSegmentClick(segment.category)"
           :style="{
             left: (segment.start / (24 * 60)) * 100 + '%',
             width: (segment.duration / (24 * 60)) * 100 + '%',
-            backgroundColor: segment.color,
+            backgroundColor:
+              !selectedCategory || segment.category === selectedCategory
+                ? segment.color
+                : '#ccc',
           }"
           :title="`${segment.category}${
             segment.description ? `:${segment.description}` : ''
@@ -246,17 +231,28 @@ onMounted(async () => {
 
   <div>
     <label for="day">Stacked:</label>
+    <button @click="selectedCategory = null">reset</button>
 
     <div class="timeline-container">
-      <div class="timeline" v-for="day in days" :key="day">
+      <div
+        class="timeline"
+        v-for="day in days"
+        :key="day"
+        :class="{ weekend: isWeekend(day) }"
+      >
         <div
           v-for="(segment, index) in getBarSegments(activitiesForInputDay(day))"
           :key="index"
           class="segment"
+          @click="handleSegmentClick(segment.category)"
           :style="{
             left: (segment.start / (24 * 60)) * 100 + '%',
             width: (segment.duration / (24 * 60)) * 100 + '%',
-            backgroundColor: segment.color,
+            borderRight: selectedCategory ? '1px solid #f5f5f5' : 'none',
+            backgroundColor:
+              !selectedCategory || segment.category === selectedCategory
+                ? segment.color
+                : '#ccc',
           }"
           :title="`${segment.category}${
             segment.description ? `:${segment.description}` : ''
@@ -367,7 +363,7 @@ thead {
   position: absolute;
   height: 100%;
   box-sizing: border-box;
-  border-right: 1px solid #fff;
+  border-right: 0px solid #f5f5f5;
 }
 
 .segment:last-child {
