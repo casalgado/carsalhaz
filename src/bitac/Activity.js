@@ -44,6 +44,7 @@ export class Activity {
   split() {
     const durationFirstPart = 1440 - this.startTimeMinutes;
     const durationSecondPart = this.endTimeMinutes;
+
     const nextDay = DateTimeParser.nextDay(this.date);
     const firstDurationPercentage = (durationFirstPart / this.duration) * 100;
     const secondDurationPercentage = (durationSecondPart / this.duration) * 100;
