@@ -29,6 +29,11 @@ const router = createRouter({
       component: () => import("../views/BitacView.vue"),
     },
     {
+      path: "/bitac-old",
+      name: "bitac-old",
+      component: () => import("../views/BitacViewBackup.vue"),
+    },
+    {
       path: "/portafolio",
       name: "portafolio",
       component: () => import("../views/PortfolioView.vue"),
