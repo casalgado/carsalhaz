@@ -1,10 +1,10 @@
 <script setup>
 // vue
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { bitac } from "./../lib/cv";
 
 // components
-import RelationshipDropdown from "@/components/bitac/RelationshipsDropdown.vue";
+import CheckboxDropdown from "@/components/bitac/CheckboxDropdown.vue";
 
 // data
 import { DataProcessor } from "@/bitac/DataProcessor";
@@ -13,10 +13,21 @@ import { DataProcessor } from "@/bitac/DataProcessor";
 const data = ref([]);
 const relationships = ref([]);
 const categories = ref([]);
+const subcategories = ref([]);
 const days = ref([]);
 
 // state
 const selectedRelationships = ref([]);
+const selectedCategories = ref([]);
+const selectedSubcategories = ref([]);
+
+const activeFilter = computed(() => {
+  return {
+    relationships: selectedRelationships.value,
+    categories: selectedCategories.value,
+    subcategories: selectedSubcategories.value,
+  };
+});
 
 onMounted(async () => {
   try {
@@ -26,11 +37,13 @@ onMounted(async () => {
       relationships: processedRelationships,
       categories: processedCategories,
       days: processedDays,
+      subcategories: processedSubcategories,
     } = DataProcessor.processRawData(result);
     data.value = processed;
     relationships.value = processedRelationships;
     categories.value = processedCategories;
     days.value = processedDays;
+    subcategories.value = processedSubcategories;
     console.log("Data processed successfully");
   } catch (error) {
     console.error("Error fetching or processing data:", error);
@@ -40,25 +53,59 @@ onMounted(async () => {
 
 <template>
   <div>
-    <h3 class="filter-title">Relationships</h3>
-    <RelationshipDropdown
-      :relationships="relationships"
-      v-model="selectedRelationships"
-    />
+    <div class="filters">
+      <div>
+        <h3 class="filter-title">Relaciones</h3>
+        <CheckboxDropdown
+          :options="relationships"
+          v-model="selectedRelationships"
+        />
+      </div>
+
+      <div>
+        <h3 class="filter-title">Categorias</h3>
+        <CheckboxDropdown :options="categories" v-model="selectedCategories" />
+      </div>
+
+      <div>
+        <h3 class="filter-title">Sub Categorias</h3>
+        <CheckboxDropdown
+          :options="subcategories"
+          v-model="selectedSubcategories"
+        />
+      </div>
+    </div>
 
     <!-- Debug: Show selected relationships -->
-    <div v-if="selectedRelationships.length > 0" class="debug-info">
+    <div class="debug-info">
       <p>
-        Selected: {{ selectedRelationships.map((r) => r.name || r).join(", ") }}
+        Relaciones seleccionadas:<br />
+        {{ selectedRelationships.map((r) => r.name || r).join(", ") }}
+      </p>
+      <p>
+        Categorias seleccionadas:<br />
+        {{ selectedCategories.map((c) => c.name || c).join(", ") }}
+      </p>
+      <p>
+        Subcategorias seleccionadas:<br />
+        {{ selectedSubcategories.map((sc) => sc.name || sc).join(", ") }}
       </p>
     </div>
   </div>
+  <pre>{{ data.filter((e) => e.matchesFilter(activeFilter)) }}</pre>
 </template>
 
 <style scoped>
 body {
   padding: 0 !important;
   margin: 0 !important;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 1rem;
 }
 
 .filter-title {
@@ -69,6 +116,9 @@ body {
 }
 
 .debug-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
   margin-top: 1rem;
   padding: 0.75rem;
   background: #f1f5f9;

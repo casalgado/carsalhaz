@@ -8,7 +8,7 @@ export class DataProcessor {
   static processRawData(rawData) {
     const processed = [];
     const uniqueRelationships = {};
-    const categories = new Set();
+    const uniqueCategories = new Set();
     const days = new Set();
     const validData = rawData.filter((item) => item["iso_date"] !== "");
 
@@ -19,17 +19,18 @@ export class DataProcessor {
       for (const act of activities) {
         processed.push(act);
         act.company.forEach((c) => {
-          if (c === "") c = "Sin compañia";
           if (!uniqueRelationships[c]) {
             uniqueRelationships[c] = act.duration;
           } else {
             uniqueRelationships[c] += act.duration;
           }
         });
-        if (act.category) categories.add(act.category);
+        if (act.category)
+          uniqueCategories.add(act.category.trim().toLowerCase());
         if (act.date) days.add(act.date);
       }
     }
+    console.log("unique categories", uniqueCategories);
     let relationships = Object.entries(uniqueRelationships)
       .map(([key, value], index) => ({
         name: key,
@@ -38,6 +39,19 @@ export class DataProcessor {
       }))
       .sort((a, b) => b.duration - a.duration);
 
-    return { processed, relationships, categories, days };
+    let categories = Array.from(uniqueCategories)
+      .map((cat, index) => ({
+        name: cat,
+        id: "c" + index,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    let subcategories = [
+      { name: "doom", id: "sc0" },
+      { name: "leer", id: "sc1" },
+      { name: "podcast", id: "sc2" },
+    ];
+
+    return { processed, relationships, categories, days, subcategories };
   }
 }

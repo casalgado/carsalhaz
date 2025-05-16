@@ -14,7 +14,13 @@ export class Activity {
     );
     this.endTimeMinutes = DateTimeParser.convertToMinutes(item["Hora Fin"]);
     this.duration = Number(item["Minutos"]);
-    this.company = item["Compañia"].replace(/\s/g, "").split(",");
+    this.company = item["Compañia"]
+      .replace(/\s/g, "")
+      .split(",")
+      .map((c) => {
+        if (c === "") c = "Sin compañia";
+        return c;
+      });
     this.sub_categories = {
       doom: Number(item["DOOM"]),
       leer: Number(item["LEER"]),
@@ -76,5 +82,48 @@ export class Activity {
       PODCAST: splitSubElements(secondDurationPercentage).podcast,
     });
     return [firstPart, secondPart];
+  }
+
+  matchesFilter(filters) {
+    // Initialize all match variables to true (neutral state)
+    let relationshipMatch = true;
+    let categoryMatch = true;
+    let subcategoryMatch = true;
+
+    // Check relationships (if any filters are provided)
+    if (filters.relationships && filters.relationships.length > 0) {
+      // Extract relationship names from filter objects
+      const filterRelationshipNames = filters.relationships.map((r) => r.name);
+
+      // Check if any of the activity's companies match any filter relationship
+      relationshipMatch = this.company.some((company) =>
+        filterRelationshipNames.includes(company)
+      );
+    }
+
+    // Check categories (if any filters are provided)
+    if (filters.categories && filters.categories.length > 0) {
+      // Extract category names from filter objects
+      const filterCategoryNames = filters.categories.map((c) => c.name);
+
+      // Check if the activity's category matches any filter category
+      categoryMatch = filterCategoryNames.includes(this.category);
+    }
+
+    // Check subcategories (if any filters are provided)
+    if (filters.subcategories && filters.subcategories.length > 0) {
+      // Extract subcategory names from filter objects
+      const filterSubcategoryNames = filters.subcategories.map((sc) => sc.name);
+
+      // Check if any of the activity's subcategories with value > 0 match the filters
+      subcategoryMatch = Object.keys(this.sub_categories).some(
+        (subcategory) =>
+          filterSubcategoryNames.includes(subcategory) &&
+          this.sub_categories[subcategory] > 0
+      );
+    }
+
+    // Return true only if all applicable filters match
+    return relationshipMatch && categoryMatch && subcategoryMatch;
   }
 }

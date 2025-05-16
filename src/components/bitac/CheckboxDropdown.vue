@@ -3,7 +3,7 @@ import { ref, onMounted, onUnmounted, watch } from "vue";
 
 // Props
 const props = defineProps({
-  relationships: {
+  options: {
     type: Array,
     default: () => [],
   },
@@ -17,14 +17,14 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 
 // State
-const selectedRelationships = ref([...props.modelValue]);
+const selectedOptions = ref([...props.modelValue]);
 const isOpen = ref(false);
 const dropdownRef = ref(null);
 
 const updateFromParent = ref(false);
 
 watch(
-  selectedRelationships,
+  selectedOptions,
   (newValue) => {
     if (!updateFromParent.value) {
       emit("update:modelValue", newValue);
@@ -34,19 +34,19 @@ watch(
 );
 // Methods
 const toggleRelationship = (relationship) => {
-  const index = selectedRelationships.value.indexOf(relationship);
+  const index = selectedOptions.value.indexOf(relationship);
   if (index > -1) {
-    selectedRelationships.value.splice(index, 1);
+    selectedOptions.value.splice(index, 1);
   } else {
-    selectedRelationships.value.push(relationship);
+    selectedOptions.value.push(relationship);
   }
 };
 
 const toggleAll = () => {
-  if (selectedRelationships.value.length === props.relationships.length) {
-    selectedRelationships.value = [];
+  if (selectedOptions.value.length === props.options.length) {
+    selectedOptions.value = [];
   } else {
-    selectedRelationships.value = [...props.relationships];
+    selectedOptions.value = [...props.options];
   }
 };
 
@@ -61,14 +61,12 @@ const closeDropdown = (event) => {
 };
 
 const getDisplayText = () => {
-  if (selectedRelationships.value.length === 0) {
-    return "Select relationships...";
-  } else if (selectedRelationships.value.length === 1) {
-    return (
-      selectedRelationships.value[0].name || selectedRelationships.value[0]
-    );
+  if (selectedOptions.value.length === 0) {
+    return "Select options...";
+  } else if (selectedOptions.value.length === 1) {
+    return selectedOptions.value[0].name || selectedOptions.value[0];
   } else {
-    return `${selectedRelationships.value.length} relationships selected`;
+    return `${selectedOptions.value.length} options selected`;
   }
 };
 
@@ -89,10 +87,10 @@ onUnmounted(() => {
       <span class="dropdown-arrow" :class="{ rotated: isOpen }">▼</span>
     </div>
 
-    <!-- Selected relationships display -->
-    <div v-if="selectedRelationships.length > 0" class="selected-items">
+    <!-- Selected options display -->
+    <div v-if="selectedOptions.length > 0" class="selected-items">
       <div
-        v-for="relationship in selectedRelationships"
+        v-for="relationship in selectedOptions"
         :key="relationship.name || relationship"
         class="selected-item"
       >
@@ -115,12 +113,11 @@ onUnmounted(() => {
           <input
             type="checkbox"
             :checked="
-              selectedRelationships.length === relationships.length &&
-              relationships.length > 0
+              selectedOptions.length === options.length && options.length > 0
             "
             :indeterminate="
-              selectedRelationships.length > 0 &&
-              selectedRelationships.length < relationships.length
+              selectedOptions.length > 0 &&
+              selectedOptions.length < options.length
             "
             @change="toggleAll"
             class="checkbox-input"
@@ -133,7 +130,7 @@ onUnmounted(() => {
 
       <!-- Individual relationship options -->
       <div
-        v-for="relationship in relationships"
+        v-for="relationship in options"
         :key="relationship.name || relationship"
         class="dropdown-item"
       >
@@ -141,7 +138,7 @@ onUnmounted(() => {
           <input
             type="checkbox"
             :value="relationship"
-            v-model="selectedRelationships"
+            v-model="selectedOptions"
             class="checkbox-input"
             @click.stop
           />
@@ -164,7 +161,7 @@ onUnmounted(() => {
 
 /* Dropdown Trigger */
 .dropdown-trigger {
-  padding: 0.75rem 1rem;
+  padding: 0rem 1rem;
   background: white;
   border: 2px solid #d1d5db;
   border-radius: 8px;

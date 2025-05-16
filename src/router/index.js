@@ -24,12 +24,12 @@ const router = createRouter({
       component: () => import("../views/AnthologyListView.vue"),
     },
     {
-      path: "/bitac",
+      path: "/bitac/new",
       name: "bitac",
       component: () => import("../views/BitacView.vue"),
     },
     {
-      path: "/bitac-old",
+      path: "/bitac",
       name: "bitac-old",
       component: () => import("../views/BitacViewBackup.vue"),
     },
