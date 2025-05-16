@@ -7,6 +7,8 @@ export class Activity {
     this.startTime = item["Hora Inicio"];
     this.endTime = item["Hora Fin"];
     this.category = item["Categoria"].toLowerCase();
+    this.description = item["Descripcion"];
+    this.details = item["Detalles"];
     this.startTimeMinutes = DateTimeParser.convertToMinutes(
       item["Hora Inicio"]
     );

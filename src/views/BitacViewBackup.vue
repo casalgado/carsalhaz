@@ -106,7 +106,6 @@ const activitiesForInputDay = (day) => {
 };
 
 const getBarSegments = (items) => {
-  console.log("NEW BAR");
   return items.map((item) => {
     const start = parseTime(item["Hora Inicio"]);
     const end = parseTime(item["Hora Fin"]);
@@ -139,15 +138,22 @@ onMounted(async () => {
     if (parseTime(e["Hora Fin"]) < parseTime(e["Hora Inicio"])) {
       console.log(e);
       let nextDay = days.value[days.value.indexOf(e.iso_date) + 1];
+      let totalMinutes = e["Minutos"];
+      let firstPartMinutes = 1440 - parseTime(e["Hora Inicio"]);
+      let secondPartMinutes = parseTime(e["Hora Fin"]);
 
       let thisItem = {
         ...e,
         "Hora Fin": "24:00",
+        DOOM: Math.round((Number(e["DOOM"]) * firstPartMinutes) / totalMinutes),
       };
       let nextItem = {
         ...e,
         "Hora Inicio": "00:00",
         iso_date: nextDay,
+        DOOM: Math.round(
+          (Number(e["DOOM"]) * secondPartMinutes) / totalMinutes
+        ),
       };
       console.log(thisItem, nextItem);
       return [thisItem, nextItem];
@@ -173,7 +179,6 @@ const dayString = (day) => {
     weekday: "long",
     timeZone: "UTC",
   });
-  console.log(fullString, dayString);
   return dayString;
 };
 </script>
