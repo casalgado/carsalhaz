@@ -1,6 +1,6 @@
 <script setup>
 // vue
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { bitac } from "./../lib/cv";
 
 // data
@@ -13,8 +13,9 @@ const categories = ref([]);
 const days = ref([]);
 
 // state
-
 const selectedRelationships = ref([]);
+const isOpen = ref(false);
+const dropdownRef = ref(null);
 
 // methods
 const toggleRelationship = (relationship) => {
@@ -34,6 +35,28 @@ const toggleAll = () => {
   }
 };
 
+const toggleDropdown = () => {
+  isOpen.value = !isOpen.value;
+};
+
+const closeDropdown = (event) => {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
+    isOpen.value = false;
+  }
+};
+
+const getDisplayText = () => {
+  if (selectedRelationships.value.length === 0) {
+    return "Select relationships...";
+  } else if (selectedRelationships.value.length === 1) {
+    return (
+      selectedRelationships.value[0].name || selectedRelationships.value[0]
+    );
+  } else {
+    return `${selectedRelationships.value.length} relationships selected`;
+  }
+};
+
 onMounted(async () => {
   try {
     const result = await bitac;
@@ -48,43 +71,76 @@ onMounted(async () => {
     categories.value = processedCategories;
     days.value = processedDays;
     console.log("Data processed successfully");
+
+    // Add click outside listener
+    document.addEventListener("click", closeDropdown);
   } catch (error) {
     console.error("Error fetching or processing data:", error);
   }
 });
+
+onUnmounted(() => {
+  document.removeEventListener("click", closeDropdown);
+});
 </script>
 
 <template>
-  <div class="relationship-filter">
+  <div class="relationship-dropdown" ref="dropdownRef">
     <h3 class="filter-title">Relationships</h3>
 
-    <!-- Select All checkbox -->
-    <div class="checkbox-item select-all">
-      <label class="checkbox-label">
-        <input
-          type="checkbox"
-          :checked="
-            selectedRelationships.length === relationships.length &&
-            relationships.length > 0
-          "
-          :indeterminate="
-            selectedRelationships.length > 0 &&
-            selectedRelationships.length < relationships.length
-          "
-          @change="toggleAll"
-          class="checkbox-input"
-        />
-        <span class="checkbox-custom"></span>
-        <span class="checkbox-text">Select All</span>
-      </label>
+    <!-- Dropdown trigger -->
+    <div class="dropdown-trigger" @click="toggleDropdown">
+      <span class="dropdown-text">{{ getDisplayText() }}</span>
+      <span class="dropdown-arrow" :class="{ rotated: isOpen }">▼</span>
     </div>
 
-    <!-- Individual relationship checkboxes -->
-    <div class="checkbox-list">
+    <!-- Selected relationships display -->
+    <div v-if="selectedRelationships.length > 0" class="selected-items">
+      <div
+        v-for="relationship in selectedRelationships"
+        :key="relationship.name || relationship"
+        class="selected-item"
+      >
+        <span>{{ relationship.name || relationship }}</span>
+        <button
+          @click="toggleRelationship(relationship)"
+          class="remove-button"
+          type="button"
+        >
+          ×
+        </button>
+      </div>
+    </div>
+
+    <!-- Dropdown options -->
+    <div class="dropdown-menu" :class="{ open: isOpen }">
+      <!-- Select All option -->
+      <div class="dropdown-item select-all">
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            :checked="
+              selectedRelationships.length === relationships.length &&
+              relationships.length > 0
+            "
+            :indeterminate="
+              selectedRelationships.length > 0 &&
+              selectedRelationships.length < relationships.length
+            "
+            @change="toggleAll"
+            class="checkbox-input"
+            @click.stop
+          />
+          <span class="checkbox-custom"></span>
+          <span class="checkbox-text">Select All</span>
+        </label>
+      </div>
+
+      <!-- Individual relationship options -->
       <div
         v-for="relationship in relationships"
-        :key="relationship"
-        class="checkbox-item"
+        :key="relationship.name || relationship"
+        class="dropdown-item"
       >
         <label class="checkbox-label">
           <input
@@ -92,16 +148,14 @@ onMounted(async () => {
             :value="relationship"
             v-model="selectedRelationships"
             class="checkbox-input"
+            @click.stop
           />
           <span class="checkbox-custom"></span>
-          <span class="checkbox-text">{{ relationship.name }}</span>
+          <span class="checkbox-text">{{
+            relationship.name || relationship
+          }}</span>
         </label>
       </div>
-    </div>
-
-    <!-- Selected count -->
-    <div class="selected-count" v-if="selectedRelationships.length > 0">
-      Selected: {{ selectedRelationships.length }} of {{ relationships.length }}
     </div>
   </div>
 </template>
@@ -112,46 +166,145 @@ body {
   margin: 0 !important;
 }
 
-.relationship-filter {
-  padding: 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.relationship-dropdown {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
 }
 
 .filter-title {
-  margin: 0 0 1rem 0;
+  margin: 0 0 0.5rem 0;
   font-size: 1.25rem;
   font-weight: 600;
   color: #333;
 }
 
-.checkbox-list {
+/* Dropdown Trigger */
+.dropdown-trigger {
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.dropdown-trigger:hover,
+.dropdown-trigger:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.dropdown-text {
+  flex: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  color: #374151;
+}
+
+.dropdown-arrow {
+  transition: transform 0.2s ease;
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
+.dropdown-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+/* Selected Items */
+.selected-items {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.selected-item {
+  display: flex;
+  align-items: center;
+  background: #eff6ff;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  color: #2563eb;
+}
+
+.remove-button {
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  padding: 0;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.remove-button:hover {
+  background-color: rgba(37, 99, 235, 0.1);
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid #d1d5db;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
   max-height: 300px;
   overflow-y: auto;
-  padding-right: 0.5rem;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.checkbox-item {
-  margin-bottom: 0.75rem;
+.dropdown-menu.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
-.checkbox-item.select-all {
+.dropdown-item {
+  padding: 0.75rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-item.select-all {
   border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 0.75rem;
-  margin-bottom: 1rem;
+  background-color: #f9fafb;
 }
 
+/* Checkbox styles */
 .checkbox-label {
   display: flex;
   align-items: center;
   cursor: pointer;
   user-select: none;
-  transition: color 0.2s ease;
-}
-
-.checkbox-label:hover {
-  color: #2563eb;
+  width: 100%;
 }
 
 .checkbox-input {
@@ -169,6 +322,7 @@ body {
   border-radius: 4px;
   margin-right: 0.75rem;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .checkbox-custom::after {
@@ -213,35 +367,25 @@ body {
 .checkbox-text {
   font-size: 0.95rem;
   color: #374151;
-}
-
-.selected-count {
-  margin-top: 1rem;
-  padding: 0.5rem 0.75rem;
-  background: #eff6ff;
-  border: 1px solid #2563eb;
-  border-radius: 6px;
-  color: #2563eb;
-  font-size: 0.875rem;
-  font-weight: 500;
+  flex: 1;
 }
 
 /* Scrollbar styling */
-.checkbox-list::-webkit-scrollbar {
+.dropdown-menu::-webkit-scrollbar {
   width: 8px;
 }
 
-.checkbox-list::-webkit-scrollbar-track {
+.dropdown-menu::-webkit-scrollbar-track {
   background: #f1f5f9;
   border-radius: 4px;
 }
 
-.checkbox-list::-webkit-scrollbar-thumb {
+.dropdown-menu::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 4px;
 }
 
-.checkbox-list::-webkit-scrollbar-thumb:hover {
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 </style>
