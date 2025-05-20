@@ -1,4 +1,5 @@
 import { DateTimeParser } from "./DateTimeParser";
+import { categoryColors } from "./config";
 
 export class Activity {
   constructor(item) {
@@ -26,6 +27,9 @@ export class Activity {
       leer: Number(item["LEER"]),
       podcast: Number(item["PODCAST"]),
     };
+    this.color = categoryColors[this.category] || "#999"; // Default color if not found
+    console.log(this.category);
+    console.log(categoryColors);
   }
 
   toRaw() {
@@ -45,6 +49,15 @@ export class Activity {
 
   isOvernight() {
     return this.endTimeMinutes < this.startTimeMinutes;
+  }
+
+  getSegmentStyle() {
+    return {
+      backgroundColor: this.color,
+      borderRadius: "5px",
+      left: (this.startTimeMinutes / (24 * 60)) * 100 + "%",
+      width: (this.duration / (24 * 60)) * 100 + "%",
+    };
   }
 
   split() {

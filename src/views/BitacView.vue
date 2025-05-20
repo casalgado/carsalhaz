@@ -8,6 +8,7 @@ import CheckboxDropdown from "@/components/bitac/CheckboxDropdown.vue";
 
 // data
 import { DataProcessor } from "@/bitac/DataProcessor";
+import DayTimeline from "../components/bitac/DayTimeline.vue";
 
 // setup
 const data = ref([]);
@@ -77,7 +78,7 @@ onMounted(async () => {
     </div>
 
     <!-- Debug: Show selected relationships -->
-    <div class="debug-info">
+    <div class="state-info">
       <p>
         Relaciones seleccionadas:<br />
         {{ selectedRelationships.map((r) => r.name || r).join(", ") }}
@@ -91,6 +92,17 @@ onMounted(async () => {
         {{ selectedSubcategories.map((sc) => sc.name || sc).join(", ") }}
       </p>
     </div>
+
+    <div class="timelines-container">
+      {{ days }}
+      <DayTimeline
+        v-for="day in days"
+        :key="day"
+        :activities="data.filter((e) => e.date === day)"
+        :activeFilter="activeFilter"
+        :date="day"
+      />
+    </div>
   </div>
   <pre>{{ data.filter((e) => e.matchesFilter(activeFilter)) }}</pre>
 </template>
@@ -99,6 +111,9 @@ onMounted(async () => {
 body {
   padding: 0 !important;
   margin: 0 !important;
+}
+pre {
+  border-top: 1px solid black;
 }
 
 .filters {
@@ -115,7 +130,7 @@ body {
   color: #333;
 }
 
-.debug-info {
+.state-info {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
