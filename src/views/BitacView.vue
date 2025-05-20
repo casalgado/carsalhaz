@@ -94,7 +94,6 @@ onMounted(async () => {
     </div>
 
     <div class="timelines-container">
-      {{ days }}
       <DayTimeline
         v-for="day in days"
         :key="day"
@@ -111,9 +110,6 @@ onMounted(async () => {
 body {
   padding: 0 !important;
   margin: 0 !important;
-}
-pre {
-  border-top: 1px solid black;
 }
 
 .filters {

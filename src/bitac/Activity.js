@@ -1,5 +1,5 @@
 import { DateTimeParser } from "./DateTimeParser";
-import { categoryColors } from "./config";
+import { categoryStyles } from "./config";
 
 export class Activity {
   constructor(item) {
@@ -7,7 +7,7 @@ export class Activity {
     this.date = item["iso_date"];
     this.startTime = item["Hora Inicio"];
     this.endTime = item["Hora Fin"];
-    this.category = item["Categoria"].toLowerCase();
+    this.category = item["Categoria"].trim().toLowerCase();
     this.description = item["Descripcion"];
     this.details = item["Detalles"];
     this.startTimeMinutes = DateTimeParser.convertToMinutes(
@@ -27,9 +27,13 @@ export class Activity {
       leer: Number(item["LEER"]),
       podcast: Number(item["PODCAST"]),
     };
-    this.color = categoryColors[this.category] || "#999"; // Default color if not found
-    console.log(this.category);
-    console.log(categoryColors);
+
+    if (categoryStyles[this.category] === undefined) {
+      console.warn(
+        `Category "${this.category}" not found in categoryStyles. Defaulting to "#999" color and "80%" height.`
+      );
+    }
+    this.styles = categoryStyles[this.category];
   }
 
   toRaw() {
@@ -52,12 +56,21 @@ export class Activity {
   }
 
   getSegmentStyle() {
-    return {
-      backgroundColor: this.color,
-      borderRadius: "5px",
+    const active = {
+      backgroundColor: this.styles.color || categoryStyles.default.color,
+      borderRadius: this.styles.radius || categoryStyles.default.radius,
+      height: this.styles.height || categoryStyles.default.height,
       left: (this.startTimeMinutes / (24 * 60)) * 100 + "%",
       width: (this.duration / (24 * 60)) * 100 + "%",
     };
+    const inactive = {
+      backgroundColor: categoryStyles.default.color,
+      borderRadius: categoryStyles.default.radius,
+      height: categoryStyles.default.height,
+      left: (this.startTimeMinutes / (24 * 60)) * 100 + "%",
+      width: (this.duration / (24 * 60)) * 100 + "%",
+    };
+    return { active, inactive };
   }
 
   split() {

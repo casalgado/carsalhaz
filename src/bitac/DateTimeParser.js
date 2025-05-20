@@ -16,4 +16,13 @@ export class DateTimeParser {
     date.setDate(date.getDate() + 1);
     return date.toISOString().split("T")[0];
   }
+
+  static getWeekday(iso_date) {
+    const day = new Date(iso_date).toLocaleDateString("en-US", {
+      timeZone: "UTC",
+      weekday: "long",
+    });
+
+    return day;
+  }
 }
