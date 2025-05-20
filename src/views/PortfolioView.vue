@@ -262,6 +262,55 @@ const capitalize = (str) => {
         de tus compañeros sobre tu portafolio.
       </p>
 
+      <p>
+        <strong>
+          Te han evaluado
+          {{
+            rawData.filter(
+              (e) =>
+                e["Apellido de quien evalúas:"].toLowerCase().trim() ==
+                selectedApellido.toLowerCase().trim()
+            ).length
+          }}
+          compañeros:</strong
+        >
+        {{
+          rawData
+            .filter(
+              (e) =>
+                e["Apellido de quien evalúas:"].toLowerCase().trim() ==
+                selectedApellido.toLowerCase().trim()
+            )
+            .map((e) => capitalize(e["Tu apellido:"].toLowerCase().trim()))
+            .join(", ")
+        }}
+      </p>
+      <p>
+        <strong>
+          Has evaluado
+          {{
+            rawData.filter(
+              (e) =>
+                e["Tu apellido:"].toLowerCase().trim() ==
+                selectedApellido.toLowerCase().trim()
+            ).length
+          }}
+          compañeros:</strong
+        >
+        {{
+          rawData
+            .filter(
+              (e) =>
+                e["Tu apellido:"].toLowerCase().trim() ==
+                selectedApellido.toLowerCase().trim()
+            )
+            .map((e) =>
+              capitalize(e["Apellido de quien evalúas:"].toLowerCase().trim())
+            )
+            .join(", ")
+        }}
+      </p>
+
       <h3 class="section-title">Promedios de evaluación:</h3>
       <ul class="score-list">
         <li
