@@ -1,14 +1,14 @@
 <script setup>
 // vue
 import { ref, onMounted, computed } from "vue";
-import { bitac } from "./../lib/cv";
+import { bitac } from "@/lib/cv";
 
 // components
 import CheckboxDropdown from "@/components/bitac/CheckboxDropdown.vue";
 
 // data
 import { DataProcessor } from "@/bitac/DataProcessor";
-import DayTimeline from "../components/bitac/DayTimeline.vue";
+import DayTimeline from "@/components/bitac/DayTimeline.vue";
 
 // setup
 const data = ref([]);

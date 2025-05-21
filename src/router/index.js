@@ -24,7 +24,7 @@ const router = createRouter({
       component: () => import("../views/AnthologyListView.vue"),
     },
     {
-      path: "/bitac/new",
+      path: "/bitac-new",
       name: "bitac",
       component: () => import("../views/BitacView.vue"),
     },

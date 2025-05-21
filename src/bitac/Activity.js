@@ -1,5 +1,5 @@
 import { DateTimeParser } from "./DateTimeParser";
-import { categoryStyles } from "./config";
+import { categoryStyles } from "./categoryStyles";
 
 export class Activity {
   constructor(item) {
