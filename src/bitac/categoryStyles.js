@@ -25,5 +25,5 @@ export const categoryStyles = {
   vueltas: { color: "#FF8A65" },
   "vueltas yaya": { color: "#FFAB91" },
   "yaya casa": { color: "#FF7043" },
-  default: { color: "#999", height: "80%", radius: "4px" },
+  default: { color: "#e0e0e0", height: "80%", radius: "0px" },
 };

@@ -27,15 +27,18 @@ const parseData = () => {
   });
 };
 
-const getData = (url) => {
+export const getData = (url) => {
   let data = [];
   return new Promise((resolve) => {
+    console.log("parsing");
     Papa.parse(url, {
       download: true,
       header: true,
       complete: (results) => {
         data = results.data;
         // console.log("incv", data);
+        console.log("resolved");
+        console.log(data);
         resolve(data);
       },
     });

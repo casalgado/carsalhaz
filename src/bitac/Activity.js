@@ -15,6 +15,7 @@ export class Activity {
     );
     this.endTimeMinutes = DateTimeParser.convertToMinutes(item["Hora Fin"]);
     this.duration = Number(item["Minutos"]);
+    this.money = Number(item["Plata"]?.trim().replace(",", ".")) || 0;
     this.company = item["Compañia"]
       .replace(/\s/g, "")
       .split(",")

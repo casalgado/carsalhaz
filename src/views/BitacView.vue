@@ -32,7 +32,9 @@ const activeFilter = computed(() => {
 
 onMounted(async () => {
   try {
+    console.log("Fetching data...");
     const result = await bitac;
+    console.log("Data fetched successfully");
     const {
       processed,
       relationships: processedRelationships,
@@ -95,7 +97,7 @@ onMounted(async () => {
 
     <div class="timelines-container">
       <DayTimeline
-        v-for="day in days"
+        v-for="day in Array.from(days).reverse()"
         :key="day"
         :activities="data.filter((e) => e.date === day)"
         :activeFilter="activeFilter"
@@ -103,7 +105,7 @@ onMounted(async () => {
       />
     </div>
   </div>
-  <pre>{{ data.filter((e) => e.matchesFilter(activeFilter)) }}</pre>
+  <pre>{{ data.filter((e) => e.matchesFilter(activeFilter)).reverse() }}</pre>
 </template>
 
 <style scoped>
@@ -117,6 +119,12 @@ body {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
   margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
 }
 
 .filter-title {

@@ -1,7 +1,8 @@
 <script setup>
+import { computed } from "vue";
 import { DateTimeParser } from "../../bitac/DateTimeParser";
 
-defineProps({
+const props = defineProps({
   activities: {
     type: Array,
     required: true,
@@ -15,10 +16,27 @@ defineProps({
     required: true,
   },
 });
+
+const daySummary = computed(() => {
+  let dayTotal = props.activities.reduce((acc, activity) => {
+    return acc + Number(activity.money);
+  }, 0);
+  console.log(dayTotal);
+  return `${new Date(props.date).toLocaleString("es-ES", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  })} - $${dayTotal}`;
+});
 </script>
 
 <template>
-  <div class="timeline" :class="`${DateTimeParser.getWeekday(date)}`">
+  <div
+    class="timeline"
+    :class="`${DateTimeParser.getWeekday(date)}`"
+    :data-day="daySummary"
+  >
     <div
       class="segment"
       v-for="a in activities"
@@ -38,8 +56,19 @@ defineProps({
   position: relative;
   height: 30px;
   background-color: #f0f0f0;
-  border: 1px solid #ccc;
+  border: 1px solid #f0f0f0;
   margin-bottom: 2px;
+}
+
+.timeline::after {
+  content: "" attr(data-day) "";
+  font-size: 0.8em;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  z-index: 999;
+  position: absolute;
 }
 
 .segment {
