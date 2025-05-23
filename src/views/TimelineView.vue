@@ -101,6 +101,10 @@ onMounted(async () => {
         Subcategorias seleccionadas:<br />
         {{ selectedSubcategories.map((sc) => sc.name || sc).join(", ") }}
       </p>
+      <p>
+        Overlays seleccionados:<br />
+        {{ selectedOverlays.map((o) => o.name || o).join(", ") }}
+      </p>
     </div>
 
     <div class="timelines-container">
@@ -144,7 +148,7 @@ body {
 
 .state-info {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 10px;
   margin-top: 1rem;
   padding: 0.75rem;

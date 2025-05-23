@@ -170,7 +170,7 @@ onUnmounted(() => {
   justify-content: space-between;
   align-items: center;
   transition: all 0.2s ease;
-  min-height: 44px;
+  min-height: 35px;
 }
 
 .dropdown-trigger:hover,
@@ -199,10 +199,9 @@ onUnmounted(() => {
 
 /* Selected Items */
 .selected-items {
-  margin-top: 0.5rem;
   display: none;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.3rem;
   position: absolute;
 }
 
@@ -266,7 +265,7 @@ onUnmounted(() => {
 }
 
 .dropdown-item {
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.75rem;
   transition: background-color 0.2s ease;
 }
 
@@ -296,10 +295,10 @@ onUnmounted(() => {
 
 .checkbox-custom {
   position: relative;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   background: white;
-  border: 2px solid #d1d5db;
+  border: 1px solid #d1d5db;
   border-radius: 4px;
   margin-right: 0.75rem;
   transition: all 0.2s ease;
@@ -310,11 +309,11 @@ onUnmounted(() => {
   content: "";
   position: absolute;
   display: none;
-  left: 6px;
+  left: 5px;
   top: 2px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
+  width: 4px;
+  height: 8px;
+  border: solid rgb(255, 255, 255);
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
 }
@@ -336,8 +335,8 @@ onUnmounted(() => {
 .checkbox-input:indeterminate + .checkbox-custom::after {
   display: block;
   content: "";
-  left: 4px;
-  top: 8px;
+  left: 3px;
+  top: 7px;
   width: 10px;
   height: 2px;
   border: none;
