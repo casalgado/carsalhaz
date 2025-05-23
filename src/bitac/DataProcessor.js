@@ -1,8 +1,6 @@
 import { Activity } from "./Activity";
 import { categoryMetadata } from "./categoryMetadata";
 
-const onlyLocations = false; // Set to true to show only locations
-
 export class DataProcessor {
   constructor() {
     this.data = [];
@@ -15,19 +13,31 @@ export class DataProcessor {
     const days = new Set();
     const validData = rawData.filter((item) => item["iso_date"] !== "");
 
-    let prevCategory;
+    let prevLocation;
     for (const item of validData) {
       const activity = new Activity(item);
       const activities = activity.isOvernight() ? activity.split() : [activity];
 
       for (const act of activities) {
-        if (prevCategory && !categoryMetadata[act.category].isLocation) {
-          if (onlyLocations) {
-            act.setCategory(prevCategory);
-          }
-          act.location = prevCategory;
+        // LOCATION INHERITANCE LOGIC
+        // We inherit the previous activity's location in two specific cases:
+        // 1. Non-location categories (like "worktime", "jrnl") should inherit location
+        //    UNLESS they have "force_location" flag (which means use their own category)
+        // 2. Location categories (like "vueltas", "tt", "gym") normally set their own location
+        //    BUT if they have "skip_location" flag, they should inherit instead.
+
+        if (
+          prevLocation && // Only inherit if we have a previous location to inherit from
+          // Case 1: Non-location category without force_location flag
+          ((!categoryMetadata[act.category].isLocation &&
+            !act.details.includes("force_location")) ||
+            // Case 2: Location category with skip_location flag (override normal behavior)
+            (categoryMetadata[act.category].isLocation &&
+              act.details.includes("skip_location")))
+        ) {
+          act.location = prevLocation;
         }
-        prevCategory = act.category;
+        prevLocation = act.location;
 
         processed.push(act);
         act.company.forEach((c) => {

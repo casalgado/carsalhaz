@@ -31,6 +31,14 @@ const activeFilter = computed(() => {
   };
 });
 
+const activeOverlays = computed(() => {
+  const ids = new Set(selectedOverlays.value.map((o) => o.id));
+  return {
+    showDoom: ids.has("ov1"),
+    onlyLocations: ids.has("ov2"),
+  };
+});
+
 onMounted(async () => {
   try {
     const result = await fetchData("bitac");
@@ -79,7 +87,7 @@ onMounted(async () => {
         <h3 class="filter-title">Overlays</h3>
         <CheckboxDropdown
           :options="[
-            { name: 'onlyDoom', id: 'ov1' },
+            { name: 'showDoom', id: 'ov1' },
             { name: 'onlyLocations', id: 'ov2' },
           ]"
           v-model="selectedOverlays"
@@ -113,6 +121,7 @@ onMounted(async () => {
         :key="day"
         :activities="data.filter((e) => e.date === day)"
         :activeFilter="activeFilter"
+        :activeOverlays="activeOverlays"
         :date="day"
       />
     </div>
@@ -156,5 +165,6 @@ body {
   border-radius: 6px;
   font-size: 0.875rem;
   color: #64748b;
+  height: 80px;
 }
 </style>

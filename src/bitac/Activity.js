@@ -8,8 +8,8 @@ export class Activity {
     this.startTime = item["Hora Inicio"];
     this.endTime = item["Hora Fin"];
     this.category = item["Categoria"].trim().toLowerCase();
-    this.description = item["Descripcion"];
-    this.details = item["Detalles"];
+    this.description = item["Descripcion"] || "";
+    this.details = item["Detalles"] || "";
     this.startTimeMinutes = DateTimeParser.convertToMinutes(
       item["Hora Inicio"]
     );
@@ -31,13 +31,6 @@ export class Activity {
     this.location = this.category;
 
     this.validate();
-
-    if (!categoryMetadata[this.category]) {
-      console.warn(
-        `Category "${this.category}" not found in categoryMetadata, date: ${this.date}, id: ${this.id}`
-      );
-    }
-    this.styles = categoryMetadata[this.category] || categoryMetadata.default;
   }
 
   toRaw() {
@@ -99,11 +92,25 @@ export class Activity {
     return this.endTimeMinutes < this.startTimeMinutes;
   }
 
-  getSegmentStyle() {
+  getCategoryMetadata() {
+    return categoryMetadata[this.category] || categoryMetadata.default;
+  }
+
+  getLocationMetadata() {
+    return categoryMetadata[this.location] || categoryMetadata.default;
+  }
+
+  getSegmentStyle({ onlyLocations = false } = {}) {
+    let metadata;
+    if (onlyLocations) {
+      metadata = this.getLocationMetadata();
+    } else {
+      metadata = this.getCategoryMetadata();
+    }
     const active = {
-      backgroundColor: this.styles.color || categoryMetadata.default.color,
-      borderRadius: this.styles.radius || categoryMetadata.default.radius,
-      height: this.styles.height || categoryMetadata.default.height,
+      backgroundColor: metadata.color || categoryMetadata.default.color,
+      borderRadius: metadata.radius || categoryMetadata.default.radius,
+      height: metadata.height || categoryMetadata.default.height,
       left: (this.startTimeMinutes / (24 * 60)) * 100 + "%",
       width: (this.duration / (24 * 60)) * 100 + "%",
     };
@@ -117,14 +124,27 @@ export class Activity {
     return { active, inactive };
   }
 
-  getSubsegmentStyle() {
+  getSubsegmentStyle({ showDoom = false } = {}) {
+    let segmentWidth = 0;
+    let segmentColor;
+    let border = "none";
+    if (showDoom) {
+      segmentWidth = this.sub_categories.doom;
+      segmentColor = categoryMetadata.doom.color;
+      if (this.sub_categories.doom > 0) {
+        border = "1px solid red";
+      }
+    }
     const active = {
-      backgroundColor: "black",
+      backgroundColor: segmentColor,
       borderRadius: "0px",
       height: "80%",
       left: "50%",
-      transform: "translateX(-50%)",
-      width: (this.duration / (24 * 60)) * 100 + "%",
+      top: "50%",
+      transform: "translate(-50%, -50%)",
+      border: border,
+      boxSizing: "border-box",
+      width: (segmentWidth / this.duration) * 100 + "%",
     };
     return { active };
   }

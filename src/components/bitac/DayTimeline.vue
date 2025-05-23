@@ -15,6 +15,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  activeOverlays: {
+    type: Object,
+    required: true,
+  },
 });
 
 const daySummary = computed(() => {
@@ -45,12 +49,15 @@ const daySummary = computed(() => {
       :key="`act${a.id}`"
       :style="
         a.matchesFilter(activeFilter)
-          ? a.getSegmentStyle().active
+          ? a.getSegmentStyle(activeOverlays).active
           : a.getSegmentStyle().inactive
       "
       :title="`${a.category}${a.description ? `:${a.description}` : ''}`"
     >
-      <div class="sub-segment" :style="a.getSubsegmentStyle()"></div>
+      <div
+        class="sub-segment"
+        :style="a.getSubsegmentStyle(activeOverlays).active"
+      ></div>
     </div>
   </div>
 </template>
@@ -79,6 +86,11 @@ const daySummary = computed(() => {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.sub-segment {
+  position: absolute;
   transition: width 0.3s ease, left 0.3s ease;
 }
 
