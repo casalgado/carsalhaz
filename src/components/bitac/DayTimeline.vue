@@ -1,6 +1,7 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { DateTimeParser } from "../../bitac/DateTimeParser";
+import Tooltip from "./TheTooltip.vue"; // Adjust path as needed
 
 const props = defineProps({
   activities: {
@@ -21,6 +22,11 @@ const props = defineProps({
   },
 });
 
+// Tooltip state
+const showTooltip = ref(false);
+const tooltipTarget = ref(null);
+const tooltipContent = ref("");
+
 const daySummary = computed(() => {
   let dayTotal = props.activities.reduce((acc, activity) => {
     return acc + Number(activity.money);
@@ -35,6 +41,21 @@ const daySummary = computed(() => {
     timeZone: "UTC",
   })} - $${dayTotal}`;
 });
+
+// Tooltip handlers
+const handleMouseEnter = (event, activity) => {
+  tooltipTarget.value = event.currentTarget;
+  tooltipContent.value = `${activity.category}${
+    activity.description ? ": " + activity.description : ""
+  }`;
+  showTooltip.value = true;
+};
+
+const handleMouseLeave = () => {
+  showTooltip.value = false;
+  tooltipTarget.value = null;
+  tooltipContent.value = "";
+};
 </script>
 
 <template>
@@ -52,13 +73,19 @@ const daySummary = computed(() => {
           ? a.getSegmentStyle(activeOverlays).active
           : a.getSegmentStyle().inactive
       "
-      :title="`${a.category}${a.description ? `:${a.description}` : ''}`"
+      @mouseenter="handleMouseEnter($event, a)"
+      @mouseleave="handleMouseLeave"
     >
       <div
         class="sub-segment"
         :style="a.getSubsegmentStyle(activeOverlays).active"
       ></div>
     </div>
+
+    <!-- Tooltip Component -->
+    <Tooltip :visible="showTooltip" :target-element="tooltipTarget">
+      {{ tooltipContent }}
+    </Tooltip>
   </div>
 </template>
 
@@ -87,6 +114,7 @@ const daySummary = computed(() => {
   top: 50%;
   transform: translateY(-50%);
   transition: width 0.3s ease, left 0.3s ease;
+  cursor: pointer; /* Added for better UX */
 }
 
 .sub-segment {
