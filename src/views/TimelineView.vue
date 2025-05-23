@@ -36,6 +36,7 @@ const activeOverlays = computed(() => {
   return {
     showDoom: ids.has("ov1"),
     onlyLocations: ids.has("ov2"),
+    showTooltip: ids.has("ov3"),
   };
 });
 
@@ -89,6 +90,7 @@ onMounted(async () => {
           :options="[
             { name: 'showDoom', id: 'ov1' },
             { name: 'onlyLocations', id: 'ov2' },
+            { name: 'showTooltip', id: 'ov3' },
           ]"
           v-model="selectedOverlays"
         />

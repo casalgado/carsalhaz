@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import { DateTimeParser } from "../../bitac/DateTimeParser";
-import Tooltip from "./TheTooltip.vue"; // Adjust path as needed
+import Tooltip from "./TheTooltip.vue";
 
 const props = defineProps({
   activities: {
@@ -46,7 +46,7 @@ const daySummary = computed(() => {
 const handleMouseEnter = (event, activity) => {
   tooltipTarget.value = event.currentTarget;
   tooltipContent.value = `${activity.category}${
-    activity.description ? ": " + activity.description : ""
+    activity.description ? ": " + activity.description.toLowerCase() : ""
   }`;
   showTooltip.value = true;
 };
@@ -68,11 +68,12 @@ const handleMouseLeave = () => {
       class="segment"
       v-for="a in activities"
       :key="`act${a.id}`"
-      :style="
-        a.matchesFilter(activeFilter)
+      :style="{
+        ...(a.matchesFilter(activeFilter)
           ? a.getSegmentStyle(activeOverlays).active
-          : a.getSegmentStyle().inactive
-      "
+          : a.getSegmentStyle().inactive),
+        ...(activeOverlays.showTooltip ? { cursor: 'pointer' } : {}),
+      }"
       @mouseenter="handleMouseEnter($event, a)"
       @mouseleave="handleMouseLeave"
     >
@@ -83,7 +84,11 @@ const handleMouseLeave = () => {
     </div>
 
     <!-- Tooltip Component -->
-    <Tooltip :visible="showTooltip" :target-element="tooltipTarget">
+    <Tooltip
+      v-if="activeOverlays.showTooltip"
+      :visible="showTooltip"
+      :target-element="tooltipTarget"
+    >
       {{ tooltipContent }}
     </Tooltip>
   </div>
@@ -96,6 +101,7 @@ const handleMouseLeave = () => {
   background-color: #f0f0f0;
   border: 1px solid #f0f0f0;
   margin-bottom: 2px;
+  overflow: visible; /* Ensure tooltip can show above */
 }
 
 .timeline::after {
@@ -114,7 +120,6 @@ const handleMouseLeave = () => {
   top: 50%;
   transform: translateY(-50%);
   transition: width 0.3s ease, left 0.3s ease;
-  cursor: pointer; /* Added for better UX */
 }
 
 .sub-segment {
