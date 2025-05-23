@@ -103,7 +103,7 @@
 
 <script setup>
 import { ref, onBeforeMount, watch, computed } from "vue";
-import { list_book } from "../lib/cv"; // Ajusta la ruta según sea necesario
+import { fetchData } from "../lib/cv"; // Ajusta la ruta según sea necesario
 import jsPDF from "jspdf";
 
 // Reactive variable for theme (light or dark)
@@ -304,7 +304,7 @@ onBeforeMount(() => {
   }
 
   // Cargar datos desde list_book
-  Promise.all([list_book])
+  Promise.all([fetchData("list_book")])
     .then(([listData]) => {
       loading.value = false;
       fullList.value = listData;

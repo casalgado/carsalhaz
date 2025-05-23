@@ -1,12 +1,7 @@
 <script setup>
 import { ref, computed, onBeforeMount, watch } from "vue";
 import { useRoute } from "vue-router";
-import {
-  recipe_book,
-  recipe_additional_data,
-  viajes_book,
-  viajes_additional_data,
-} from "./../lib/cv";
+import { fetchData } from "./../lib/cv";
 
 const route = useRoute();
 const loading = ref(true);
@@ -37,15 +32,17 @@ const loadRouteData = async () => {
     let bookData, moreData;
 
     if (route.path === "/recetas") {
+      // Only fetch recipe data when on the recipes route
       [bookData, moreData] = await Promise.all([
-        recipe_book,
-        recipe_additional_data,
+        fetchData("recipe_book"),
+        fetchData("recipe_additional_data"),
       ]);
       template.value = "recetas";
     } else if (route.path === "/lvyp") {
+      // Only fetch travel data when on the travel route
       [bookData, moreData] = await Promise.all([
-        viajes_book,
-        viajes_additional_data,
+        fetchData("viajes_book"),
+        fetchData("viajes_additional_data"),
       ]);
       template.value = "lvyp";
     } else {
@@ -54,7 +51,7 @@ const loadRouteData = async () => {
     }
 
     database.value = bookData;
-    console.log("onBeforeMount - database", database.value);
+    console.log("Data loaded - database", database.value);
 
     // Extract the single objects from arrays
     const categoriesData = moreData.reduce(
@@ -96,8 +93,6 @@ const ingredientQuantity = (ingredient) => {
   const ingredientData = database.value.find(
     (item) => item.ingrediente === ingredient
   );
-
-  console.log("ingredientData", ingredientData);
 
   if (!ingredientData || selectedRecipes.value.length === 0) {
     return "";
@@ -251,6 +246,9 @@ const toggleIngredient = (ingredient) => {
 
 <template>
   <div :class="['recipe-selector', { dark: isDarkTheme }]">
+    <!-- Loading indicator -->
+    <div v-if="loading" class="loading">Loading data...</div>
+
     <!-- Theme Toggle Switch -->
     <div class="theme-toggle" @click="toggleTheme">
       <div class="toggle-thumb" :class="{ dark: isDarkTheme }"></div>
@@ -268,7 +266,7 @@ const toggleIngredient = (ingredient) => {
       </button>
       <button
         class="clear-recipe-button"
-        v-if="categories.length > 0"
+        v-if="categories.length > 0 && selectedRecipes.length > 0"
         @click="clearSelectedRecipes()"
       >
         clear
@@ -276,7 +274,7 @@ const toggleIngredient = (ingredient) => {
     </div>
 
     <!-- Main Content -->
-    <div class="main-content">
+    <div class="main-content" v-if="!loading">
       <!-- Image Grid -->
       <div class="image-grid">
         <div
@@ -593,6 +591,17 @@ body {
     }
   }
 
+  // Loading State
+  .loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2em;
+    color: $primary-color;
+    z-index: $z-loading;
+  }
+
   // Dark Mode Specifics
   &.dark {
     .ingredients-list {
@@ -618,17 +627,6 @@ body {
         color: $light-text;
       }
     }
-  }
-
-  // Loading State
-  .loading {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 1.2em;
-    color: $primary-color;
-    z-index: $z-loading;
   }
 }
 

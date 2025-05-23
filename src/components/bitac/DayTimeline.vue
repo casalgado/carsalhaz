@@ -21,7 +21,9 @@ const daySummary = computed(() => {
   let dayTotal = props.activities.reduce((acc, activity) => {
     return acc + Number(activity.money);
   }, 0);
-  console.log(dayTotal);
+
+  dayTotal = Math.round(dayTotal * 100) / 100;
+
   return `${new Date(props.date).toLocaleString("es-ES", {
     weekday: "short",
     month: "short",
@@ -47,7 +49,9 @@ const daySummary = computed(() => {
           : a.getSegmentStyle().inactive
       "
       :title="`${a.category}${a.description ? `:${a.description}` : ''}`"
-    ></div>
+    >
+      <div class="sub-segment" :style="a.getSubsegmentStyle()"></div>
+    </div>
   </div>
 </template>
 
@@ -79,10 +83,10 @@ const daySummary = computed(() => {
 }
 
 .Sunday {
-  margin-bottom: 40px;
+  margin-top: 40px;
 }
 
 .Friday {
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 </style>

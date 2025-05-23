@@ -1,7 +1,7 @@
 <script setup>
 // vue
 import { ref, onMounted, computed } from "vue";
-import { bitac } from "@/lib/cv";
+import { fetchData } from "@/lib/cv";
 
 // components
 import CheckboxDropdown from "@/components/bitac/CheckboxDropdown.vue";
@@ -21,6 +21,7 @@ const days = ref([]);
 const selectedRelationships = ref([]);
 const selectedCategories = ref([]);
 const selectedSubcategories = ref([]);
+const selectedOverlays = ref([]);
 
 const activeFilter = computed(() => {
   return {
@@ -32,9 +33,7 @@ const activeFilter = computed(() => {
 
 onMounted(async () => {
   try {
-    console.log("Fetching data...");
-    const result = await bitac;
-    console.log("Data fetched successfully");
+    const result = await fetchData("bitac");
     const {
       processed,
       relationships: processedRelationships,
@@ -47,7 +46,6 @@ onMounted(async () => {
     categories.value = processedCategories;
     days.value = processedDays;
     subcategories.value = processedSubcategories;
-    console.log("Data processed successfully");
   } catch (error) {
     console.error("Error fetching or processing data:", error);
   }
@@ -75,6 +73,16 @@ onMounted(async () => {
         <CheckboxDropdown
           :options="subcategories"
           v-model="selectedSubcategories"
+        />
+      </div>
+      <div>
+        <h3 class="filter-title">Overlays</h3>
+        <CheckboxDropdown
+          :options="[
+            { name: 'onlyDoom', id: 'ov1' },
+            { name: 'onlyLocations', id: 'ov2' },
+          ]"
+          v-model="selectedOverlays"
         />
       </div>
     </div>
@@ -116,7 +124,7 @@ body {
 
 .filters {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 10px;
   margin-bottom: 1rem;
 }

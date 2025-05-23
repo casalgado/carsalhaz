@@ -1,5 +1,5 @@
 import { DateTimeParser } from "./DateTimeParser";
-import { categoryStyles } from "./categoryStyles";
+import { categoryMetadata } from "./categoryMetadata";
 
 export class Activity {
   constructor(item) {
@@ -28,13 +28,16 @@ export class Activity {
       leer: Number(item["LEER"]),
       podcast: Number(item["PODCAST"]),
     };
+    this.location = this.category;
 
-    if (categoryStyles[this.category] === undefined) {
+    this.validate();
+
+    if (!categoryMetadata[this.category]) {
       console.warn(
-        `Category "${this.category}" not found in categoryStyles. Defaulting to "#999" color and "80%" height.`
+        `Category "${this.category}" not found in categoryMetadata, date: ${this.date}, id: ${this.id}`
       );
     }
-    this.styles = categoryStyles[this.category];
+    this.styles = categoryMetadata[this.category] || categoryMetadata.default;
   }
 
   toRaw() {
@@ -52,26 +55,78 @@ export class Activity {
     };
   }
 
+  validate() {
+    this.validatecategoryMetadataExists();
+    this.validateRequiredDescription(["worktime", "leer"]);
+    this.validateSubcategoryTimes();
+  }
+
+  validatecategoryMetadataExists() {
+    if (!categoryMetadata[this.category]) {
+      console.warn(
+        `Category "${this.category}" not found in categoryMetadata. ` +
+          `Activity ID: ${this.id}, Date: ${this.date}`
+      );
+    }
+  }
+
+  validateRequiredDescription(categoriesRequiringDescription) {
+    const hasDescription = this.description && this.description.trim() !== "";
+
+    if (
+      !hasDescription &&
+      categoriesRequiringDescription.includes(this.category)
+    ) {
+      console.warn(
+        `Description is required for "${this.category}" activities. ` +
+          `Activity ID: ${this.id}, Date: ${this.date}`
+      );
+    }
+  }
+
+  validateSubcategoryTimes() {
+    const maxSubcategoryTime = Math.max(...Object.values(this.sub_categories));
+
+    if (maxSubcategoryTime > this.duration) {
+      console.warn(
+        `Subcategory time (${maxSubcategoryTime}) cannot exceed total duration (${this.duration}). ` +
+          `Activity ID: ${this.id}, Date: ${this.date}`
+      );
+    }
+  }
+
   isOvernight() {
     return this.endTimeMinutes < this.startTimeMinutes;
   }
 
   getSegmentStyle() {
     const active = {
-      backgroundColor: this.styles.color || categoryStyles.default.color,
-      borderRadius: this.styles.radius || categoryStyles.default.radius,
-      height: this.styles.height || categoryStyles.default.height,
+      backgroundColor: this.styles.color || categoryMetadata.default.color,
+      borderRadius: this.styles.radius || categoryMetadata.default.radius,
+      height: this.styles.height || categoryMetadata.default.height,
       left: (this.startTimeMinutes / (24 * 60)) * 100 + "%",
       width: (this.duration / (24 * 60)) * 100 + "%",
     };
     const inactive = {
-      backgroundColor: categoryStyles.default.color,
-      borderRadius: categoryStyles.default.radius,
-      height: categoryStyles.default.height,
+      backgroundColor: categoryMetadata.default.color,
+      borderRadius: categoryMetadata.default.radius,
+      height: categoryMetadata.default.height,
       left: (this.startTimeMinutes / (24 * 60)) * 100 + "%",
       width: (this.duration / (24 * 60)) * 100 + "%",
     };
     return { active, inactive };
+  }
+
+  getSubsegmentStyle() {
+    const active = {
+      backgroundColor: "black",
+      borderRadius: "0px",
+      height: "80%",
+      left: "50%",
+      transform: "translateX(-50%)",
+      width: (this.duration / (24 * 60)) * 100 + "%",
+    };
+    return { active };
   }
 
   split() {
@@ -152,5 +207,19 @@ export class Activity {
 
     // Return true only if all applicable filters match
     return relationshipMatch && categoryMatch && subcategoryMatch;
+  }
+
+  setCategory(newCategory) {
+    this.category = newCategory.trim().toLowerCase();
+
+    if (!categoryMetadata[this.category]) {
+      console.warn(
+        `Category "${this.category}" not found in categoryMetadata, date: ${this.date}, id: ${this.id}`
+      );
+    }
+
+    this.styles = categoryMetadata[this.category] || categoryMetadata.default;
+
+    this.validateRequiredDescription(["worktime", "leer"]);
   }
 }

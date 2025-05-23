@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { bitac } from "./../lib/cv";
+import { fetchData } from "./../lib/cv";
 
 const data = ref([]);
 const uniqueCategoriesList = ref([]);
@@ -129,7 +129,7 @@ const getBarSegments = (items) => {
 // ========= Cargar datos =========
 
 onMounted(async () => {
-  [data.value] = await Promise.all([bitac]);
+  [data.value] = await Promise.all(fetchData("bitac"));
 
   days.value = [...new Set(data.value.map((item) => item.iso_date))];
   data.value = data.value.filter((e) => e.iso_date !== "");

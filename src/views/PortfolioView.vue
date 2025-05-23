@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onBeforeMount, watch } from "vue";
-import { portfolio_data } from "../lib/cv";
+import { fetchData } from "../lib/cv";
 
 const rawData = ref([]);
 const selectedApellido = ref("");
@@ -102,7 +102,7 @@ const cualitativos = [
 const reportes = ref([]);
 
 onBeforeMount(async () => {
-  const data = await portfolio_data;
+  const data = await fetchData("portfolio_data");
   rawData.value = data;
 
   const agrupados = {};

@@ -1,4 +1,7 @@
 import { Activity } from "./Activity";
+import { categoryMetadata } from "./categoryMetadata";
+
+const onlyLocations = false; // Set to true to show only locations
 
 export class DataProcessor {
   constructor() {
@@ -12,11 +15,20 @@ export class DataProcessor {
     const days = new Set();
     const validData = rawData.filter((item) => item["iso_date"] !== "");
 
+    let prevCategory;
     for (const item of validData) {
       const activity = new Activity(item);
       const activities = activity.isOvernight() ? activity.split() : [activity];
 
       for (const act of activities) {
+        if (prevCategory && !categoryMetadata[act.category].isLocation) {
+          if (onlyLocations) {
+            act.setCategory(prevCategory);
+          }
+          act.location = prevCategory;
+        }
+        prevCategory = act.category;
+
         processed.push(act);
         act.company.forEach((c) => {
           if (!uniqueRelationships[c]) {
